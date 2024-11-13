@@ -1,7 +1,22 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import render, get_object_or_404
-from .models import AdminPrivilege
+from django.contrib.auth.decorators import login_required
+from .models import Customer, Order, Payment
 
+@login_required
+def customer_list(request):
+    customers = Customer.objects.all()
+    return render(request, 'customer/customer_list.html', {'customers': customers})
+
+@login_required
+def order_list(request):
+    orders = Order.objects.all()
+    return render(request, 'customer/order_list.html', {'orders': orders})
+
+@login_required
+def payment_list(request):
+    payments = Payment.objects.all()
+    return render(request, 'customer/payment_list.html', {'payments': payments})
 
 # def student_list(request):
 #     students = Student.objects.all()
@@ -12,23 +27,5 @@ from .models import AdminPrivilege
 #     return render(request, 'home/student_detail.html', {'student': student})
 
 # Check if the user is a superuser
-def is_superuser(user):
-    return user.is_superuser
 
-
-def manage_admin_privileges(request):
-    privileges = AdminPrivilege.objects.all()
-    return render(request, 'home/manage_privileges.html', {'privileges': privileges})
-
-
-def edit_admin_privilege(request, user_id):
-    privilege = AdminPrivilege.objects.get(user_id=user_id)
-    if request.method == 'POST':
-        # Directly update privilege fields from POST data
-        privilege.can_manage_orders = request.POST.get('can_manage_orders') == 'on'
-        privilege.can_manage_inventory = request.POST.get('can_manage_inventory') == 'on'
-        privilege.can_view_reports = request.POST.get('can_view_reports') == 'on'
-        privilege.save()
-        return redirect('manage_admin_privileges')
-    return render(request, 'home/edit_privilege.html', {'privilege': privilege})
 

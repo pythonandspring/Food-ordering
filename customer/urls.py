@@ -1,15 +1,10 @@
 from django.urls import path
 from . import views
 
-# urlpatterns = [
-#     path('student_list', views.student_list, name='student_list'),
-#     path('studentr-detail/<int:student_id>/', views.student_detail, name='student_detail') 
-# ]
-
-from django.urls import path
-from . import views
-
 urlpatterns = [
-    path('admin/manage-privileges/', views.manage_admin_privileges, name='manage_admin_privileges'),
-    path('admin/edit-privilege/<int:user_id>/', views.edit_admin_privilege, name='edit_admin_privilege'),
+    path('customers/', views.customer_list, name='customer_list'),
+    path('orders/', views.order_list, name='order_list'),
+    path('payments/', views.payment_list, name='payment_list'),
 ]
+
+
