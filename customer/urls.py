@@ -1,7 +1,8 @@
 from django.urls import path
-from . import views
+from .views import home, profile, RegisterView
 
-# urlpatterns = [
-#     path('student_list', views.student_list, name='student_list'),
-#     path('studentr-detail/<int:student_id>/', views.student_detail, name='student_detail') 
-# ]
+urlpatterns = [
+    path('', home, name='customer-home'),
+    path('register/', RegisterView.as_view(), name='customer-register'),
+    path('profile/', profile, name='customer-profile'),
+]
