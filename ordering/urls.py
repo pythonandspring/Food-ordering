@@ -24,7 +24,7 @@ urlpatterns = [
     # path('admin/', include('teacher.urls')),
     # path('customer/', include('student.urls')),
     path('', views.home, name='blog-home'),
-]
+    path('myapp/', include('myapp.urls')),]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Person Registration</title>
+    <!-- Load CSS file using Django's static template tag -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo"> Food Delivery System</div>
+        <nav class="nav">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Background Image -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1> "Become a Food Hero – Deliver, Earn, and Explore with Us!" </h1>
+            <h3>Register now and start To Shine!</h3>
+        </div>
+    </section>
+
+    <!-- Registration Form -->
+    <section class="registration-form">
+        <div class="form-container">
+            <h2>Delivery Person Registration</h2>
+            <form id="register-form">
+                <div class="form-field">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    <button type="button" class="otp-btn" onclick="sendOtp()">Verify OTP</button>
+                </div>
+
+                <div class="form-field">
+                    <label for="aadhaar">Aadhaar Number:</label>
+                    <input type="text" id="aadhaar" name="aadhaar" placeholder="Enter Aadhaar number" required>
+                    <button type="button" class="otp-btn" onclick="sendOtp()">Verify OTP</button>
+                </div>
+
+                <div class="form-field">
+                    <label for="address">Delivery Address:</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="vehicle">Vehicle Type:</label>
+                    <select id="vehicle" name="vehicle" required>
+                        <option value="bike">Bike</option>
+                        <option value="scooter">Scooter</option>
+                        <option value="car">Car</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label for="profile-picture">Upload Profile Picture:</label>
+                    <input type="file" id="profile-picture" name="profile-picture" accept="image/*" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Registration</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Interactive Video Section -->
+    <section class="interactive-video" id="video-section">
+        <video class="video-bg" id="video" autoplay muted loop>
+            <source src="{% static 'images/delivery-video.mp4' %}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="video-overlay">
+            <h3>See our Delivery in Action</h3>
+            <p>Hover to play the video and explore our delivery process.</p>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 FoodDelivery | All rights reserved</p>
+    </footer>
+
+    <!-- Load JavaScript file using Django's static template tag -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
