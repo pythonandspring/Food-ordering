@@ -21,8 +21,9 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    # path('admin/', include('teacher.urls')),
-    # path('customer/', include('student.urls')),
+    
+    # path('customer/', include('customer.urls')),
+    # path('delivery/', include('delivery.urls')),
     path('', views.home, name='blog-home'),
     path('myapp/', include('myapp.urls')),]
 
