@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery User Registration</title>
+    <link rel="stylesheet" href="path_to_your_styles.css">  <!-- Optional: Add your CSS file -->
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Delivery User Registration</h2>
+
+        <!-- Display messages (success or error) -->
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Registration Form -->
+        <form method="POST">
+            {% csrf_token %}  <!-- CSRF Token for security -->
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="restaurantName">Restaurant Name</label>
+                <input type="text" id="restaurantName" name="restaurantName" placeholder="Enter your restaurant name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Restaurant Address</label>
+                <input type="text" id="address" name="address" placeholder="Enter your restaurant address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="restaurantContact">Restaurant Contact Number</label>
+                <input type="text" id="restaurantContact" name="restaurantContact" placeholder="Enter restaurant contact number" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+
+        <!-- Link to login page if the user already has an account -->
+        <p>Already have an account? <a href="{% url 'loginDelivery' %}">Login here</a></p>
+    </div>
+
+</body>
+</html>

@@ -18,15 +18,32 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from customer import views as customerviews
+from restaurant import views as restaurantviews
+from delivery import views as deliveryviews
+#from menu import views as menuviews
+#from order import views as orderviews
 from . import views
 
 urlpatterns = [
-    #path('admin/', include('ordering.urls')),
-     path('admin/', admin.site.urls),
-    # path('customer/', include('student.urls')),
-    path('', include('customer.urls')),
-    path('', views.home, name='blog-home'),
-    
+ path('admin/', admin.site.urls),
+    path('login/',customerviews.loginUser,name = 'login'),
+    path('logout/',customerviews.logoutUser,name = 'logout'),
+    path('logoutRestaurant/',restaurantviews.logoutRestaurant,name = 'logoutR'),
+    path('register/',customerviews.registerUser,name = 'register'),
+    path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
+    #path('menu/',menuviews.menu,name = 'menu'),
+    path('loginRestaurant/',restaurantviews.loginRestaurant,name = 'loginRestaurant'),
+    path('registerRestaurant/',restaurantviews.registerRestaurant,name = 'registerRestaurant'),
+    path('feedback/', customerviews.feedback_form, name='feedback_form'),
+    path('contact/', customerviews.index, name='index'),
+    path('', customerviews.Home, name='Home'),
+    path('addMenu/', restaurantviews.addMenu, name='addMenu'),
+    path('loginDelivery/',deliveryviews.loginDelivery,name = 'loginDelivery'),
+    path('registerDelivery/',deliveryviews.registerDelivery,name = 'registerDelivery'),
+    path('home/', deliveryviews.home, name='home'),
+    #path('cart/', orderviews.Cart, name='cart'),
+    #path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
 ]
 
 if settings.DEBUG:

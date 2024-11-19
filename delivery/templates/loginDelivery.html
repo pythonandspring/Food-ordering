@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery User Login</title>
+    <link rel="stylesheet" href="path_to_your_styles.css">  <!-- Optional: Add your CSS file -->
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Delivery User Login</h2>
+
+        <!-- Display messages (success or error) -->
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <!-- Login Form -->
+        <form method="POST">
+            {% csrf_token %}  <!-- CSRF Token for security -->
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+
+        <!-- Link to register page if the user doesn't have an account -->
+        <p>Don't have an account? <a href="{% url 'registerDelivery' %}">Register here</a></p>
+    </div>
+
+</body>
+</html>
