@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'myapp',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,7 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+                ],
         },
     },
 ]
@@ -136,14 +136,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+STATIC_URL = '/staticfile/'
+
+# Point to the exact location of your static files directory
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering\staticfiles",  # Ensure this points to the correct static directory
 ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'my_files')
 
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# Static root for collectstatic command
+STATIC_ROOT = r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering"  # This is where collectstatic will gather all static files for production
