@@ -25,17 +25,13 @@ urlpatterns = [
     
    
     path('api/', include('ordering.api.urls')),
-    path('delivery/', include('delivery.urls')),
+    path('delivery/', include('delivery.api.urls')),
     path('', views.home, name='blog-home'),
-<<<<<<< HEAD
-    path('myapp/', include('myapp.urls')),]
-=======
+    path('myapp/', include('myapp.urls')),
     path('admin/', admin.site.urls),
     path('customer/', include('customer.api.urls')),
     path('restaurant/', include('restaurant.api.urls')),
-
 ]
->>>>>>> 53108b98e33fc32b1985866576992c817f92f790
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

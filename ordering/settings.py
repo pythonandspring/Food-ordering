@@ -44,13 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'myapp',
-    'ordering',]
-=======
     'rest_framework',
 ]
->>>>>>> 53108b98e33fc32b1985866576992c817f92f790
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
