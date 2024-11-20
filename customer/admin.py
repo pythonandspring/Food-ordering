@@ -1,16 +1,13 @@
 from django.contrib import admin
+from customer.models import customerUser,Feedback,Contact
 
+class UserAdmin(admin.ModelAdmin):
+    list_display = ['name','email','password']
 
-# class StudentAdmin(admin.ModelAdmin):
-#     list_display = ('first_name', 'last_name', 'father_name', 'mother_name', 'student_class', 'phone_number', 'class_teacher', 'date_of_join')
-#     search_fields = ('first_name', 'last_name', 'father_name', 'mother_name', 'phone_number', 'class_teacher__first_name', 'class_teacher__last_name')
-#     list_filter = ('student_class', 'class_teacher', 'date_of_join')
+admin.site.register(customerUser,UserAdmin)
+# Register your models here.
+class Comments(admin.ModelAdmin):
+    list_display = ['stars','comments']  
 
-# admin.site.register(Student, StudentAdmin)
-from .models import AdminPrivilege, FoodOrder, Customer, Cart, Food  
-
-admin.site.register(AdminPrivilege)
-admin.site.register(FoodOrder)
-admin.site.register(Customer)
-admin.site.register(Cart)
-admin.site.register(Food)
+admin.site.register(Feedback, Comments)
+admin.site.register(Contact)

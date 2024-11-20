@@ -1,15 +1,19 @@
-from django.urls import path
-from . import views
-
-# urlpatterns = [
-#     path('student_list', views.student_list, name='student_list'),
-#     path('studentr-detail/<int:student_id>/', views.student_detail, name='student_detail') 
-# ]
-
-from django.urls import path
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from customer import views as customerviews
 from . import views
 
 urlpatterns = [
-    path('admin/manage-privileges/', views.manage_admin_privileges, name='manage_admin_privileges'),
-    path('admin/edit-privilege/<int:user_id>/', views.edit_admin_privilege, name='edit_admin_privilege'),
+    path('login/',customerviews.loginUser,name = 'login'),
+    path('logout/',customerviews.logoutUser,name = 'logout'),
+    path('register/',customerviews.registerUser,name = 'register'),
+    path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
+    path('feedback/', customerviews.feedback_form, name='feedback_form'),
+    path('contact/', customerviews.index, name='index'),
+    path('', customerviews.Home, name='Home'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
