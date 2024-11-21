@@ -24,7 +24,7 @@ from . import views
 urlpatterns = [
     
    
-    path('api/', include('ordering.api.urls')),
+    path('ordering/', include('ordering.api.urls')),
     path('delivery/', include('delivery.api.urls')),
     path('', views.home, name='blog-home'),
     path('myapp/', include('myapp.urls')),

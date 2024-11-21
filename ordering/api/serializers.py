@@ -8,8 +8,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class OrderingSerializer(serializers.ModelSerializer):
-    comments = CommentSerializer(many=True, read_only=True)
-
     class Meta:
         model = Ordering
         fields = '__all__'
