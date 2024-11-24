@@ -1,78 +1,144 @@
-{% include "authentication/mainHeader.html" %}
-{%load static%}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-</style>
-<div class="col col-md-8 col-lg-7 col-xl-6 ">
-      <img src={% static "logo.png" %}
-      class="img-fluid" alt="logo" >
-      
-  </div>
-  <div class="col col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-    <div class="text-center py-3">
-    <h1 class="fw-semibold fs-1"> USER REGISTER </h1>
-  </div>
-
-  <form method="POST">
-  {% csrf_token %}
-  <!-- Name input -->
-  <div class="form-outline mb-4">
-    <label class="form-label fw-semibold" for="name">Name</label>
-    <input type="text" id="name" class="form-control form-control" placeholder="Full Name" name="name" required/>
-  </div>
-    <!-- Name input End -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
-   <!-- Email input -->
-  <div class="form-outline mb-3">
-    <label class="form-label fw-semibold" for="email">Email address</label>
-    <input type="email" id="email" class="form-control form-control" placeholder="example@gmail.com" name="email" required/>
-  </div>
-   <!-- Email input End -->
- 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
-  <!-- Password input -->
-  <div class="form-outline mb-3">
-    <label class="form-label fw-semibold" for="password">Password</label>
-    <input type="password" id="password" class="form-control form-control" placeholder="Enter your password" name = "password" required/>
-  </div>
-  <div class="form-outline mb-3">
-    <label class="form-label fw-semibold" for="password">Password (Re-Enter)</label>
-    <input type="password" id="password" class="form-control form-control" placeholder="Enter your password again" name = "password" required/>
-  </div>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-   <!-- Password input Ended -->
+    <style>
+        /* Body Style */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('{% static "images/photobackground.jpg" %}') no-repeat center center/cover;
+            background-size: cover;
+            min-height: 100vh;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
 
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-  <div class="d-flex justify-content-center my-4">
-    <button type="submit" class="btn btn-outline-danger btn-block">Register</button>
-  </div>
+        .form-container h1 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
 
+        .form-label {
+            font-weight: bold;
+        }
 
-  <div class="text-center">
-    {% if showSuccess %}
-    <div class=" container-fluid justify-content-center my-4">
-      <p class="form-control bg-success">Success</p>
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: #74eb04;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .form-outline input,
+        .form-outline select,
+        .form-outline textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #74eb04;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #82cb75;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container form-container">
+        <h1>Customer Registration</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            {% if showSuccess %}
+            <div class="alert alert-success" role="alert">
+                Registration Successful!
+            </div>
+            {% endif %}
+            
+            <!-- Section 1: Customer Details -->
+            <div class="form-outline my-4">
+                <label class="form-label" for="name">Full Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Full Name" name="name" required />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="example@gmail.com" name="email" required />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="phone">Phone Number</label>
+                <input type="text" id="phone" class="form-control" placeholder="Phone Number" name="phone" required />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="address">Address</label>
+                <input type="text" id="address" class="form-control" placeholder="Your Address" name="address" required />
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Password" name="password" required />
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-danger">Submit</button>
+
+            <!-- Footer with login link -->
+            <div class="form-footer">
+                <p class="text-muted">Already a member? <a href="{% url 'login' %}">Login here</a></p>
+            </div>
+        </form>
     </div>
-    {% endif %}
-    <p class="fw-bold text-muted"> OR </p>
-    <p>Already a member? <a href="{% url "login" %}">Login</a></p>
-    <!-- <p>or continue with:</p>
-    <button type="button" class="btn btn-lg btn-link btn-floating mx-1">
-      <i class="bi bi-google"></i>
-    </button>
 
-    <button type="button" class="btn btn-lg btn-link btn-floating mx-1">
-      <i class="bi bi-facebook"></i>
-    </button>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
 
-    <button type="button"  class="btn btn-lg btn-link btn-floating mx-1">
-      <i class="bi bi-twitter-x"></i>
-    </button>
-
-    <button type="button" class="btn btn-lg btn-link btn-floating mx-1">
-      <i class="bi bi-github"></i>
-    </button> -->
-  </div>
-
-  </form>
-
-  {% include "authentication/mainFooter.html" %}
+</html>

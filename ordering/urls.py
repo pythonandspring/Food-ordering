@@ -26,24 +26,34 @@ from delivery import views as deliveryviews
 from . import views
 
 urlpatterns = [
+
+    
+
     path('admin/', admin.site.urls),
-    path('login/',customerviews.loginUser,name = 'login'),
-    path('logout/',customerviews.logoutUser,name = 'logout'),
-    path('logoutRestaurant/',restaurantviews.logoutRestaurant,name = 'logoutR'),
-    path('register/',customerviews.registerUser,name = 'register'),
-    path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
-    path('menu/',menuviews.menu,name = 'menu'),
-    path('loginRestaurant/',restaurantviews.loginRestaurant,name = 'loginRestaurant'),
-    path('registerRestaurant/',restaurantviews.registerRestaurant,name = 'registerRestaurant'),
-    path('feedback/', customerviews.feedback_form, name='feedback_form'),
-    path('contact/', customerviews.index, name='index'),
-    path('', customerviews.Home, name='Home'),
-    path('addMenu/', restaurantviews.addMenu, name='addMenu'),
-    path('cart/', orderviews.Cart, name='cart'),
-    path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
+
+    path('', include('customer.urls')),
+    # path('login/',customerviews.loginUser,name = 'login'),
+    # path('logout/',customerviews.logoutUser,name = 'logout'),
+    # path('feedback/', customerviews.feedback_form, name='feedback_form'),
+    # path('contact/', customerviews.index, name='index'),
+    # path('', customerviews.Home, name='Home'),
+    # path('register/',customerviews.registerUser,name = 'register'),
+    # path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
+
+    path('', include('restaurant.urls')),
+    # path('logoutRestaurant/',restaurantviews.logoutRestaurant,name = 'logoutR'),
+    # path('loginRestaurant/',restaurantviews.loginRestaurant,name = 'loginRestaurant'),
+    # path('registerRestaurant/',restaurantviews.registerRestaurant,name = 'registerRestaurant'),
+    # path('addMenu/', restaurantviews.addMenu, name='addMenu'),
+    
     path('loginDelivery/',deliveryviews.loginDelivery,name = 'loginDelivery'),
     path('registerDelivery/',deliveryviews.registerDelivery,name = 'registerDelivery'),
     path('home/', deliveryviews.home, name='home'),
+
+    path('menu/',menuviews.menu,name = 'menu'),
+    path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
+    
+    path('cart/', orderviews.Cart, name='cart'),
 ]
 
 if settings.DEBUG:

@@ -6,13 +6,14 @@ from customer import views as customerviews
 from . import views
 
 urlpatterns = [
+    
     path('login/',customerviews.loginUser,name = 'login'),
     path('logout/',customerviews.logoutUser,name = 'logout'),
-    path('register/',customerviews.registerUser,name = 'register'),
-    path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
     path('feedback/', customerviews.feedback_form, name='feedback_form'),
     path('contact/', customerviews.index, name='index'),
     path('', customerviews.Home, name='Home'),
+    path('register/',customerviews.registerUser,name = 'register'),
+    path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
 ]
 
 if settings.DEBUG:

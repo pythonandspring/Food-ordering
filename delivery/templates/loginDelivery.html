@@ -1,45 +1,102 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery User Login</title>
-    <link rel="stylesheet" href="path_to_your_styles.css">  <!-- Optional: Add your CSS file -->
+    <title>Delivery Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">Food Ordering System</div>
+        <nav class="nav">
+            <a href="{% url 'Home' %}">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
 
-    <div class="login-container">
-        <h2>Delivery User Login</h2>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Delivery Login</h1>
+            <h3>Login to manage your deliveries</h3>
+        </div>
+    </section>
 
-        <!-- Display messages (success or error) -->
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+    <!-- Login Form Section -->
+    <section class="login-form">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Display messages (Success/Errors) -->
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
 
-        <!-- Login Form -->
-        <form method="POST">
-            {% csrf_token %}  <!-- CSRF Token for security -->
+                <!-- Email input (Username) -->
+                <div class="form-field">
+                    <label for="email">Email or Username:</label>
+                    <input type="text" id="email" name="email" placeholder="Enter your delivery email or username" required>
+                </div>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <!-- Password input -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <!-- Remember Me and Forgot Password -->
+                <div class="form-options">
+                    <div>
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <a href="{% url 'forgetPassword' %}">Forgot password?</a>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="submit-btn">Login</button>
+
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" class="social-btn google">Google</button>
+                    <button type="button" class="social-btn facebook">Facebook</button>
+                    <button type="button" class="social-btn twitter">Twitter</button>
+                </div>
+            </form>
+
+            <!-- Register Prompt -->
+            <div class="register-prompt">
+                <p>New to the Food Delivery System?</p>
+                <a href="{% url 'registerDelivery' %}">Register as Delivery Personnel</a>
             </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <!-- User Login Prompt -->
+            <div class="text-center my-5">
+                <p>Are you a customer? <a href="{% url 'login' %}" class="btn btn-danger">User Login</a></p>
             </div>
+        </div>
+    </section>
 
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-
-        <!-- Link to register page if the user doesn't have an account -->
-        <p>Don't have an account? <a href="{% url 'registerDelivery' %}">Register here</a></p>
-    </div>
-
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Food Delivery System | All rights reserved</p>
+    </footer>
 </body>
 </html>
