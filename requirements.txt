@@ -5,3 +5,8 @@ mysqlclient==2.2.5
 djangorestframework==3.14.0
 markdown
 django-filter
+django-phonenumbers
+
+#Installation Procedure
+#pip install -r requirements.txt
+#python manage.py runserver

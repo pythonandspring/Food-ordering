@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">Food Ordering System</div>
+        <nav class="nav">
+            <a href="{% url 'Home' %}">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome Back!</h1>
+            <h3>Login to Continue Your Food Journey</h3>
+        </div>
+    </section>
+
+    <!-- Login Form Section -->
+    <section class="login-form">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form method="POST">
+                {% csrf_token %}
+                
+                <!-- Display messages (Success/Errors) -->
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Email input (Username) -->
+                <div class="form-field">
+                    <label for="email">Email or Username:</label>
+                    <input type="text" id="email" name="email" placeholder="Enter your email or username" required>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <!-- Remember Me and Forgot Password -->
+                <div class="form-options">
+                    <div>
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <a href="{% url 'forgetPassword' %}">Forgot password?</a>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="submit-btn">Login</button>
+
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" class="social-btn google">Google</button>
+                    <button type="button" class="social-btn facebook">Facebook</button>
+                    <button type="button" class="social-btn twitter">Twitter</button>
+                </div>
+            </form>
+
+            <!-- Register Prompt -->
+            <div class="register-prompt">
+                <p>New to Food Delivery System?</p>
+                <a href="{% url 'register' %}">Register</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Food Delivery System | All rights reserved</p>
+    </footer>
+</body>
+</html>

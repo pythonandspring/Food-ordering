@@ -19,19 +19,50 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-
+from customer import views as customerviews
+from restaurant import views as restaurantviews
+from menu import views as menuviews
+from order import views as orderviews
+from delivery import views as deliveryviews
+from . import views
 
 urlpatterns = [
+
     
-   
-    path('api/', include('ordering.api.urls')),
-    path('delivery/', include('delivery.api.urls')),
-    path('', views.home, name='blog-home'),
-    path('myapp/', include('myapp.urls')),
+
     path('admin/', admin.site.urls),
-    path('customer/', include('customer.api.urls')),
-    path('restaurant/', include('restaurant.api.urls')),
+
+    path('', include('customer.urls')),
+    # path('login/',customerviews.loginUser,name = 'login'),
+    # path('logout/',customerviews.logoutUser,name = 'logout'),
+    # path('feedback/', customerviews.feedback_form, name='feedback_form'),
+    # path('contact/', customerviews.index, name='index'),
+    # path('', customerviews.Home, name='Home'),
+    # path('register/',customerviews.registerUser,name = 'register'),
+    # path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
+
+    path('', include('restaurant.urls')),
+    # path('logoutRestaurant/',restaurantviews.logoutRestaurant,name = 'logoutR'),
+    # path('loginRestaurant/',restaurantviews.loginRestaurant,name = 'loginRestaurant'),
+    # path('registerRestaurant/',restaurantviews.registerRestaurant,name = 'registerRestaurant'),
+    # path('addMenu/', restaurantviews.addMenu, name='addMenu'),
+    
+    path('loginDelivery/',deliveryviews.loginDelivery,name = 'loginDelivery'),
+    path('registerDelivery/',deliveryviews.registerDelivery,name = 'registerDelivery'),
+    path('home/', deliveryviews.home, name='home'),
+
+    path('menu/',menuviews.menu,name = 'menu'),
+    path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
+    
+    path('cart/', orderviews.Cart, name='cart'),
 ]
+
+# urlpatterns = [
+#     # path('admin/', include('teacher.urls')),
+#     # path('customer/', include('student.urls')),
+#     #path('', views.home, name='blog-home'),
+#     #path('myapp/', include('myapp.urls')),
+#     ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

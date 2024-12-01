@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Delivery User</title>
+    <link rel="stylesheet" href="path_to_your_styles.css">  <!-- Optional: Link to your CSS file -->
+</head>
+<body>
+
+    <div class="home-container">
+        <h2>Welcome, {{ user.username }}!</h2>  <!-- Display logged-in user's username -->
+
+        <p>Welcome to the Delivery Dashboard. You can manage your deliveries, view orders, and more.</p>
+
+        <div class="actions">
+            <br>
+            <a href="{% url 'logout' %}">Logout</a>  <!-- Logout link -->
+        </div>
+    </div>
+
+</body>
+</html>

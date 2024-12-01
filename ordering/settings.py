@@ -11,8 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
-#import pymysql
+#import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -34,19 +34,23 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'ordering',
-    'restaurant.apps.RestaurantConfig',
-    'delivery.apps.DeliveryConfig',
-    'customer.apps.CustomerConfig',
+    #'customer.apps.CustomerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'myapp',
-    'rest_framework',
-]
+    #'rest_framework',
+    #'myapp',
+    'ordering',
+    'customer',
+    'phonenumber_field',
+    'restaurant',
+    'order',
+    'menu',
+    'delivery',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,11 +67,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 # AUTH_USER_MODEL = 'teacher.CustomUser'
 
-SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
+#SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(SETTINGS_PATH, 'templates')],
+        #'DIRS': [os.path.join(SETTINGS_PATH, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -86,24 +91,13 @@ WSGI_APPLICATION = 'ordering.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.mysql',  # Use mysqlclient
-       'NAME': 'food_ordering_db',
-       'USER': 'root',
-       'PASSWORD': 'root',
-       'HOST': 'localhost',
-       'PORT': '3306',
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -139,15 +133,25 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
 
 # Point to the exact location of your static files directory
 STATICFILES_DIRS = [
-    r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering\static",  # Ensure this points to the correct static directory
+    #r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering\static",  # Ensure this points to the correct static directory
+    "static/"
 ]
 
 # Static root for collectstatic command
-STATIC_ROOT = r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering"  # This is where collectstatic will gather all static files for production
+#STATIC_ROOT = r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering"  # This is where collectstatic will gather all static files for production
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'customer.CustomUser'
+
+LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'login'
+
+MEDIA_ROOT = BASE_DIR /'media'
+
+MEDIA_URL = '/media/'

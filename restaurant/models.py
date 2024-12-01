@@ -1,4 +1,21 @@
 from django.db import models
+from django.forms import ValidationError
+# Create your models here.
+from django.db import models
+from customer.models import CustomUser  # Import CustomUser from the user app
+from phonenumber_field.modelfields import PhoneNumberField
+
+class restaurantUser(CustomUser):
+    restaurantName = models.CharField(max_length=50)
+    address = models.TextField()
+    restaurantContact = PhoneNumberField()
+
+
+class foodItems(models.Model):
+    name = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    image = models.ImageField(upload_to='images/')
+    restaurantName = models.CharField(max_length=50)
 
 
 class Restaurant(models.Model):
@@ -15,8 +32,11 @@ class Restaurant(models.Model):
     def __str__(self):
         return self.name
 
+    def clean(self):
+        if self.rating is not None and (self.rating < 0 or self.rating > 5):
+            raise ValidationError('Rating must be between 0 and 5')
+
 class Cart(models.Model):
-    id = models.IntegerField(primary_key=True)
     number_of_products = models.IntegerField()
     product1 = models.CharField(max_length=100, null=True, blank=True)
     product2 = models.CharField(max_length=100, null=True, blank=True)
@@ -25,16 +45,15 @@ class Cart(models.Model):
     total = models.FloatField()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 class Product(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     category = models.CharField(max_length=100)
     subcategory = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
 class Payment(models.Model):
     customer_id = models.CharField(max_length=100)

@@ -1,21 +1,21 @@
 from django.db import models
 
-class Ordering(models.Model):
-    ORDER_STATUS_CHOICES = [
-        ('PENDING', 'Pending'),
-        ('CONFIRMED', 'Confirmed'),
-        ('OUT_FOR_DELIVERY', 'Out for Delivery'),
-        ('DELIVERED', 'Delivered'),
-        ('CANCELLED', 'Cancelled')
-    ]
-    order_id = models.CharField(max_length=100)
-    status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='PENDING')
-    total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    order_date = models.DateTimeField(auto_now_add=True)
-    delivery_address = models.TextField()
+# class Ordering(models.Model):
+#     ORDER_STATUS_CHOICES = [
+#         ('PENDING', 'Pending'),
+#         ('CONFIRMED', 'Confirmed'),
+#         ('OUT_FOR_DELIVERY', 'Out for Delivery'),
+#         ('DELIVERED', 'Delivered'),
+#         ('CANCELLED', 'Cancelled')
+#     ]
+#     order_id = models.CharField(max_length=100)
+#     status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='PENDING')
+#     total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+#     order_date = models.DateTimeField(auto_now_add=True)
+#     delivery_address = models.TextField()
     
-    def __str__(self):
-        return self.order_id
+#     def __str__(self):
+#         return self.order_id
 
 # class Comments(models.model):
 
