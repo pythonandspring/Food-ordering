@@ -1,7 +1,8 @@
 from django.contrib import admin
-from restaurant.views import foodItems
+from menu.models import Menu
 
-class ItemsList(admin.ModelAdmin):
-    list_display = ['name','price','image','restaurantName']  
 
-admin.site.register(foodItems, ItemsList)
+class MenuAdmin(admin.ModelAdmin):
+    list_display = ['name', 'image', 'restaurant', 'availability', 'cost']
+
+admin.site.register(Menu, MenuAdmin)

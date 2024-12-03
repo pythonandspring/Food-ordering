@@ -6,7 +6,8 @@ from customer.models import CustomUser
 
 class deliveryUser(CustomUser):
     name = models.CharField(max_length=50)
-
+    active_status = models.BooleanField(default=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
     
 class Feedback(models.Model):
     stars = models.IntegerField()
