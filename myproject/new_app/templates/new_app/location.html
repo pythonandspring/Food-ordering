@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Location</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Select Location</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="user_name">User Name:</label>
+        <input type="text" id="user_name" name="user_name" required><br><br>
+
+        <label for="state">State:</label>
+        <select id="state" name="state" required>
+            <option value="">Select State</option>
+            {% for state in states %}
+            <option value="{{ state.id }}">{{ state.name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="city">City:</label>
+        <select id="city" name="city" required>
+            <option value="">Select City</option>
+        </select><br><br>
+
+        <label for="place">Place:</label>
+        <select id="place" name="place" required>
+            <option value="">Select Place</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#state').change(function() {
+                var stateId = $(this).val();
+                if (stateId) {
+                    $.ajax({
+                        url: '{% url "load_cities" %}',
+                        data: {
+                            'state_id': stateId
+                        },
+                        success: function(data) {
+                            $('#city').html('<option value="">Select City</option>');
+                            $.each(data, function(key, value) {
+                                $('#city').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#city').html('<option value="">Select City</option>');
+                    $('#place').html('<option value="">Select Place</option>');
+                }
+            });
+
+            $('#city').change(function() {
+                var cityId = $(this).val();
+                if (cityId) {
+                    $.ajax({
+                        url: '{% url "load_places" %}',
+                        data: {
+                            'city_id': cityId
+                        },
+                        success: function(data) {
+                            $('#place').html('<option value="">Select Place</option>');
+                            $.each(data, function(key, value) {
+                                $('#place').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#place').html('<option value="">Select Place</option>');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
