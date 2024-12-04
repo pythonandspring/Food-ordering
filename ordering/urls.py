@@ -25,6 +25,11 @@ from menu import views as menuviews
 from order import views as orderviews
 from delivery import views as deliveryviews
 from . import views
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,) 
+from rest_framework.authtoken import views
 
 urlpatterns = [
 
@@ -55,7 +60,15 @@ urlpatterns = [
     path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
     
     path('cart/', orderviews.Cart, name='cart'),
+    path('api/delivery/', include('delivery.api.urls')),  # Delivery app APIs
+    path('api/ordering/', include('ordering.api.urls')),  # Ordering app APIs
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),  # Schema generation
+    path('api/swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+    path('api-token-auth/', views.obtain_auth_token),  # Token Authentication endpoint
 ]
+
+
 
 # urlpatterns = [
 #     # path('admin/', include('teacher.urls')),

@@ -1,8 +1,9 @@
-from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import DeliveryPersonViewSet
+from delivery.api.views import DeliveryUserViewSet, FeedbackViewSet, ContactViewSet
 
 router = DefaultRouter()
-router.register(r'delivery-persons', DeliveryPersonViewSet)
+router.register(r'delivery-users', DeliveryUserViewSet)
+router.register(r'feedbacks', FeedbackViewSet)
+router.register(r'contacts', ContactViewSet)
 
 urlpatterns = router.urls
