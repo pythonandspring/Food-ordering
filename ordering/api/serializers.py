@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ordering.models import Comment
+from ordering.models import  Comment #,Odering
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:

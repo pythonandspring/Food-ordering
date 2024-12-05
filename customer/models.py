@@ -29,7 +29,8 @@ class Customer(models.Model):
     address = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=15)
     email = models.EmailField()
-    password = models.CharField(max_length=255)  # Add password field
+    password = models.CharField(max_length=255,default=1)  # Add password field
+   
 
     def __str__(self):
         return self.name
