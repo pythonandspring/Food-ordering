@@ -7,6 +7,8 @@ markdown
 django-filter
 django-phonenumbers
 
-#Installation Procedure
+#git checkout feature1.0
 #pip install -r requirements.txt
+#python manage.py migrate
 #python manage.py runserver
+
