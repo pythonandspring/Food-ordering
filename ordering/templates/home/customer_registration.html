@@ -1,0 +1,290 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: url('{% static "images/photobackground.jpg" %}') no-repeat center center/cover;
+            min-height: 100vh; /* Ensure full page height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px; /* Space at the top */
+            padding-bottom: 100px; /* Space at the bottom */
+            overflow-y: auto; /* Enable scrolling */
+        }
+
+        .form-container {
+            width: 400px;
+            max-width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: height 0.4s ease-in-out;
+            margin-top: 40px; /* Space above form */
+            margin-bottom: 40px; /* Space below form */
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .form-header div {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .form-header .active {
+            border-bottom: 3px solid #74eb04;
+        }
+
+        .form-content {
+            font-family: Montserrat, sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            color: white;
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+        }
+
+        .form-content input,
+        .form-content select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .form-content button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #74eb04;
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-content button:hover {
+            background: #82cb75;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .form-footer a {
+            color: #74eb04;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .otp-btn {
+            background: #82cb75;
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .otp-btn:hover {
+            background: #74eb04;
+        }
+
+        .keep-signed-in {
+            display: flex; /* Use flexbox to align checkbox and label horizontally */
+            align-items: flex-end; /* Align both checkbox and label at the bottom */
+            gap: 10px; /* Space between checkbox and label */
+            margin-top: 10px; /* Space above the checkbox */
+            margin-bottom: 10px; /* Equal space at the bottom */
+            padding: 5px 0; /* Padding to add space to the top and bottom of the line */
+            justify-content: center; /* Center the checkbox and label horizontally */
+        }
+
+        .keep-signed-in input {
+            transform: scale(1.05); /* Slightly increase the checkbox size */
+            margin: 0; /* Remove default margin for checkbox */
+            width: auto; /* Ensure the checkbox takes only the required space */
+        }
+
+        .keep-signed-in label {
+            font-size: 0.9em; /* Adjust font size for label */
+            color: white; /* Make the label text visible on a dark background */
+            line-height: 1; /* Align the label's bottom with the checkbox */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="form-container" id="form-container">
+        <!-- Toggle Header -->
+        <div class="form-header">
+            <div id="login-tab" class="active" onclick="showForm('login')">SIGN IN</div>
+            <div id="register-tab" onclick="showForm('register')">SIGN UP</div>
+        </div>
+
+        <div id="login-form" class="form-content active">
+            <h2>Sign In</h2>
+            <input type="text" id="login-username" placeholder="Username" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            
+            <!-- Keep me Signed In Section -->
+            <div class="keep-signed-in">
+                <label for="keepSignedIn"><h3>Keep me signed in</h3></label>
+                <input type="checkbox" id="keepSignedIn">
+            </div>
+            
+            <button type="submit" onclick="validateLogin()">Sign In</button>
+            <div class="form-footer">
+                <a href="#">Forgot Password?</a>
+            </div>
+        </div>
+        
+
+        <!-- Register Form -->
+        <div id="register-form" class="form-content">
+            <h2>Sign Up</h2>
+            <br>
+            <div class="form-field">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" placeholder="Username" required>
+            </div>
+            <div class="form-field">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form-field">
+                <label for="phone">Phone Number:</label>
+                <input type="text" id="phone" name="phone" placeholder="Phone" required>
+            </div>
+            <div class="form-field">
+                <label for="address">Residential Address:</label>
+                <input type="text" id="address" name="address" placeholder="Address" required>
+            </div>
+            <div class="form-field">
+                <label for="preferences">Food Preferences:</label>
+                <select id="preferences" name="preferences" required>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="non-vegetarian">Non-Vegetarian</option>
+                    <option value="vegan">Vegan</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label for="profile-picture">Upload Profile Picture:</label>
+                <input type="file" id="profile-picture" name="profile-picture" accept="image/*">
+            </div>
+            <button type="submit" onclick="validateRegistration()">Sign Up</button>
+        </div>
+    </div>
+
+    <script>
+        let generatedOtp = "";
+
+        // Function to switch between login and register forms
+        function showForm(form) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const formContainer = document.getElementById('form-container');
+
+            if (form === 'login') {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+                formContainer.style.height = "400px"; // Adjust height for login form
+            } else {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+                loginTab.classList.remove('active');
+                registerTab.classList.add('active');
+                formContainer.style.height = "auto"; // Adjust height dynamically for register form
+            }
+        }
+
+        // OTP generation and display
+        function sendOtp() {
+            generatedOtp = Math.floor(100000 + Math.random() * 900000);  // Generate a 6-digit OTP
+            alert("Your OTP is: " + generatedOtp);
+        }
+
+        // Validate Login Form
+        function validateLogin() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if (username === "" || password === "") {
+                alert("⚠ Fill all sections");
+                return false;
+            }
+
+            // Proceed with login logic (for now, just a mock)
+            alert("Logged In Successfully");
+        }
+
+        // Validate Registration Form
+        function validateRegistration() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const preferences = document.getElementById('preferences').value;
+            const profilePicture = document.getElementById('profile-picture').value;
+
+            // Check if all fields are filled
+            if (name === "" || email === "" || phone === "" || address === "" || preferences === "" || profilePicture === "") {
+                alert("⚠ Fill all sections");
+                return false;
+            }
+
+            // Check OTP validation
+            const enteredOtp = prompt("Enter the OTP to proceed:");
+            if (enteredOtp !== generatedOtp.toString()) {
+                alert("⚠ Invalid OTP");
+                return false;
+            }
+
+            // Proceed with registration logic (for now, just a mock)
+            alert("Registered Successfully");
+        }
+    </script>
+</body>
+</html>

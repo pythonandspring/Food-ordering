@@ -1,0 +1,243 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Registration</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: url('{% static "images/photobackground.jpg" %}') no-repeat center center/cover;
+            min-height: 100vh; /* Ensure full height of the page */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px; /* Space at the top of the page */
+            padding-bottom: 100px; /* Space at the bottom of the page */
+            overflow-y: auto; /* Enable scrolling if needed */
+        }
+
+        .form-container {
+            width: 400px;
+            max-width: 90%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 40px; /* Additional margin to increase space between the container and top */
+            margin-bottom: 40px; /* Additional margin to increase space between the container and bottom */
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            padding: 15px;
+            cursor: pointer;
+        }
+
+        .form-header div {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .form-header .active {
+            border-bottom: 3px solid #74eb04;
+        }
+
+        .form-content {
+            font-family: Montserrat, sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            color: white;
+            display: none;
+        }
+
+        .form-content.active {
+            display: block;
+        }
+
+        .form-content input,
+        .form-content select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px; /* Consistent spacing below inputs */
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .form-content button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: #74eb04;
+            color: white;
+            font-weight: bold;
+            font-size: 1em;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-content button:hover {
+            background: #82cb75;
+        }
+
+        .otp-btn {
+            background: #82cb75;
+            color: white;
+            padding: 6px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .otp-btn:hover {
+            background: #74eb04;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .form-footer a {
+            color: #74eb04;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container" id="form-container">
+        <!-- Header for toggling forms -->
+        <div class="form-header">
+            <div id="login-tab" class="active" onclick="toggleForm('login')">SIGN IN</div>
+            <div id="register-tab" onclick="toggleForm('register')">SIGN UP</div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="form-content active">
+            <h2>Sign In</h2>
+            <input type="text" id="login-username" placeholder="Username" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button type="submit" onclick="validateLogin()">Sign In</button>
+            <div class="form-footer">
+                <a href="#">Forgot Password?</a>
+            </div>
+        </div>
+
+        <!-- Registration Form -->
+        <div id="register-form" class="form-content">
+            <h2>Delivery Person Registration</h2>
+            <br>
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="text" id="email" placeholder="Email" required>
+            <input type="text" id="phone" placeholder="Phone Number" required>
+
+            <input type="text" id="aadhaar" placeholder="Aadhaar Number" required>
+            <input type="text" id="address" placeholder="Delivery Address" required>
+            <select id="vehicle" required>
+                <option value="">Select Vehicle Type</option>
+                <option value="bike">Bike</option>
+                <option value="scooter">Scooter</option>
+                <option value="car">Car</option>
+            </select>
+            <label for="profile-picture">Upload Profile Picture:</label>
+            <input type="file" id="profile-picture" accept="image/*" required>
+            <button type="submit" onclick="validateRegistration()">Sign Up</button>
+        </div>
+    </div>
+
+    <script>
+        // Mock login validation
+        function validateLogin() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if (username === "" || password === "") {
+                alert("⚠ Fill all fields.");
+                return false;
+            }
+            alert("Logged in successfully!");
+        }
+
+        // Mock registration validation
+        function validateRegistration() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const aadhaar = document.getElementById('aadhaar').value;
+            const address = document.getElementById('address').value;
+            const vehicle = document.getElementById('vehicle').value;
+            const profilePicture = document.getElementById('profile-picture').value;
+
+            // Check if all fields are filled
+            if (
+                name === "" ||
+                email === "" ||
+                phone === "" ||
+                aadhaar === "" ||
+                address === "" ||
+                vehicle === "" ||
+                profilePicture === ""
+            ) {
+                alert("⚠ Fill all sections.");
+                return false;
+            }
+
+            // Check OTP validation (mocked here for simplicity)
+            const generatedOtp = "1234"; // Replace this with actual OTP generation logic
+            const enteredOtp = prompt("Enter the OTP to proceed:");
+
+            if (enteredOtp !== generatedOtp) {
+                alert("⚠ Invalid OTP.");
+                return false;
+            }
+
+            // Proceed with registration logic (mock)
+            alert("Registered Successfully!");
+        }
+
+        // Toggle between login and registration forms
+        function toggleForm(formType) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+
+            if (formType === 'login') {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+                loginTab.classList.add('active');
+                registerTab.classList.remove('active');
+            } else if (formType === 'register') {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+                loginTab.classList.remove('active');
+                registerTab.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
