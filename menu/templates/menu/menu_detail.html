@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu Detail</title>
+</head>
+<body>
+    <h1>{{ menu.name }}</h1>
+    <img src="{{ menu.image.url }}" alt="{{ menu.name }}" style="max-width: 300px;">
+    <p>Restaurant: {{ menu.restaurant.name }}</p>
+    <p>Price: {{ menu.price }}</p>
+    <p>Available: {{ menu.availability }}</p>
+    <a href="{% url 'menu_list' %}">Back to All Menus</a>
+</body>
+</html>

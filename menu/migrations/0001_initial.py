@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255)),
                 ('image', models.ImageField(upload_to='images/')),
                 ('availability', models.BooleanField(default=True)),
-                ('cost', models.DecimalField(decimal_places=2, max_digits=10)),
+                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
                 ('restaurant', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='menus', to='restaurant.restaurant')),
             ],
         ),

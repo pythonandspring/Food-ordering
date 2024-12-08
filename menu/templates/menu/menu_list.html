@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menus</title>
+</head>
+<body>
+    <h1> Menu </h1>
+    <a href="{% url 'add_menu' %}">ADD New Menu</a>
+    <ul>
+        {% for menu in menus %}
+            <li>
+                <strong>{{ menu.restaurant.name }}</strong>: 
+                <a href="{% url 'menu_detail' menu.pk %}">{{ menu.name }}</a> - {{ menu.price }}
+                <a href="{% url 'edit_menu' menu.pk %}">Edit</a>
+                <a href="{% url 'delete_menu' menu.pk %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -25,6 +25,7 @@ from menu import views as menuviews
 from order import views as orderviews
 from delivery import views as deliveryviews
 from . import views
+from menu import views
 
 urlpatterns = [
 
@@ -55,6 +56,8 @@ urlpatterns = [
     path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
     
     path('cart/', orderviews.Cart, name='cart'),
+
+    path('', include('menu.urls')),
 ]
 
 # urlpatterns = [

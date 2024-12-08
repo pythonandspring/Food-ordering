@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ restaurant.name }}'s Menus</title>
+</head>
+<body>
+    <h1>Menus for {{ restaurant.name }}</h1>
+    <ul>
+        {% for menu in menus %}
+            <li>
+                <a href="{% url 'menu_detail' menu.pk %}">{{ menu.name }}</a> - {{ menu.price }}
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'menu_list' %}">Back to All Menus</a>
+</body>
+</html>
