@@ -6,7 +6,8 @@ djangorestframework==3.14.0
 markdown
 django-filter
 django-phonenumbers
-
+drf-yasg
+django-import-export
 #Installation Procedure
 #pip install -r requirements.txt
 #python manage.py runserver

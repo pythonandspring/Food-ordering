@@ -9,7 +9,9 @@ from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from random import choice
 from customer.models import customerUser, Feedback, Contact
-
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from customer.models import State, City, Place
 from django.contrib.auth import get_user_model
 # Create your views here.
 
@@ -32,6 +34,9 @@ def loginUser(request):
         if user is None:
             messages.error(request,'Invalid Password or Username')
             return redirect('login')
+        elif user.is_delivery:
+            messages.error(request,'You are Registered as delivery')
+            return redirect('login')
         elif user.is_restaurant:
             messages.error(request,'You are Registered as restaurant')
             return redirect('login')
@@ -46,12 +51,20 @@ def loginUser(request):
     return render(request,'authentication/login.html')
 
 def registerUser(request):
+    states = State.objects.all()
     if request.method == 'POST':
         
         User = get_user_model()
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        state_id = request.POST.get('state')
+        city_id = request.POST.get('city')
+        place_id = request.POST.get('place')
+        
+        state = State.objects.get(id=state_id)
+        city = City.objects.get(id=city_id)
+        place = Place.objects.get(id=place_id)
 
         if customerUser.objects.filter(email= email).exists():
             messages.error(request,'User Already Exist in the System')
@@ -65,7 +78,10 @@ def registerUser(request):
                 email=email,
                 username=email,
                 password=hashed_password,
-                is_user=True
+                is_user=True,
+                  state=state, 
+                city=city, 
+                place=place
             )
             user.save()
             messages.success(request,'Successfully Registered')
@@ -74,7 +90,7 @@ def registerUser(request):
             messages.error(request,'Error!! Try Again')
             
 
-    return render(request,'authentication/register.html')
+    return render(request,'authentication/register.html', {'states': states})
 
 def forgetPassword(request):
     return render(request,'authentication/forgetPassword.html')
@@ -116,6 +132,16 @@ def index(request):
 def Home(request):
     return render(request,'home.html')
 
+
+def load_cities(request):
+    state_id = request.GET.get('state_id')
+    cities = City.objects.filter(state_id=state_id).values('id', 'name')
+    return JsonResponse(list(cities), safe=False)
+
+def load_places(request):
+    city_id = request.GET.get('city_id')
+    places = Place.objects.filter(city_id=city_id).values('id', 'name')
+    return JsonResponse(list(places), safe=False)
 
 # def student_list(request):
 #     students = Student.objects.all()

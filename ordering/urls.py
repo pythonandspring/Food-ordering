@@ -21,8 +21,8 @@ from django.conf.urls.static import static
 from . import views
 from customer import views as customerviews
 from restaurant import views as restaurantviews
-from menu import views as menuviews
-from order import views as orderviews
+# from menu import views as menuviews
+# from order import views as orderviews
 from delivery import views as deliveryviews
 from . import views
 
@@ -31,6 +31,8 @@ urlpatterns = [
     
 
     path('admin/', admin.site.urls),
+    path('api/', include('ordering.api.urls')),
+    # path('menu/', include('menu.urls')),  # Include the menu app's URLs
 
     path('', include('customer.urls')),
     # path('login/',customerviews.loginUser,name = 'login'),
@@ -51,10 +53,11 @@ urlpatterns = [
     path('registerDelivery/',deliveryviews.registerDelivery,name = 'registerDelivery'),
     path('home/', deliveryviews.home, name='home'),
 
-    path('menu/',menuviews.menu,name = 'menu'),
-    path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
+    path('menu/',views.menu,name = 'menu'),
+    # path('restaurantPage/', menuviews.restaurantPage, name='restaurantPage'),
+    path('restaurant/<int:restaurant_id>/menu/', views.restaurant_menu, name='restaurant_menu'),
     
-    path('cart/', orderviews.Cart, name='cart'),
+    path('cart/', views.Cart, name='cart'),
 ]
 
 # urlpatterns = [

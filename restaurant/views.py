@@ -23,6 +23,10 @@ def loginRestaurant(request):
             messages.error(request,'Invalid Password or Username')
             return redirect('loginRestaurant')
 
+        elif user.is_delivery==True:
+            messages.error(request,'You are Registered as delivery')
+            return redirect('loginRestaurant')
+
         elif user.is_restaurant==False:
             messages.error(request,'You are a User')
             return redirect('loginRestaurant')
@@ -69,44 +73,19 @@ def registerRestaurant(request):
 
 @login_required
 def addMenu(request):
-    context = {}
-    if request.user.is_restaurant:
-        if request.user.is_authenticated:
-            r = restaurantUser.objects.get(email=request.user)
-            restaurant = r.restaurantName
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        price = request.POST.get('price')
+        image = request.FILES.get('image')
+        restaurant_user = request.user.restaurantuser
+        food_item = foodItems(name=name, price=price, image=image, restaurantName=restaurant_user)
+        food_item.save()
+        messages.success(request, 'Food item added successfully')
 
+    food_items = foodItems.objects.filter(restaurantName=request.user.restaurantuser)
+    return render(request, 'addMenu.html', {'food_items': food_items})
 
-        if request.method == 'POST':
-            name = request.POST.get('name')
-            price = request.POST.get('price')
-            image = request.FILES.get('image')
-
-            try:
-                item = foodItems(name=name, price=price, image=image, restaurantName= restaurant )
-                item.save()
-                messages.success(request,"Successfully Added the Item")
-            
-            except:
-                messages.error(request,'Error in adding Food Item')
-     
-        
-        item = foodItems.objects.all()
-        print(item)
-        print(restaurant)
-        
-        context = {
-            'name': restaurant,
-            'items': item,
-        }
-
-    else:
-        messages.error(request,'Login in as Restaurant')
-        return redirect('loginRestaurant')
-    
-   
-    return render(request, 'addMenu.html',context)
-
-
+@login_required
 def logoutRestaurant(request):
     user = get_user_model()
     logout(request)

@@ -147,7 +147,7 @@
         <div class="decorative-blob"></div>
         <div class="decorative-blob-2"></div>
         <div class="mb-4 text-center">
-            <h2><span style="color: black;">Restaurant Name: </span>{{name}}</h2>
+            <h2><span style="color: black;">Restaurant Name: </span>{{ request.user.restaurantuser.restaurantName }}</h2>
         </div>
         <h4 class="mb-4 text-center bi-body-text text-reset">New Food Item Details</h4>
         <form method="post"  enctype="multipart/form-data" >
@@ -197,17 +197,14 @@
                 </tr>
             </thead>
             <tbody>
-                {% for food in items %}
-                {% if food.restaurantName == name %}
+                {% for food in food_items %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ food.name }}</td>
                     <td>{{ food.price }}</td>
                     <td><img src="{{ food.image.url }}" alt="{{ food.name }}" style="width: 100px; height: auto;"></td>
-                    </tr>
-                {%endif%}
+                </tr>
                 {% empty %}
-            
                 <tr>
                     <td colspan="4" class="text-center">No food items available.</td>
                 </tr>

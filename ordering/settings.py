@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-#import os
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,10 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-#! to fix SSH not found error
-import pymysql
-# pymysql.version_info = (1, 4, 2, "final", 0)
-pymysql.install_as_MySQLdb()
 
 
 
@@ -45,15 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'rest_framework',
+    'rest_framework',
+    'rest_framework.authtoken', 
     #'myapp',
     'ordering',
     'customer',
     'phonenumber_field',
     'restaurant',
-    'order',
-    'menu',
+    # 'order',
+    # 'menu',
     'delivery',
+    'drf_yasg',
+    'import_export',
     ]
 
 MIDDLEWARE = [
@@ -95,12 +94,36 @@ WSGI_APPLICATION = 'ordering.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
 }
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': BASE_DIR / 'db.sqlite3',
+     }
+ }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Enter your token in the format `Token <your-token>`'
+        }
+    },
+    'DEFAULT_INFO': 'ordering.api.urls.schema_view',
+}
+
 
 
 # Password validation
@@ -143,8 +166,11 @@ STATIC_URL = '/static/'
 # Point to the exact location of your static files directory
 STATICFILES_DIRS = [
     #r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering\static",  # Ensure this points to the correct static directory
-    "static/"
+    # "static/"
+    os.path.join(BASE_DIR, 'static'),
 ]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'my_files')
 
 # Static root for collectstatic command
 #STATIC_ROOT = r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering"  # This is where collectstatic will gather all static files for production

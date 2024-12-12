@@ -3,11 +3,12 @@ from datetime import date, timedelta
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from customer.models import CustomUser
+from phonenumber_field.modelfields import PhoneNumberField
 
 class deliveryUser(CustomUser):
     name = models.CharField(max_length=50)
-    active_status = models.BooleanField(default=True)
-    location = models.CharField(max_length=255, blank=True, null=True)
+    address = models.TextField()
+    deliveryContact = PhoneNumberField(null=True, blank=True)
     
 class Feedback(models.Model):
     stars = models.IntegerField()

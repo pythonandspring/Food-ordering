@@ -16,7 +16,7 @@ class foodItems(models.Model):
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     image = models.ImageField(upload_to='images/')
-    restaurantName = models.CharField(max_length=50)
+    restaurantName = models.ForeignKey(restaurantUser, related_name='food_items', on_delete=models.CASCADE)
 
 
 class Restaurant(models.Model):
@@ -51,4 +51,4 @@ class Payment(models.Model):
     card_no = models.CharField(max_length=20)
     def __str__(self):
         return self.name
-    
+
