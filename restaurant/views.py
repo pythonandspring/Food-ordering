@@ -48,13 +48,20 @@ def registerRestaurant(request):
         restaurantContact = request.POST.get('restaurantContact')
         email = request.POST.get('email')
         password = request.POST.get('password')
-        restaurant_data = restaurantUser(restaurantName=restaurantName,
-                                     address=address,
-                                     restaurantContact=restaurantContact,
-                                     email=email,
-                                     username=email,
-                                     is_restaurant = True,
-                                     password=make_password(password))
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        
+        restaurant_data = restaurantUser(
+            restaurantName=restaurantName,
+            address=address,
+            restaurantContact=restaurantContact,
+            email=email,
+            username=email,
+            is_restaurant=True,
+            password=make_password(password),
+            latitude=latitude,
+            longitude=longitude
+        )
         
         if restaurantUser.objects.filter(email=email).exists() and restaurantUser.objects.filter(is_restaurant=True):
             messages.error(request,'User Already Exist in the System')

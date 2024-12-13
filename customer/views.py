@@ -61,6 +61,8 @@ def registerUser(request):
         state_id = request.POST.get('state')
         city_id = request.POST.get('city')
         place_id = request.POST.get('place')
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
         
         state = State.objects.get(id=state_id)
         city = City.objects.get(id=city_id)
@@ -81,7 +83,9 @@ def registerUser(request):
                 is_user=True,
                   state=state, 
                 city=city, 
-                place=place
+                place=place,
+                latitude=latitude,
+                longitude=longitude
             )
             user.save()
             messages.success(request,'Successfully Registered')

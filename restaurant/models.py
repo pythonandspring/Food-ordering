@@ -10,7 +10,8 @@ class restaurantUser(CustomUser):
     restaurantName = models.CharField(max_length=50)
     address = models.TextField()
     restaurantContact = PhoneNumberField()
-
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
 class foodItems(models.Model):
     name = models.CharField(max_length=255)
