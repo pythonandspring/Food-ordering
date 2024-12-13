@@ -94,6 +94,7 @@
                     <th>Image</th>
                     <th>Restaurant Name</th>
                     <th>Item</th>
+                    <th>Category</th> <!-- Add this line -->
                     <th>Quantity</th>
                     <th>Price</th>
                     <th>Actions</th>
@@ -105,6 +106,7 @@
                     <td><img width="100px" height="100px" src="/media/{{ item.item.image }}" alt="{{ item.item.name }}"></td>
                     <td>{{ item.item.restaurantName }}</td>
                     <td>{{ item.item.name }}</td>
+                    <td>{{ item.item.category }}</td> <!-- Add this line -->
                     <td>
                         <form method="post">
                             {% csrf_token %}

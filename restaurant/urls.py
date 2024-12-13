@@ -13,6 +13,8 @@ urlpatterns = [
     path('loginRestaurant/',restaurantviews.loginRestaurant,name = 'loginRestaurant'),
     path('registerRestaurant/',restaurantviews.registerRestaurant,name = 'registerRestaurant'),
     path('addMenu/', restaurantviews.addMenu, name='addMenu'),
+    path('update/<int:food_id>/', views.update_food, name='update_food'),
+    path('delete/<int:food_id>/', views.delete_food, name='delete_food'),
     
 ]
 if settings.DEBUG:

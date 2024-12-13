@@ -77,13 +77,35 @@ def addMenu(request):
         name = request.POST.get('name')
         price = request.POST.get('price')
         image = request.FILES.get('image')
+        category = request.POST.get('category')  # Add this line
         restaurant_user = request.user.restaurantuser
-        food_item = foodItems(name=name, price=price, image=image, restaurantName=restaurant_user)
+        food_item = foodItems(name=name, price=price, image=image, category=category, restaurantName=restaurant_user)  # Add 'category'
         food_item.save()
         messages.success(request, 'Food item added successfully')
 
     food_items = foodItems.objects.filter(restaurantName=request.user.restaurantuser)
     return render(request, 'addMenu.html', {'food_items': food_items})
+
+@login_required
+def update_food(request, food_id):
+    food = foodItems.objects.get(id=food_id, restaurantName=request.user.restaurantuser)
+    if request.method == 'POST':
+        food.name = request.POST.get('food-title')
+        food.price = request.POST.get('food-price')
+        food.category = request.POST.get('food-category')  # Add this line
+        if request.FILES.get('food-image'):
+            food.image = request.FILES.get('food-image')
+        food.save()
+        messages.success(request, 'Food item updated successfully')
+        return redirect('addMenu')
+    return render(request, 'update.html', {'food': food})
+
+@login_required
+def delete_food(request, food_id):
+    food = foodItems.objects.get(id=food_id, restaurantName=request.user.restaurantuser)
+    food.delete()
+    messages.success(request, 'Food item deleted successfully')
+    return redirect('addMenu')
 
 @login_required
 def logoutRestaurant(request):
