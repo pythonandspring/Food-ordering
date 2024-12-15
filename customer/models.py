@@ -84,3 +84,34 @@ class Customer(models.Model):
         
         pass
 
+class Order(models.Model):
+    customer = models.ForeignKey(customerUser, on_delete=models.CASCADE, related_name='orders')
+    item = models.CharField(max_length=100)
+    quantity = models.IntegerField()
+    category = models.CharField(max_length=100)
+    sum_of_price = models.DecimalField(max_digits=10, decimal_places=2)
+    order_no = models.CharField(max_length=20, unique=True)
+    status = models.CharField(max_length=20, choices=[
+        ('PENDING', 'Pending'),
+        ('CONFIRMED', 'Confirmed'),
+        ('OUT_FOR_DELIVERY', 'Out for Delivery'),
+        ('DELIVERED', 'Delivered'),
+        ('CANCELLED', 'Cancelled')
+    ], default='PENDING')
+    delivery_person = models.CharField(max_length=100, null=True, blank=True)
+    delivery_contact = models.CharField(max_length=20, null=True, blank=True)  # Add delivery contact field
+    restaurant_name = models.CharField(max_length=100)
+    comments = models.TextField(null=True, blank=True)
+    date_time = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_status_choices(self):
+        return self._meta.get_field('status').choices
+
+    @staticmethod
+    def get_orders_for_restaurant(restaurant_name):
+        return Order.objects.filter(restaurant_name=restaurant_name)
+
+    def __str__(self):
+        return f"Order {self.order_no} - {self.customer.name}"
+

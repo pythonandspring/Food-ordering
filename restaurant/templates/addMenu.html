@@ -115,6 +115,8 @@
 
 <body>
     {% include 'loader.html' %}
+    <center>
+    <a class="btn btn-outline-primary" href="/restaurantOrders">Restaurant Orders</a></center>
     <div class="container mt-5">
         <div class="title">Restaurant Name: {{ request.user.restaurantuser.restaurantName }}</div>
         <h4 class="mb-4 text-center bi-body-text text-reset">New Food Item Details</h4>
@@ -156,6 +158,7 @@
             </div>
         </form>
     </div>
+
     <div class="foodItems container mt-5">
         <h4 class="text-center">Existing Food Items</h4>
         <table class="food-table">

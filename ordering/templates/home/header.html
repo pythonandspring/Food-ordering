@@ -28,6 +28,9 @@
           <li class="nav-item px-1">
               <a class="nav-link" href={% url 'logout' %} ><i class="fas fa-sign-out-alt"></i> Logout</a>
           </li>
+          <li class="nav-item px-1">
+              <a class="nav-link" href="/orders"><i class="fas fa-box"></i> My Orders</a>
+          </li>
           {% if not Empty %}
           <li class="nav-item px-1">
               <a class="nav-link bg-danger blink_me" href="/cart"><i class="fas fa-shopping-cart "></i> Cart</a>

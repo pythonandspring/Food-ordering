@@ -8,11 +8,13 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from random import choice
-from customer.models import customerUser, Feedback, Contact
+from customer.models import customerUser, Feedback, Contact, Order
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from customer.models import State, City, Place
 from django.contrib.auth import get_user_model
+from django.utils.crypto import get_random_string
+from restaurant.models import foodItems
 # Create your views here.
 
 User = get_user_model()
@@ -146,6 +148,31 @@ def load_places(request):
     city_id = request.GET.get('city_id')
     places = Place.objects.filter(city_id=city_id).values('id', 'name')
     return JsonResponse(list(places), safe=False)
+
+def orders(request):
+    user_orders = Order.objects.filter(customer=request.user)
+    return render(request, 'home/orders.html', {'orders': user_orders})
+
+def make_payment(request):
+    if request.method == 'POST':
+        cart = request.session.get('cart', {})
+        print(cart)
+        for item_id, item in cart.items():
+            food_item = foodItems.objects.get(id=item_id)
+            order = Order.objects.create(
+                customer=customerUser.objects.get(id=request.user.id),
+                item=food_item.name,
+                quantity=item,
+                category=food_item.category,
+                sum_of_price=food_item.price * item,
+                order_no=get_random_string(10),
+                restaurant_name=food_item.restaurantName.restaurantName  # Use the correct attribute
+            )
+            order.save()
+        request.session['cart'] = {}
+        return redirect('orders')
+    return redirect('cart')
+
 
 # def student_list(request):
 #     students = Student.objects.all()

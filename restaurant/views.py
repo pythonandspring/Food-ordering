@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from restaurant.models import restaurantUser,foodItems
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate,login,logout,get_user_model
+from customer.models import Order
+from delivery.models import deliveryUser  # Import deliveryUser model
 # Create your views here.
 
 
@@ -119,4 +121,39 @@ def logoutRestaurant(request):
     user = get_user_model()
     logout(request)
     return redirect("feedback_form")
+
+@login_required
+def restaurant_orders(request):
+    restaurant_user = restaurantUser.objects.get(email=request.user.email)
+    restaurant_name = restaurant_user.restaurantName
+    print(restaurant_name)
+    orders = Order.get_orders_for_restaurant(restaurant_name)
+    return render(request, 'restaurantorders.html', {'orders': orders, 'messages': messages.get_messages(request)})
+
+@login_required
+def update_order_status(request, order_id):
+    if request.method == 'POST':
+        order = Order.objects.get(id=order_id)
+        order.status = request.POST.get('status')
+        order.save()
+        messages.success(request, f"Order status of {order.customer.name} is {order.get_status_display()}")
+    return redirect('restaurant_orders')
+
+# @login_required
+# def assign_delivery_person(request, order_id):
+#     order = Order.objects.get(id=order_id)
+#     delivery_persons = deliveryUser.objects.all()
+#     return render(request, 'delivery.html', {'order': order, 'delivery_persons': delivery_persons})
+
+# @login_required
+# def update_delivery_person(request, order_id):
+#     if request.method == 'POST':
+#         order = Order.objects.get(id=order_id)
+#         delivery_person_id = request.POST.get('delivery_person')
+#         delivery_person = deliveryUser.objects.get(id=delivery_person_id)
+#         order.delivery_person = delivery_person.name
+#         order.delivery_contact = delivery_person.deliveryContact  # Add delivery contact
+#         order.save()
+#         messages.success(request, f"Delivery person {delivery_person.name} assigned to order {order.order_no}")
+#     return redirect('restaurant_orders')
 
