@@ -1,10 +1,3 @@
-# from django.urls import path, include
-# from .api import urls as api_urls
-
-
-# urlpatterns = [
-#     path('api/', include(api_urls)),
-# ]
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -23,7 +16,8 @@ urlpatterns = [
     path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
     path('load-cities/', views.load_cities, name='load_cities'),
     path('load-places/', views.load_places, name='load_places'),
-    path('search/', views.search_restaurant, name='search_results'),
+    path('orders/', customerviews.orders, name='orders'),
+    path('make_payment/', customerviews.make_payment, name='make_payment'),
 ]
 
 if settings.DEBUG:

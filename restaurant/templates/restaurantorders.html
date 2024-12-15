@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Restaurant Orders</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8;
+      }
+
+      .container {
+        max-width: 1500px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        color: white;
+        background-color: #069419;
+        text-align: center;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+      }
+
+      .search-bar {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+      }
+
+      .search-bar input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px 0 0 5px;
+      }
+
+      .search-bar button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #069419;
+        color: white;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+
+      .search-bar button:hover {
+        background-color: #069419;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      thead th {
+        background-color: #069419;
+        color: white;
+        padding: 10px;
+        text-align: left;
+        font-size: 14px;
+      }
+
+      tbody td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      tbody img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #069419;
+        color: white;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #069419;
+      }
+
+      .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+      }
+      .alert-success {
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+      }
+      .alert-error {
+        color: #a94442;
+        background-color: #f2dede;
+        border-color: #ebccd1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Restaurant Orders</h1>
+      <div class="search-bar">
+        <input type="text" placeholder="Enter Order Id..." />
+        <button>Search</button>
+      </div>
+      {% if messages %}
+      <div>
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <table>
+        <thead>
+          <tr>
+            <th>Order Id</th>
+            <th>Food</th>
+            <th>Food Name</th>
+            <th>Category</th>
+            <th>Restaurant</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Customer</th>
+            <th>Order Time</th>
+            <th>Order Status</th>
+            <th>Delivery Person</th>
+            <th>Delivery Contact</th>
+            <th>Delivery Time</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ order.order_no }}</td>
+            <td>{{ order.item }}</td>
+            <td>{{ order.item }}</td>
+            <td>{{ order.category }}</td>
+            <td>{{ order.restaurant_name }}</td>
+            <td>{{ order.sum_of_price }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.customer.name }}</td>
+            <td>{{ order.date_time }}</td>
+            <td>
+              <form method="post" action="{% url 'update_order_status' order.id %}">
+                {% csrf_token %}
+                <select name="status">
+                  {% for value, display in order.get_status_choices %}
+                  <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>
+                    {{ display }}
+                  </option>
+                  {% endfor %}
+                </select>
+            </td>
+            <td>{{ order.delivery_person }}</td>
+            <td>{{ order.delivery_contact }}</td>
+            <td>{{ order.date_time }}</td>
+            <td>
+              <button type="submit">Update</button>
+              </form>
+              <!-- <form method="get" >
+                <button type="submit">Assign Delivery</button>
+              </form> -->
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

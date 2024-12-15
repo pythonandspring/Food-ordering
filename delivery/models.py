@@ -9,18 +9,19 @@ class deliveryUser(CustomUser):
     name = models.CharField(max_length=50)
     address = models.TextField()
     deliveryContact = PhoneNumberField(null=True, blank=True)
-    
+
 class Feedback(models.Model):
     stars = models.IntegerField()
     comments = models.TextField()
 
 class Contact(models.Model):
-    name=models.CharField(max_length=200)
-    email=models.EmailField()
-    subject=models.TextField()
+    name = models.CharField(max_length=200)
+    email = models.EmailField()
+    subject = models.TextField()
+
     def __str__(self):
         return self.name
-    
+
 class DeliveryPerson(models.Model):
     DELIVERY_STATUS_CHOICES = [
         ('active', 'Active'),
@@ -50,6 +51,5 @@ class DeliveryPerson(models.Model):
     last_login = models.DateTimeField(blank=True, null=True)
     note = models.TextField(blank=True, null=True)
 
-    
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

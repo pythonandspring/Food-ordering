@@ -7,12 +7,13 @@ from django.contrib.auth import login,authenticate,logout
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
 from random import choice
-from customer.models import customerUser, Feedback, Contact
+from customer.models import customerUser, Feedback, Contact, Order
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from customer.models import State, City, Place
 from django.contrib.auth import get_user_model
-from restaurant.models import Restaurant
+from django.utils.crypto import get_random_string
+from restaurant.models import foodItems, Restaurant
 # Create your views here.
 
 User = get_user_model()
@@ -61,6 +62,8 @@ def registerUser(request):
         state_id = request.POST.get('state')
         city_id = request.POST.get('city')
         place_id = request.POST.get('place')
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
         
         state = State.objects.get(id=state_id)
         city = City.objects.get(id=city_id)
@@ -81,7 +84,9 @@ def registerUser(request):
                 is_user=True,
                   state=state, 
                 city=city, 
-                place=place
+                place=place,
+                latitude=latitude,
+                longitude=longitude
             )
             user.save()
             messages.success(request,'Successfully Registered')
@@ -155,6 +160,31 @@ def search_restaurant(request):
         restaurants = restaurants.filter(place__icontains=place)
 
     return render(request, 'search.html', {'restaurants': restaurants})
+
+
+def orders(request):
+    user_orders = Order.objects.filter(customer=request.user)
+    return render(request, 'home/orders.html', {'orders': user_orders})
+
+def make_payment(request):
+    if request.method == 'POST':
+        cart = request.session.get('cart', {})
+        print(cart)
+        for item_id, item in cart.items():
+            food_item = foodItems.objects.get(id=item_id)
+            order = Order.objects.create(
+                customer=customerUser.objects.get(id=request.user.id),
+                item=food_item.name,
+                quantity=item,
+                category=food_item.category,
+                sum_of_price=food_item.price * item,
+                order_no=get_random_string(10),
+                restaurant_name=food_item.restaurantName.restaurantName  # Use the correct attribute
+            )
+            order.save()
+        request.session['cart'] = {}
+        return redirect('orders')
+    return redirect('cart')
 
 
 # def student_list(request):

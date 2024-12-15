@@ -10,12 +10,14 @@ class restaurantUser(CustomUser):
     restaurantName = models.CharField(max_length=50)
     address = models.TextField()
     restaurantContact = PhoneNumberField()
-
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
 class foodItems(models.Model):
-    name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='images/')
+    name = models.CharField(max_length=255) # Name of the food item
+    price = models.DecimalField(max_digits=10, decimal_places=2) # Price of the food item
+    image = models.ImageField(upload_to='images/') # Image of the food item
+    category = models.CharField(max_length=255,default="None")  # Category of the food item
     restaurantName = models.ForeignKey(restaurantUser, related_name='food_items', on_delete=models.CASCADE)
 
 

@@ -58,6 +58,7 @@ urlpatterns = [
     path('restaurant/<int:restaurant_id>/menu/', views.restaurant_menu, name='restaurant_menu'),
     
     path('cart/', views.Cart, name='cart'),
+    
 ]
 
 # urlpatterns = [

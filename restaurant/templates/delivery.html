@@ -104,7 +104,8 @@
     </style>
   </head>
   <body>
-    <form>
+    <form method="post" action="{% url 'update_delivery_person' order.id %}">
+      {% csrf_token %}
       <!-- Modal -->
       <div class="modal">
         <div class="modal-content">
@@ -113,24 +114,24 @@
             <!-- Order ID Field -->
             <div class="form-group">
               <label for="orderId">Order Id</label>
-              <input type="text" id="orderId" value="" />
+              <input type="text" id="orderId" name="order_id" value="{{ order.order_no }}" readonly />
             </div>
             <!-- Delivery Person Dropdown -->
             <div class="form-group">
               <label for="deliveryPerson">Delivery Person</label>
-              <select id="deliveryPerson">
+              <select id="deliveryPerson" name="delivery_person">
                 <option value="" disabled selected>
                   Select Delivery Person
                 </option>
-                <option value="person1">ram</option>
-                <option value="person2">surya</option>
-                <option value="person3">charan</option>
+                {% for person in delivery_persons %}
+                <option value="{{ person.id }}">{{ person.name }}</option>
+                {% endfor %}
               </select>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-assign">Assign</button>
-            <button class="btn btn-close">Close</button>
+            <button type="submit" class="btn btn-assign">Assign</button>
+            <button type="button" class="btn btn-close" onclick="window.history.back();">Close</button>
           </div>
         </div>
       </div>

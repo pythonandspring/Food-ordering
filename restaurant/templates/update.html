@@ -84,30 +84,21 @@
   <body>
     <div class="update-form-container">
       <h1>Update Food Details</h1>
-      <form class="update-form">
+      <form class="update-form" method="post" enctype="multipart/form-data" action="{% url 'update_food' food.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="food_id" value="{{ food.id }}">
         <div class="form-group">
           <label for="food-title">Food Title</label>
           <input
             type="text"
             id="food-title"
             name="food-title"
-            value="Enter the title"
+            value="{{ food.name }}"
           />
         </div>
         <div class="form-group">
           <label for="food-description">Food Description</label>
-          <textarea id="food-description" name="food-description">
-Enter the description</textarea
-          >
-        </div>
-        <div class="form-group">
-          <label for="category">Category</label>
-          <input
-            type="text"
-            id="category"
-            name="category"
-            placeholder="select category"
-          />
+          <textarea id="food-description" name="food-description">{{ food.description }}</textarea>
         </div>
         <div class="form-group">
           <label for="food-price">Food Price</label>
@@ -115,16 +106,18 @@ Enter the description</textarea
             type="text"
             id="food-price"
             name="food-price"
-            value="Enter the price"
+            value="{{ food.price }}"
           />
         </div>
-        <a
-          href="http://127.0.0.1:5500/Food-ordering/ordering/templates/home/orders.html"
-          button=""
-          type="submit"
-          class="update-btn"
-          >Update Food</a
-        >
+        <div class="form-group">
+          <label for="food-category">Food Category</label>
+          <input type="text" id="food-category" name="food-category" value="{{ food.category }}">
+        </div>
+        <div class="form-group">
+          <label for="food-image">Food Image</label>
+          <input type="file" id="food-image" name="food-image" accept="image/*">
+        </div>
+        <button type="submit" class="update-btn">Update Food</button>
       </form>
     </div>
   </body>
