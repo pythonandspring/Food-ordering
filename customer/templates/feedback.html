@@ -6,34 +6,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rate Your Experience</title>
-  <link rel="stylesheet" href="{% static 'feedbackcss.css' %}">
+  <!-- Link to the feedback CSS -->
+  <link rel="stylesheet" href="{% static 'css/feedbackcss.css' %}">
+  <!-- Include Font Awesome for star icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  {% include 'loader.html' %}
-    <div class="wrapper"> 
-        <div class="title">Rate your experience</div>
-        <div class="content">We highly value your feedback! Kindly take a moment to rate your experience and provide us with your valuable feedback.</div>
-        <form method="post" > 
-          {% csrf_token %}
-          <div class="rate-box">
-            <input type="radio" name="stars" id="star0"/>
-            <label class="star" for="star0"></label>
-            <input type="radio" name="stars" id="star1"/>
-            <label class="star" for="star1"></label>
-            <input type="radio" name="stars" id="star2" checked="checked"/>
-            <label class="star" for="star2"></label>
-            <input type="radio" name="stars" id="star3"/>
-            <label class="star" for="star3"></label>
-            <input type="radio" name="stars" id="star4"/>
-            <label class="star" for="star4"></label>
-          </div>
-          <textarea name="comment" cols="30" rows="6" placeholder="Tell us about your experience!"></textarea>
-          <input type="submit" value="Send" class="submit-btn">
-          
-        </form>
+  {% include 'loader.html' %} <!-- Optional loader if needed -->
+  
+  <div class="wrapper">
+    <div class="title">Rate Your Experience</div>
+    <div class="content">
+      We highly value your feedback! Kindly take a moment to rate your experience and provide us with your valuable feedback.
     </div>
+
+    <form method="post">
+      {% csrf_token %}
       
-      
+      <div class="rate-box">
+        <!-- Star Rating Inputs -->
+        <input type="radio" name="stars" id="star5" value="5"/>
+        <label class="star" for="star5"></label>
+
+        <input type="radio" name="stars" id="star4" value="4"/>
+        <label class="star" for="star4"></label>
+
+        <input type="radio" name="stars" id="star3" value="3"/>
+        <label class="star" for="star3"></label>
+
+        <input type="radio" name="stars" id="star2" value="2"/>
+        <label class="star" for="star2"></label>
+
+        <input type="radio" name="stars" id="star1" value="1"/>
+        <label class="star" for="star1"></label>
+      </div>
+
+      <textarea name="comment" cols="30" rows="6" placeholder="Tell us about your experience!"></textarea>
+      <input type="submit" value="Submit Feedback" class="submit-btn">
+    </form>
+  </div>
 
 </body>
-</html> 
+</html>

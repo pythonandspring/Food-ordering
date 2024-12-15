@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from delivery.models import deliveryUser
+from restaurant.models import Cart
 
 # Home view for logged-in users
 @login_required
@@ -65,3 +66,25 @@ def registerDelivery(request):
             messages.success(request, "Successfully Registered")
             return redirect('loginDelivery')
     return render(request, 'registerDelivery.html')
+
+def my_delivery_orders(request):
+    delivery_person = request.user  # Assuming logged-in delivery person
+    orders = Cart.objects.filter(assigned_to=delivery_person)
+    return render(request, 'my_delivery_orders.html', {'orders': orders})
+
+def update_status(request):
+    if request.method == "POST":
+        order_id = request.POST.get('order_id')
+        status = request.POST.get('status')
+        delivery_date = request.POST.get('delivery_date')
+        delivery_time = request.POST.get('delivery_time')
+        
+        try:
+            order = Cart.objects.get(id=order_id)
+            order.status = status
+            order.delivery_date = delivery_date
+            order.delivery_time = delivery_time
+            order.save()
+            return redirect('my_delivery_orders')
+        except Cart.DoesNotExist:
+            return HttpResponse("Order not found", status=404)

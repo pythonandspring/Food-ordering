@@ -1,7 +1,7 @@
-from django.urls import path, include
-from .api import urls as api_urls
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('api/', include(api_urls)),  # Include Delivery API URLs
-    # Add other delivery-specific URLs here if needed
+    path('my-delivery-orders/', views.my_delivery_orders, name='my_delivery_orders'),
+    path('update-status/', views.update_status, name='update_status'),
 ]
