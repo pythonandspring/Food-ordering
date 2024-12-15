@@ -23,6 +23,7 @@ urlpatterns = [
     path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
     path('load-cities/', views.load_cities, name='load_cities'),
     path('load-places/', views.load_places, name='load_places'),
+    path('search/', views.search_restaurant, name='search_results'),
 ]
 
 if settings.DEBUG:

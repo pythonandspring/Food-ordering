@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.shortcuts import render, get_object_or_404
-# from .models import Student
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import login,authenticate,logout
@@ -13,6 +12,7 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from customer.models import State, City, Place
 from django.contrib.auth import get_user_model
+from restaurant.models import Restaurant
 # Create your views here.
 
 User = get_user_model()
@@ -141,7 +141,21 @@ def load_cities(request):
 def load_places(request):
     city_id = request.GET.get('city_id')
     places = Place.objects.filter(city_id=city_id).values('id', 'name')
-    return JsonResponse(list(places), safe=False)
+    return JsonResponse(list(places), safe=False)  
+
+def search_restaurant(request):
+    query = request.GET.get('name', '')
+    place = request.GET.get('place', '')
+    
+    restaurants = Restaurant.objects.all()
+
+    if query:
+        restaurants = restaurants.filter(name__icontains=query)
+    if place:
+        restaurants = restaurants.filter(place__icontains=place)
+
+    return render(request, 'search.html', {'restaurants': restaurants})
+
 
 # def student_list(request):
 #     students = Student.objects.all()

@@ -1,0 +1,33 @@
+<!-- customer/templates/search.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Restaurant</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Search for a Restaurant</h1>
+
+    <form method="GET" action="{% url 'search_results' %}">
+        <label for="name">Restaurant Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter Restaurant Name">
+
+        <label for="place">Place:</label>
+        <input type="text" id="place" name="place" placeholder="Enter Place">
+
+        <button type="submit">Search</button>
+    </form>
+
+    {% if restaurants %}
+        <h2>Search Results</h2>
+        <ul>
+            {% for restaurant in restaurants %}
+                <li>{{ restaurant.name }} - {{ restaurant.place }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
