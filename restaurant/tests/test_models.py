@@ -2,8 +2,19 @@ from django.test import TestCase
 from django.core.exceptions import ValidationError
 from restaurant.models import Restaurant, Cart, Product, Payment
 
+#* Method should describe what it does in the name rather than implementation
+#* Method names should be consistent (start name from test_ throughout)
+#* Follow established rules 
+#* Use snake case / underscores
+#* Lowercase  for variables within methods
+#* Lowercase with underscores for method names to improve readability
+#* Capitalized words for class names 
+
+
+
 class RestaurantModelTest(TestCase):
 
+    #? descriptive naming style for methods
     def setUp(self):
         self.restaurant = Restaurant.objects.create(
             name="Test Restaurant",
@@ -11,7 +22,7 @@ class RestaurantModelTest(TestCase):
             phone_number="1234567890",
             email="test@example.com"
         )
-
+        
     def test_restaurant_creation(self):
         self.assertIsInstance(self.restaurant, Restaurant)
         self.assertEqual(self.restaurant.name, "Test Restaurant")
@@ -37,9 +48,6 @@ class RestaurantModelTest(TestCase):
         self.restaurant.delete()
         with self.assertRaises(Restaurant.DoesNotExist):
             Restaurant.objects.get(id=restaurant_id)
-
-    
-            
 
 class CartModelTest(TestCase):
 
@@ -70,13 +78,13 @@ class CartModelTest(TestCase):
         self.assertEqual(updated_cart.price, 25.99)
         self.assertEqual(updated_cart.total, 30.99)
 
-    def test_delete_cart(self):
+    def test_delete_cart(self): 
         cart_id = self.cart.id
         self.cart.delete()
         with self.assertRaises(Cart.DoesNotExist):
             Cart.objects.get(id=cart_id)
 
-    def test_str_method(self):
+    def test_str_method(self): 
         cart = Cart.objects.create(
             number_of_products=3,
             product1="Burger",
@@ -86,12 +94,10 @@ class CartModelTest(TestCase):
             total=20.99
         )
         self.assertEqual(str(cart), str(cart.id))  # Ensure it matches the string representation of the id
-        
-        
 
 class ProductModelTest(TestCase):
 
-    def setUp(self):
+    def setUp(self): 
         self.product = Product.objects.create(
             name="Test Product",
             category="Test Category",
@@ -121,10 +127,7 @@ class ProductModelTest(TestCase):
             category="Test Category",
             subcategory="Test Subcategory"
         )
-        self.assertEqual(str(product), str(product.id))
-        # Ensure it matches the string representation of the id
-        
-        
+        self.assertEqual(str(product), str(product.id))  # Ensure it matches the string representation of the id
 
 class PaymentModelTest(TestCase):
 
@@ -170,4 +173,3 @@ class PaymentModelTest(TestCase):
             card_no="4111111111111111"
         )
         self.assertEqual(str(payment), "John Doe")  # Ensure it matches the string representation of the name
-        
