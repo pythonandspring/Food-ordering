@@ -1,23 +1,136 @@
+<!-- filepath: /c:/Users/chand/OneDrive/Desktop/FoodOrdering/Food-ordering/templates/Deliveryhome.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Delivery User</title>
-    <link rel="stylesheet" href="path_to_your_styles.css">  <!-- Optional: Link to your CSS file -->
+    <title>Assigned Orders</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: white;
+            background-color: #069419;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead th {
+            background-color: #069419;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        tbody td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+    </style>
 </head>
 <body>
-
-    <div class="home-container">
-        <h2>Welcome, {{ user.username }}!</h2>  <!-- Display logged-in user's username -->
-
-        <p>Welcome to the Delivery Dashboard. You can manage your deliveries, view orders, and more.</p>
-
-        <div class="actions">
-            <br>
-            <a href="{% url 'logout' %}">Logout</a>  <!-- Logout link -->
+    <div class="container">
+        <h1>Assigned Orders</h1>
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
         </div>
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Id</th>
+                    <th>Food</th>
+                    <th>Food Name</th>
+                    <th>Category</th>
+                    <th>Restaurant</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Customer</th>
+                    <th>Order Time</th>
+                    <th>Order Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in assigned_orders %}
+                <tr>
+                    <td>{{ order.order_no }}</td>
+                    <td>{{ order.item }}</td>
+                    <td>{{ order.item }}</td>
+                    <td>{{ order.category }}</td>
+                    <td>{{ order.restaurant_name }}</td>
+                    <td>{{ order.sum_of_price }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.customer.name }}</td>
+                    <td>{{ order.date_time }}</td>
+                    <td>
+                        <form method="post" action="{% url 'update_order_status' order.id %}">
+                            {% csrf_token %}
+                            <select name="status">
+                                {% for value, display in order.get_status_choices %}
+                                <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>
+                                    {{ display }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                    </td>
+                    <td>
+                        <button type="submit">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
-
 </body>
 </html>

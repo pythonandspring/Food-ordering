@@ -18,7 +18,10 @@ urlpatterns = [
     path('restaurantOrders/', restaurantviews.restaurant_orders, name='restaurant_orders'),
     path('updateOrderStatus/<int:order_id>/', restaurantviews.update_order_status, name='update_order_status'),
     # path('assignDeliveryPerson/<int:order_id>/', restaurantviews.assign_delivery_person, name='assign_delivery_person'),
-    # path('updateDeliveryPerson/<int:order_id>/', restaurantviews.update_delivery_person, name='update_delivery_person'),
+     # path('updateDeliveryPerson/<int:order_id>/', restaurantviews.update_delivery_person, name='update_delivery_person'),
+    
+    path('assign_delivery_person/<int:order_id>/', views.assign_delivery_person, name='assign_delivery_person'),
+    
     
 ]
 if settings.DEBUG:

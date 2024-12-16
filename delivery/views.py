@@ -5,11 +5,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from delivery.models import deliveryUser
+from customer.models import Order
+
 
 # Home view for logged-in users
 @login_required
 def home(request):
-    return render(request, 'Deliveryhome.html')
+    delivery_user = request.user
+    assigned_orders = Order.objects.filter(delivery_person = delivery_user)
+    return render(request, 'Deliveryhome.html', {'assigned_orders': assigned_orders})
 
 def loginDelivery(request):
     if request.method == 'POST':
@@ -65,3 +69,26 @@ def registerDelivery(request):
             messages.success(request, "Successfully Registered")
             return redirect('loginDelivery')
     return render(request, 'registerDelivery.html')
+
+
+
+#view to change driver's status when an order is assigned 
+
+# from django.shortcuts import get_object_or_404, redirect
+# from django.http import HttpResponse
+# from delivery.models import deliveryUser
+# from .models import Order
+
+# def assign_delivery_driver(order_id):
+#     order = get_object_or_404(Order, id=order_id)
+#     available_drivers = deliveryUser.objects.filter(status='available')
+
+#     if available_drivers.exists():
+#         driver = available_drivers.first()  # Assign the first available driver
+#         order.delivery_person = driver
+#         order.save()
+#         driver.status = 'unavailable'  # Mark the driver as unavailable
+#         driver.save()
+#         return redirect('order_detail', order_id=order.id)  # Redirect to the order detail page
+#     else:
+#         return HttpResponse("No available delivery drivers", status=404)

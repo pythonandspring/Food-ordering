@@ -1,15 +1,21 @@
 from django.db import models
-from datetime import date, timedelta
-from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
 from customer.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
 
 class deliveryUser(CustomUser):
+    STATUS_CHOICES = [
+        ('available', 'Available'),
+        ('unavailable', 'Unavailable'),
+    ]
+
     name = models.CharField(max_length=50)
     address = models.TextField()
     deliveryContact = PhoneNumberField(null=True, blank=True)
+    status = models.CharField(max_length=11, choices=STATUS_CHOICES, default='available')
 
+    def __str__(self):
+        return self.name
+    
 class Feedback(models.Model):
     stars = models.IntegerField()
     comments = models.TextField()
