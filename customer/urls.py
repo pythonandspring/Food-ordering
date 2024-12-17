@@ -21,6 +21,7 @@ urlpatterns = [
     path('', customerviews.Home, name='Home'),
     path('register/',customerviews.registerUser,name = 'register'),
     path('forgetPassword/',customerviews.forgetPassword,name = 'forgetPassword'),
+    path('registerRestaurant/', customerviews.registerRestaurant, name='registerRestaurant'),
     path('load-cities/', views.load_cities, name='load_cities'),
     path('load-places/', views.load_places, name='load_places'),
 ]

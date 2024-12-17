@@ -1,0 +1,97 @@
+{% extends "home/base.html" %}
+{% block content %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ student.first_name }} {{ student.last_name }} Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .student-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .student-details img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+
+        .details {
+            flex-grow: 1;
+        }
+
+        .details dl {
+            margin-top: 0;
+        }
+
+        dt, dd {
+            padding: 10px;
+        }
+
+        dt {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ student.first_name }} {{ student.last_name }} Details</h1>
+    <div class="student-details">
+        <div class="details">
+            <dl>
+                <dt>Name:</dt>
+                <dd>{{ student.first_name }} {{ student.last_name }}</dd>
+
+                <dt>Father Name:</dt>
+                <dd>{{ student.father_name }}</dd>
+
+                <dt>Mother Name:</dt>
+                <dd>{{ student.mother_name }}</dd>
+
+                <dt>Class:</dt>
+                <dd>{{ student.student_class }}</dd>
+
+                <dt>Phone Number:</dt>
+                <dd>{{ student.phone_number }}</dd>
+
+                <dt>Email:</dt>
+                <dd>{{ student.email }}</dd>
+
+                <dt>Class Teacher:</dt>
+                <dd>{{ student.class_teacher }}</dd>
+
+                <dt>Address:</dt>
+                <dd>{{ student.address }}</dd>
+
+                <dt>Date of Join:</dt>
+                <dd>{{ student.date_of_join }}</dd>
+
+                <dt>Second Phone Number:</dt>
+                <dd>{{ student.second_phone_number }}</dd>
+
+                <dt>Identity Marks:</dt>
+                <dd>{{ student.identity_marks }}</dd>
+
+                <dt>Aadhar Number:</dt>
+                <dd>{{ student.aadhar_number }}</dd>
+
+                <dt>Birth Certificate Number:</dt>
+                <dd>{{ student.birth_certificate_number }}</dd>
+            </dl>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock content %}

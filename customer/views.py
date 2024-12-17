@@ -89,6 +89,45 @@ def registerUser(request):
 
     return render(request,'authentication/register.html', {'states': states})
 
+def registerRestaurant(request):
+    states = State.objects.all()
+    if request.method == 'POST':
+        User = get_user_model()
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        state_id = request.POST.get('state')
+        city_id = request.POST.get('city')
+        place_id = request.POST.get('place')
+        
+        state = State.objects.get(id=state_id)
+        city = City.objects.get(id=city_id)
+        place = Place.objects.get(id=place_id)
+
+        if customerUser.objects.filter(email=email).exists():
+            messages.error(request, 'User Already Exist in the System')
+            return redirect('login')
+        hashed_password = make_password(password)
+
+        try:
+            user = customerUser.objects.create(
+                name=name,
+                email=email,
+                username=email,
+                password=hashed_password,
+                is_restaurant=True,
+                state=state,
+                city=city,
+                place=place
+            )
+            user.save()
+            messages.success(request, 'Successfully Registered')
+            return redirect('login')
+        except:
+            messages.error(request, 'Error!! Try Again')
+
+    return render(request, 'authentication/register_restaurant.html', {'states': states})
+
 def forgetPassword(request):
     return render(request,'authentication/forgetPassword.html')
 

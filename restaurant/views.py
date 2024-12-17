@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -70,38 +70,42 @@ def registerRestaurant(request):
 @login_required
 def addMenu(request):
     context = {}
-    if request.user.is_restaurant:
-        if request.user.is_authenticated:
-            r = restaurantUser.objects.get(email=request.user)
-            restaurant = r.restaurantName
+    try:
+        user = restaurantUser.objects.get(id=request.user.id)
+        if request.user.is_restaurant:
+            if request.user.is_authenticated:
+                r = restaurantUser.objects.get(email=request.user)
+                restaurant = r.restaurantName
 
 
-        if request.method == 'POST':
-            name = request.POST.get('name')
-            price = request.POST.get('price')
-            image = request.FILES.get('image')
+            if request.method == 'POST':
+                name = request.POST.get('name')
+                price = request.POST.get('price')
+                image = request.FILES.get('image')
 
-            try:
-                item = foodItems(name=name, price=price, image=image, restaurantName= restaurant )
-                item.save()
-                messages.success(request,"Successfully Added the Item")
+                try:
+                    item = foodItems(name=name, price=price, image=image, restaurantName= restaurant )
+                    item.save()
+                    messages.success(request,"Successfully Added the Item")
+                
+                except:
+                    messages.error(request,'Error in adding Food Item')
+        
+        
+            item = foodItems.objects.all()
+            print(item)
+            print(restaurant)
             
-            except:
-                messages.error(request,'Error in adding Food Item')
-     
-        
-        item = foodItems.objects.all()
-        print(item)
-        print(restaurant)
-        
-        context = {
-            'name': restaurant,
-            'items': item,
-        }
+            context = {
+                'name': restaurant,
+                'items': item,
+            }
 
-    else:
-        messages.error(request,'Login in as Restaurant')
-        return redirect('loginRestaurant')
+        else:
+            messages.error(request,'Login in as Restaurant')
+            return redirect('loginRestaurant')
+    except restaurantUser.DoesNotExist:
+        return HttpResponse('<h1>Restaurant User does not exist</h1>')
     
    
     return render(request, 'addMenu.html',context)
