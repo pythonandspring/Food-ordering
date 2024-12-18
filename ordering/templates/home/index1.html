@@ -71,7 +71,7 @@
         <br>
         <section id='hehe' class="d-flex justify-content-evenly flex-wrap">
             <div class="main_items">
-                <img class="img-fluid" src={% static 'pizza.png' %} alt="pizza image">
+                <img class="img-fluid" src={% static "pizza.jpg" %} alt="pizza image">
                 <p>Pizza</p>
             </div>
             <div class="main_items">
@@ -92,133 +92,177 @@
             </div>
         </section>
     </div>
-    <div class="container-fluid text-center d-flex justify-content-center flex-wrap py-4 mt-5">
-        <h1>Order from your favourite restaurant</h1>
-    </div>
     
     <style>
-        /* Style for the restaurant card */
+        /* Gradient Background */
+body {
+    background: linear-gradient(135deg, #f9f9f9, #eaeaea);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+/* Section Header */
+h1 {
+    font-size: 2.5rem;
+    color: #444;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved Restaurant Card Styling */
 .restaurant-card {
     border: none;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    background: linear-gradient(145deg, #f6f8fa, #e9ecef);
-    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.1), -4px -4px 15px rgba(255, 255, 255, 0.8);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background: linear-gradient(145deg, #f5f5f5, #d9d9d9);
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.15), -6px -6px 20px rgba(255, 255, 255, 0.7);
     position: relative;
     cursor: pointer;
 }
 
 .restaurant-card:hover {
-    transform: scale(1.05);
-    box-shadow: 4px 4px 30px rgba(0, 0, 0, 0.2), -4px -4px 30px rgba(255, 255, 255, 0.5);
-}
-
-.restaurant-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    z-index: 0;
+    transform: scale(1.08);
+    box-shadow: 6px 6px 30px rgba(0, 0, 0, 0.2), -6px -6px 30px rgba(255, 255, 255, 0.5);
 }
 
 .restaurant-card-body {
-    padding: 20px;
     text-align: center;
-    z-index: 1;
-    color: black;
+    padding: 20px;
 }
 
 .restaurant-card-title {
-    font-size: 1.75rem;
-    margin-bottom: 20px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: #333;
 }
 
-.restaurant-card-footer {
-    padding: 15px;
-    background-color: transparent;
-    position: relative;
-    z-index: 2;
-}
-
-/* Style for "View Menu" button */
 .restaurant-card-footer .btn {
-    font-size: 1.1rem;
-    padding: 12px 25px;
-    border-radius: 50px;
-    background-color: #ae7339; /* Tomato color */
-    color: black;
-    border: 2px solid #ba4632;
-    transition: background-color 0.3s, transform 0.3s;
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background 0.4s ease, transform 0.3s ease;
 }
 
 .restaurant-card-footer .btn:hover {
-    background-color: #db562e; /* Darker tomato color */
-    border: 2px solid #a58662;
-    transform: scale(1.05);
+    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+    transform: scale(1.1);
 }
 
-/* Add padding to the container */
-.container-fluid {
-    padding: 2rem 0;
-}
-
-/* Style for the search bar */
-.custom-search {
-    max-width: 700px;
-    margin: 0 auto;
-}
-
+/* Search Bar Styling */
 .custom-search .form-control {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 30px;
 }
 
 .custom-search .btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    background-color: #508eff;
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
     color: white;
+    border-radius: 30px;
 }
 
 .custom-search .btn:hover {
-    background-color: #375bb5;
+    background: linear-gradient(90deg, #0072ff, #00c6ff);
 }
 
-
-    /* Adjust the size of the input field */
-    .custom-search .form-control {
-        border-top-right-radius: 0; /* Ensure rounded corners for input field */
-        border-bottom-right-radius: 0; /* Ensure rounded corners for input field */
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .restaurant-card-title {
+        font-size: 1.2rem;
     }
 
-    /* Adjust the size of the search button */
-    .custom-search .btn {
-        border-top-left-radius: 0; /* Ensure rounded corners for button */
-        border-bottom-left-radius: 0; /* Ensure rounded corners for button */
+    .restaurant-card-body {
+        padding: 10px;
     }
+}
+/* Search Bar Styling */
+#search-bar {
+    width: 60%;
+    height: 65px;
+    font-size: 1.5rem;
+    padding: 15px 20px;
+    border-radius: 35px 0 0 35px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+    background: #f5f5f5;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Focus Effect */
+#search-bar:focus {
+    border: 2px solid #db562e;
+    outline: none;
+    background: #ffffff;
+    box-shadow: 0px 5px 20px rgba(219, 86, 46, 0.5);
+}
+
+/* Button Styling */
+.search-btn {
+    height: 65px;
+    padding: 0 30px;
+    font-size: 1.5rem;
+    border-radius: 0 35px 35px 0;
+    background: linear-gradient(135deg, #db562e, #ff6b45);
+    color: white;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Button Hover Effect */
+.search-btn:hover {
+    background: linear-gradient(135deg, #ff6b45, #db562e);
+    box-shadow: 0px 5px 20px rgba(219, 86, 46, 0.5);
+    transform: scale(1.05);
+}
+
+/* Button Active State */
+.search-btn:active {
+    transform: scale(1);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+}
 
     </style>
+    
     <section class="justify-content-evenly">
-        <div class="container my-5">
-            <div class="row g-4">
+        <div class="container my-5 text-center">
+            <div class="container-fluid text-center d-flex justify-content-center flex-wrap py-4 mt-5">
+                <h1>Order from your favourite restaurant</h1>
+            </div>
+            <!-- Search Bar -->
+            <div class="custom-search mb-5 d-flex justify-content-center align-items-center">
+                <input 
+                    type="text" 
+                    id="search-bar" 
+                    class="form-control search-bar shadow" 
+                    placeholder="Search for a restaurant..." 
+                >
+                <button 
+                    class="btn search-btn shadow">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+            
+        
+            <!-- Restaurant Cards -->
+            <div class="row g-4" id="restaurant-list">
                 {% for restaurant in restaurant_list %}
-                
-                <div class="col-md-4">
-                    <div class="restaurant-card shadow-sm">
+                <div class="col-md-4 restaurant-item" data-name="{{ restaurant.restaurantName|lower }}">
+                    <div class="restaurant-card">
                         <video class="restaurant-video" autoplay loop muted>
                             <source src="{% static 'video' %}{{ forloop.counter }}.mp4" type="video/mp4">
-
                             Your browser does not support the video tag.
                         </video>
-                        <div class="restaurant-card-body d-flex flex-row container-fluid justify-content-around align-content-around">
-                          
-                            <h5 class="restaurant-card-title">{{restaurant.restaurantName}}</h5>
-                        
+                        <div class="restaurant-card-body">
+                            <h5 class="restaurant-card-title">{{ restaurant.restaurantName }}</h5>
                         </div>
                         <div class="restaurant-card-footer">
                             <a href="{% url 'restaurant_menu' restaurant.id %}" class="btn w-100">View Menu</a>
@@ -227,16 +271,36 @@
                 </div>
                 {% endfor %}
             </div>
-
+        </div>
+        
     </section>
-
+    
     <script>
-        $(document).ready(function () {
-            $('#hehe').hide()
-            $('#hehe').delay('fast').show(1500)
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchBar = document.getElementById('search-bar');
+            const restaurantItems = document.querySelectorAll('.restaurant-item');
+    
+            searchBar.addEventListener('input', function () {
+    const query = searchBar.value.toLowerCase();
+    let found = false;
+
+    restaurantItems.forEach(item => {
+        const name = item.getAttribute('data-name');
+        if (name.includes(query)) {
+            item.style.display = "block";
+            found = true;
+        } else {
+            item.style.display = "none";
+        }
+    });
+
+    if (!found) {
+        document.getElementById('restaurant-list').innerHTML = `<p class="text-center">No results found</p>`;
+    }
+});
+
         });
     </script>
-
     <br>
     <br>
     <div class="container-fluid text-center d-flex justify-content-center flex-wrap py-5">
@@ -245,15 +309,14 @@
 
     <!-- Search Bar -->
 
-    <form method="GET" action="{% url 'menu' %}" class="mb-5">
-        <div class="input-group custom-search">
-            <input type="text" name="q" placeholder="Search for food..." class="form-control"
-                value="{{ request.GET.q }}">
+    <form method="GET" action="{% url 'menu' %}" class="mb-5 d-flex justify-content-center">
+        <div class="input-group custom-search" style="max-width: 700px; width: 100%;">
+            <input type="text" name="q" placeholder="Search for food..." class="form-control" value="{{ request.GET.q }}">
             <button type="submit" class="btn btn-primary">Search</button>
         </div>
     </form>
-
-
+    
+    
     <section class="cards d-flex justify-content-evenly flex-wrap">
         {% if foodItems is None %}
         <p>Khana Nhi milega</p>
@@ -298,12 +361,8 @@
         {% endfor %}
         {% endif %}
     </section>
-
     <div class="container text-center justify-content-center mt-5">
-
     </div>
-
     {% include "home/footer.html" %}
 </body>
-
 </html>
