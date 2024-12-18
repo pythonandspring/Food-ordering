@@ -112,6 +112,9 @@ class Order(models.Model):
     def get_orders_for_restaurant(restaurant_name):
         return Order.objects.filter(restaurant_name=restaurant_name)
 
+    @staticmethod
+    def get_orders_for_delivery_person(delivery_person_name):
+        return Order.objects.filter(delivery_person=delivery_person_name)
+
     def __str__(self):
         return f"Order {self.order_no} - {self.customer.name}"
-

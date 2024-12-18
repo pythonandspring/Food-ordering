@@ -1,4 +1,3 @@
-<!-- filepath: /c:/Users/chand/OneDrive/Desktop/FoodOrdering/Food-ordering/templates/restaurantorders.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -181,34 +180,9 @@
               </form>
               <form method="post" action="{% url 'assign_delivery_person' order.id %}">
                 {% csrf_token %}
-                <select name="delivery_person">
-                  {% for user in deliver_user %}
-                  <option value="{{ user.id }}">{{ user.name }}</option>
-                  {% endfor %}
-                </select>
                 <button type="submit">Assign Delivery</button>
               </form>
             </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-      <h2>Delivery Users</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for user in deliver_user %}
-          <tr>
-            <td>{{ user.name }}</td>
-            <td>{{ user.delivery_contact }}</td>
-            <td>{{ user.get_status_display }}</td>
           </tr>
           {% endfor %}
         </tbody>

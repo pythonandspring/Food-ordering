@@ -33,9 +33,9 @@ class PlaceAdmin(ImportExportModelAdmin):
     search_fields = ('name',)
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['order_no', 'customer', 'item', 'quantity', 'sum_of_price', 'status', 'restaurant_name', 'date_time']
-    search_fields = ('order_no', 'customer__name', 'restaurant_name')
-    list_filter = ('status', 'restaurant_name', 'date_time')
+    list_display = ['order_no', 'customer', 'item', 'quantity', 'sum_of_price', 'status', 'restaurant_name', 'delivery_person', 'date_time']  # Add 'delivery_person'
+    search_fields = ('order_no', 'customer__name', 'restaurant_name', 'delivery_person')  # Add 'delivery_person'
+    list_filter = ('status', 'restaurant_name', 'date_time', 'delivery_person')  # Add 'delivery_person'
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(State, StateAdmin)

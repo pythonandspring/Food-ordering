@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -6,9 +6,7 @@ from restaurant.models import restaurantUser,foodItems
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate,login,logout,get_user_model
 from customer.models import Order
-from delivery.models import deliveryUser 
-
-# Import deliveryUser model
+from delivery.models import deliveryUser  # Import deliveryUser model
 # Create your views here.
 
 
@@ -16,22 +14,18 @@ def loginRestaurant(request):
     if request.method == 'POST':
         username = request.POST.get('email')
         password = request.POST.get('password')
-        
-        # if not User.objects.filter(email = username).exists():
-        #     messages.error(request,'Username is not in database')
-        #     return redirect('login')
 
         user = authenticate(username=username, password=password)
-   
+
         if user is None:
             messages.error(request,'Invalid Password or Username')
             return redirect('loginRestaurant')
 
-        elif user.is_delivery==True:
+        elif user.is_delivery:
             messages.error(request,'You are Registered as delivery')
             return redirect('loginRestaurant')
 
-        elif user.is_restaurant==False:
+        elif not user.is_restaurant:
             messages.error(request,'You are a User')
             return redirect('loginRestaurant')
         else:
@@ -46,7 +40,7 @@ def loginRestaurant(request):
 
 def registerRestaurant(request):
     if request.method == 'POST':
-        
+
         restaurantName = request.POST.get('restaurantName')
         address = request.POST.get('address')
         restaurantContact = request.POST.get('restaurantContact')
@@ -54,7 +48,7 @@ def registerRestaurant(request):
         password = request.POST.get('password')
         latitude = request.POST.get('latitude')
         longitude = request.POST.get('longitude')
-        
+
         restaurant_data = restaurantUser(
             restaurantName=restaurantName,
             address=address,
@@ -66,11 +60,11 @@ def registerRestaurant(request):
             latitude=latitude,
             longitude=longitude
         )
-        
+
         if restaurantUser.objects.filter(email=email).exists() and restaurantUser.objects.filter(is_restaurant=True):
             messages.error(request,'User Already Exist in the System')
             return redirect('loginRestaurant')
-        
+
         elif restaurantUser.objects.filter(email=email).exists() and restaurantUser.objects.filter(is_restaurant=False):
             messages.error(request,'You have Customer Account Using This Email ID. Try Another Email ID')
             return redirect('loginRestaurant')
@@ -128,15 +122,8 @@ def logoutRestaurant(request):
 def restaurant_orders(request):
     restaurant_user = restaurantUser.objects.get(email=request.user.email)
     restaurant_name = restaurant_user.restaurantName
-    print(restaurant_name)
-    orders = Order.get_orders_for_restaurant(restaurant_name)
-    
-    delivery_user = deliveryUser.objects.all()
-    
-    return render(request, 'restaurantorders.html', {
-        'orders': orders,
-        'deliver_user':delivery_user,
-        'messages': messages.get_messages(request)})
+    orders = Order.objects.filter(restaurant_name=restaurant_name)  # Ensure orders are filtered by restaurant name
+    return render(request, 'restaurantorders.html', {'orders': orders, 'messages': messages.get_messages(request)})
 
 @login_required
 def update_order_status(request, order_id):
@@ -147,35 +134,20 @@ def update_order_status(request, order_id):
         messages.success(request, f"Order status of {order.customer.name} is {order.get_status_display()}")
     return redirect('restaurant_orders')
 
-# @login_required
-# def assign_delivery_person(request, order_id):
-#     order = Order.objects.get(id=order_id)
-#     delivery_persons = deliveryUser.objects.all()
-#     return render(request, 'delivery.html', {'order': order, 'delivery_persons': delivery_persons})
-
-# @login_required
-# def update_delivery_person(request, order_id):
-#     if request.method == 'POST':
-#         order = Order.objects.get(id=order_id)
-#         delivery_person_id = request.POST.get('delivery_person')
-#         delivery_person = deliveryUser.objects.get(id=delivery_person_id)
-#         order.delivery_person = delivery_person.name
-#         order.delivery_contact = delivery_person.deliveryContact  # Add delivery contact
-#         order.save()
-#         messages.success(request, f"Delivery person {delivery_person.name} assigned to order {order.order_no}")
-#     return redirect('restaurant_orders')
-
-
 @login_required
 def assign_delivery_person(request, order_id):
+    order = Order.objects.get(id=order_id)
+    delivery_persons = deliveryUser.objects.filter(is_delivery=True)
+    return render(request, 'delivery.html', {'order': order, 'delivery_persons': delivery_persons})
+
+@login_required
+def update_delivery_person(request, order_id):
     if request.method == 'POST':
-        order = get_object_or_404(Order, id=order_id)
+        order = Order.objects.get(id=order_id)
         delivery_person_id = request.POST.get('delivery_person')
-        delivery_person = get_object_or_404(deliveryUser, id=delivery_person_id)
-        order.delivery_person = delivery_person.name
+        delivery_person = deliveryUser.objects.get(id=delivery_person_id)
+        order.delivery_person = delivery_person.name  # Use the name field
         order.delivery_contact = delivery_person.deliveryContact  # Add delivery contact
         order.save()
-        delivery_person.status = 'unavailable'  # Update delivery person's status
-        delivery_person.save()
         messages.success(request, f"Delivery person {delivery_person.name} assigned to order {order.order_no}")
     return redirect('restaurant_orders')

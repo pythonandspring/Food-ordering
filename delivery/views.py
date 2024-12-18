@@ -7,13 +7,26 @@ from django.contrib.auth import authenticate, login, logout, get_user_model
 from delivery.models import deliveryUser
 from customer.models import Order
 
-
 # Home view for logged-in users
 @login_required
 def home(request):
-    delivery_user = request.user
-    assigned_orders = Order.objects.filter(delivery_person = delivery_user)
-    return render(request, 'Deliveryhome.html', {'assigned_orders': assigned_orders})
+    delivery_user = deliveryUser.objects.get(username=request.user.username)
+    orders = Order.objects.filter(delivery_person=delivery_user.name)  # Filter by delivery person's name
+
+    if request.method == 'POST':
+        order_id = request.POST.get('order_id')
+        new_status = request.POST.get('status')
+        try:
+            order = Order.objects.get(id=order_id, delivery_person=delivery_user.name)
+            order.status = new_status
+            order.save()
+            messages.success(request, f"Order status of {order.order_no} is {order.get_status_display()}")
+        except Order.DoesNotExist:
+            messages.error(request, 'Order not found or you are not authorized to update this order')
+
+        return redirect('home')  # Redirect to avoid resubmission on refresh
+
+    return render(request, 'Deliveryhome.html', {'orders': orders, 'messages': messages.get_messages(request)})
 
 def loginDelivery(request):
     if request.method == 'POST':
@@ -69,26 +82,3 @@ def registerDelivery(request):
             messages.success(request, "Successfully Registered")
             return redirect('loginDelivery')
     return render(request, 'registerDelivery.html')
-
-
-
-#view to change driver's status when an order is assigned 
-
-# from django.shortcuts import get_object_or_404, redirect
-# from django.http import HttpResponse
-# from delivery.models import deliveryUser
-# from .models import Order
-
-# def assign_delivery_driver(order_id):
-#     order = get_object_or_404(Order, id=order_id)
-#     available_drivers = deliveryUser.objects.filter(status='available')
-
-#     if available_drivers.exists():
-#         driver = available_drivers.first()  # Assign the first available driver
-#         order.delivery_person = driver
-#         order.save()
-#         driver.status = 'unavailable'  # Mark the driver as unavailable
-#         driver.save()
-#         return redirect('order_detail', order_id=order.id)  # Redirect to the order detail page
-#     else:
-#         return HttpResponse("No available delivery drivers", status=404)
