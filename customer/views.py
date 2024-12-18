@@ -83,7 +83,7 @@ def registerUser(request):
                 username=email,
                 password=hashed_password,
                 is_user=True,
-                  state=state, 
+                state=state, 
                 city=city, 
                 place=place,
                 latitude=latitude,
