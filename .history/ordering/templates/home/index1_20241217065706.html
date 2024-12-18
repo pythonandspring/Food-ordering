@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering Page</title>
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Header Styling */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #ff6b6b;
+        }
+
+        h1, h4, p {
+            text-align: center;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #35d743, #5def0e);
+            padding: 60px 20px;
+            border-radius: 20px;
+            margin: 20px auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-section h1 {
+            color: #fff;
+        }
+
+        .hero-section img {
+            max-width: 100px;
+            transition: transform 0.3s;
+        }
+
+        .hero-section img:hover {
+            transform: scale(1.1);
+        }
+
+        .hero-section p {
+            font-weight: 500;
+            margin-top: 10px;
+        }
+
+        /* Food Items */
+        .food-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin-bottom: 30px;
+        }
+
+        .food-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .food-image {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .food-details {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .food-details h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .food-details p {
+            color: #777;
+            font-size: 1rem;
+        }
+
+        .btn-add-cart {
+            background-color: #9eed30;
+            color: #fff;
+            border: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn-add-cart:hover {
+            background-color: #a4e24d;
+            color: #fff;
+        }
+
+        /* Restaurant Card */
+        .restaurant-card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .restaurant-video {
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .restaurant-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #b0ff6b;
+        }
+
+        /* Search Bar */
+        .custom-search input {
+            border-radius: 30px 0 0 30px;
+        }
+
+        .custom-search .btn {
+            border-radius: 0 30px 30px 0;
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        .custom-search .btn:hover {
+            background-color: #e63946;
+        }
+    </style>
+</head>
+
+<body>
+    {% include "home/header.html" %}
+    <div class="container hero-section text-center">
+        <h1>Delicious Food Awaits!</h1>
+        <p>Find and order food from your favorite restaurants.</p>
+    </div>
+
+    <!-- Search Bar -->
+    <form method="GET" action="{% url 'menu' %}" class="mb-5">
+        <div class="input-group custom-search mx-auto" style="max-width: 600px;">
+            <input type="text" name="q" placeholder="Search for food..." class="form-control" value="{{ request.GET.q }}">
+            <button type="submit" class="btn"><i class="bi bi-search"></i></button>
+        </div>
+    </form>
+
+    <!-- Restaurant Section -->
+    <div class="container my-5">
+        <h1>Order from Your Favorite Restaurant</h1>
+        <div class="row g-4">
+            {% for restaurant in restaurant_list %}
+            <div class="col-md-4">
+                <div class="restaurant-card">
+                    <video class="restaurant-video" autoplay loop muted>
+                        <source src="{% static 'video' %}{{ forloop.counter }}.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="p-3 text-center">
+                        <h5 class="restaurant-title">{{ restaurant.restaurantName }}</h5>
+                        <a href="{% url 'restaurant_menu' restaurant.id %}" class="btn btn-add-cart w-75 mt-2">View Menu</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Food Items Section -->
+    <div class="container">
+        <h1>Explore Our Menu</h1>
+        <div class="row">
+            {% for food in foodItems %}
+            <div class="col-md-4">
+                <div class="food-card">
+                    <img src="/media/{{ food.image }}" class="food-image w-100" alt="{{ food.name }}">
+                    <div class="food-details">
+                        <h4>{{ food.name }}</h4>
+                        <p>{{ food.category }}</p>
+                        <p><strong>₹ {{ food.price }}</strong></p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{ food.id }}">
+                            {% if food.id|stringformat:"s" in cart %}
+                            <button class="btn btn-success w-100" disabled>Added to Cart</button>
+                            {% else %}
+                            <button class="btn btn-add-cart w-100">Add to Cart</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    {% include "home/footer.html" %}
+</body>
+</html>

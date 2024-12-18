@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Basic Styling for Error Handling and Form */
+        .form-container {
+            max-width: 500px;
+            margin: 20px auto;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            display: block;
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            background-color: #eeeeee;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Restaurant Login</h1>
+            <h3>Login to manage your restaurant orders</h3>
+        </div>
+    </section>
+
+    <!-- Login Form Section -->
+    <section class="login-form">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form id="login-form" method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Display messages (Success/Errors) -->
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Email input (Username) -->
+                <div class="form-field">
+                    <label for="email">Email or Username:</label>
+                    <input 
+                        type="text" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your restaurant email or username" 
+                        required
+                    >
+                    <small class="error-message" id="email-error"></small>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password" 
+                        required 
+                    >
+                    <small class="error-message" id="password-error"></small>
+                </div>
+
+                <!-- Remember Me and Forgot Password -->
+                <div class="form-options">
+                    <div>
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                    <a href="{% url 'forgetPassword' %}">Forgot password?</a>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="submit-btn">Login</button>
+
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" class="social-btn google">Google</button>
+                    <button type="button" class="social-btn facebook">Facebook</button>
+                    <button type="button" class="social-btn twitter">Twitter</button>
+                </div>
+            </form>
+
+            <!-- Register Prompt -->
+            <div class="register-prompt">
+                <p>New to the Food Delivery System?</p>
+                <a href="{% url 'registerRestaurant' %}">Register as Restaurant</a>
+            </div>
+
+            <!-- User Login Prompt -->
+            <div class="text-center my-5">
+                <p>Are you a customer? <a href="{% url 'login' %}" class="btn btn-danger">User Login</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript for Validation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('login-form');
+            form.addEventListener('submit', function (event) {
+                let valid = true;
+
+                // Email Validation
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('email-error');
+                if (!email.value.trim()) {
+                    emailError.textContent = 'Email or username is required.';
+                    valid = false;
+                } else {
+                    emailError.textContent = '';
+                }
+
+                // Password Validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('password-error');
+                if (!password.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+
+                // Prevent submission if invalid
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

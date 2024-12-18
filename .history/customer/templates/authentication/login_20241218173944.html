@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <!-- Register Form Section -->
+    <section class="register-form">
+        <div class="form-container">
+            <h2>Register</h2>
+            <form id="register-form" method="post" novalidate>
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="form-field">
+                    <label for="username">Username:</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Enter your username" 
+                        required 
+                        pattern="[a-zA-Z\s]+"
+                    >
+                    <small class="error-message" id="username-error"></small>
+                </div>
+
+                <!-- Email -->
+                <div class="form-field">
+                    <label for="email">Email:</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email" 
+                        required 
+                        pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+                    >
+                    <small class="error-message" id="email-error"></small>
+                </div>
+
+                <!-- Contact Number -->
+                <div class="form-field">
+                    <label for="contact">Contact Number:</label>
+                    <input 
+                        type="text" 
+                        id="contact" 
+                        name="contact" 
+                        placeholder="Enter your contact number" 
+                        required 
+                        pattern="\d{10}"
+                    >
+                    <small class="error-message" id="contact-error"></small>
+                </div>
+
+                <!-- Password -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password" 
+                        required 
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                    >
+                    <small class="error-message" id="password-error"></small>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-field">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input 
+                        type="password" 
+                        id="confirm-password" 
+                        name="confirm_password" 
+                        placeholder="Confirm your password" 
+                        required
+                    >
+                    <small class="error-message" id="confirm-password-error"></small>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">Register</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('register-form');
+            const usernameField = document.getElementById('username');
+            const emailField = document.getElementById('email');
+            const contactField = document.getElementById('contact');
+            const passwordField = document.getElementById('password');
+            const confirmPasswordField = document.getElementById('confirm-password');
+
+            const usernameError = document.getElementById('username-error');
+            const emailError = document.getElementById('email-error');
+            const contactError = document.getElementById('contact-error');
+            const passwordError = document.getElementById('password-error');
+            const confirmPasswordError = document.getElementById('confirm-password-error');
+
+            form.addEventListener('submit', function (event) {
+                let valid = true;
+
+                // Username validation
+                if (!usernameField.value.trim()) {
+                    usernameError.textContent = 'Username is required.';
+                    valid = false;
+                } else if (!/^[a-zA-Z\s]+$/.test(usernameField.value)) {
+                    usernameError.textContent = 'Username must contain only alphabets.';
+                    valid = false;
+                } else {
+                    usernameError.textContent = '';
+                }
+
+                // Email validation
+                if (!emailField.value.trim()) {
+                    emailError.textContent = 'Email is required.';
+                    valid = false;
+                } else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(emailField.value)) {
+                    emailError.textContent = 'Email must end with "@gmail.com".';
+                    valid = false;
+                } else {
+                    emailError.textContent = '';
+                }
+
+                // Contact number validation
+                if (!contactField.value.trim()) {
+                    contactError.textContent = 'Contact number is required.';
+                    valid = false;
+                } else if (!/^\d{10}$/.test(contactField.value)) {
+                    contactError.textContent = 'Contact number must be exactly 10 digits.';
+                    valid = false;
+                } else {
+                    contactError.textContent = '';
+                }
+
+                // Password validation
+                if (!passwordField.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(passwordField.value)) {
+                    passwordError.textContent = 'Password must have at least 8 characters, including uppercase, lowercase, number, and special character.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+
+                // Confirm Password validation
+                if (!confirmPasswordField.value.trim()) {
+                    confirmPasswordError.textContent = 'Confirm Password is required.';
+                    valid = false;
+                } else if (confirmPasswordField.value !== passwordField.value) {
+                    confirmPasswordError.textContent = 'Passwords do not match.';
+                    valid = false;
+                } else {
+                    confirmPasswordError.textContent = '';
+                }
+
+                // Prevent form submission if validation fails
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

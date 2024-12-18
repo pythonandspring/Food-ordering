@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+       
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">Food Ordering System</div>
+        <nav class="nav">
+            <a href="{% url 'Home' %}">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome Back!</h1>
+            <h3>Login to Continue Your Food Journey</h3>
+        </div>
+    </section>
+
+    <!-- Register Form Section -->
+    <section class="register-form">
+        <div class="form-container">
+            <h2>Register</h2>
+            <form id="register-form" method="post" novalidate>
+                {% csrf_token %}
+
+               
+
+                <!-- Email -->
+                <div class="form-field">
+                    <label for="email">Email:</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email" 
+                        required 
+                        pattern="[a-zA-Z0-9._%+-]+@gmail\.com$"
+                    >
+                    <small class="error-message" id="email-error"></small>
+                </div>
+
+               
+
+                <!-- Password -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password" 
+                        required 
+                        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}"
+                    >
+                    <small class="error-message" id="password-error"></small>
+                </div>
+
+               
+                <!-- Submit Button -->
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('register-form');
+            
+            const emailField = document.getElementById('email');
+            
+            const passwordField = document.getElementById('password');
+            
+
+            
+            const emailError = document.getElementById('email-error');
+            
+            const passwordError = document.getElementById('password-error');
+            
+
+            form.addEventListener('submit', function (event) {
+                let valid = true;
+
+                // Username validation
+                if (!usernameField.value.trim()) {
+                    usernameError.textContent = 'Username is required.';
+                    valid = false;
+                } else if (!/^[a-zA-Z\s]+$/.test(usernameField.value)) {
+                    usernameError.textContent = 'Username must contain only alphabets.';
+                    valid = false;
+                } else {
+                    usernameError.textContent = '';
+                }
+
+                // Email validation
+                if (!emailField.value.trim()) {
+                    emailError.textContent = 'Email is required.';
+                    valid = false;
+                } else if (!/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(emailField.value)) {
+                    emailError.textContent = 'Email must end with "@gmail.com".';
+                    valid = false;
+                } else {
+                    emailError.textContent = '';
+                }
+
+                
+
+                // Password validation
+                if (!passwordField.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/.test(passwordField.value)) {
+                    passwordError.textContent = 'Password must have at least 8 characters, including uppercase, lowercase, number, and special character.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+
+        
+
+                // Prevent form submission if validation fails
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

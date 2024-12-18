@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Ordering Homepage</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        header {
+            padding: 20px;
+            background-color: #ff5722;
+            color: white;
+            text-align: center;
+        }
+
+        .section {
+            padding: 50px 20px;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* Restaurant Section */
+        .restaurant-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .restaurant-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .restaurant-video {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .restaurant-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .restaurant-overlay h3 {
+            font-size: 1.5rem;
+        }
+
+        .restaurant-overlay p {
+            margin: 10px 0;
+        }
+
+        .view-menu-btn {
+            background: #ff5722;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-menu-btn:hover {
+            background: #e64a19;
+        }
+
+        /* Food Items Section */
+        .food-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .food-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .food-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .offer-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff5722;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+        }
+
+        .food-details {
+            padding: 20px;
+        }
+
+        .food-details h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .food-details p {
+            margin: 5px 0;
+        }
+
+        .add-to-cart-btn {
+            display: block;
+            background: #ff5722;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #e64a19;
+        }
+
+        /* Featured Deals Section */
+        .deals-section {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding-bottom: 10px;
+        }
+
+        .deal-card {
+            min-width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .deal-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .deal-card p {
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .order-now-btn {
+            background: #ff5722;
+            padding: 10px;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            margin: 0 15px 15px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .order-now-btn:hover {
+            background: #e64a19;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .restaurant-section, .food-section {
+                grid-template-columns: 1fr;
+            }
+
+            .deals-section {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Foodie's Paradise</h1>
+    </header>
+
+    <!-- Restaurant Section -->
+    <div class="section">
+        <h2>Explore Restaurants Near You</h2>
+        <div class="restaurant-section">
+            <div class="restaurant-card">
+                <video class="restaurant-video" autoplay muted loop>
+                    <source src="{% static 'video/video' %}{{ forloop.counter }}.mp4" type="video/mp4">
+                </video>
+                <div class="restaurant-overlay">
+                    <div>
+                        <h3>Restaurant A</h3>
+                        <p>New York City, 2 km away</p>
+                        <button class="view-menu-btn">View Menu</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more restaurant cards here -->
+        </div>
+    </div>
+
+    <!-- Food Items Section -->
+    <div class="section">
+        <h2>Today’s Specials for You</h2>
+        <div class="food-section">
+            <div class="food-card">
+                <span class="offer-tag">20% Off</span>
+                <img src="food1.jpg" alt="Food Item">
+                <div class="food-details">
+                    <h3>Grilled Sandwich</h3>
+                    <p>$5.99</p>
+                    <a href="#" class="add-to-cart-btn">Add to Cart</a>
+                </div>
+            </div>
+            <!-- Add more food cards here -->
+        </div>
+    </div>
+
+    <!-- Featured Deals Section -->
+    <div class="section">
+        <h2>Hot Deals You’ll Love</h2>
+        <div class="deals-section">
+            <div class="deal-card">
+                <img src="deal1.jpg" alt="Deal">
+                <p>Combo Offer: Pizza + Drink</p>
+                <a href="#" class="order-now-btn">Order Now</a>
+            </div>
+            <!-- Add more deal cards here -->
+        </div>
+    </div>
+</body>
+</html>

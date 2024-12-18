@@ -1,0 +1,300 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Scale the entire content */
+html {
+    transform: scale(0.8); /* Scale the content to 80% */
+    transform-origin: top left; /* Keep scaling anchored to the top-left corner */
+    width: 125%; /* Compensate for the reduced scale */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Body & Basic Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensures body spans the full viewport height */
+    margin: 0;
+}
+
+/* Header Section */
+.header {
+    background: linear-gradient(103deg, #201d11, #0c0c0c);
+    padding: 10px 0;
+    text-align: center;
+}
+
+.header .logo {
+    font-size: 4rem;
+    font-weight: bold;
+    color: white;
+}
+
+.nav {
+    margin-top: 5px;
+}
+
+.nav a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(103deg, #82cb75, #74eb04);
+    color: #fff;
+    padding: 80px 10px;
+    text-align: center;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+/* Registration Form Section */
+.registration-form {
+    padding: 50px 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Form Fields */
+.form-field {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #f00808;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #92281c;
+}
+
+.error-message {
+            display: block;
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+.submit-btn {
+    background-color: #0ffc17;
+    margin-top: 20px;
+    width: 100%;
+    padding: 15px;
+}
+
+.submit-btn:hover {
+    background-color: #3ca32f;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    html {
+        transform: scale(1); /* Reset scaling for smaller devices */
+        width: 100%;
+    }
+    body {
+        font-size: 1rem;
+    }
+}
+
+
+/* Interactive Video Section */ 
+.interactive-video {
+    position: relative;
+    width: 75%; /* Adjusted width to cover 3/4 screen */
+    height: auto;
+    overflow: hidden;
+    margin: 40px auto; /* Centered the video horizontally */
+}
+
+.video-bg {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Alt message for loading */
+.hover-message {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    display: none; /* Default to hidden */
+}
+
+.interactive-video.loading .hover-message {
+    display: block; /* Display message only while loading */
+}
+
+#video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease-in-out; /* Smooth zoom effect */
+    display: block;
+}
+
+/* Hover zoom effect */
+ /* #video:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    /* filter: brightness(1.1); Increase brightness while zoomed */
+/*} */
+
+/* Intersection Observer - play/pause based on visibility */
+/* <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const video = document.getElementById("video");
+    const interactiveVideo = document.querySelector(".interactive-video");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+    });
+
+    observer.observe(interactiveVideo);
+
+    // Show loading message
+    video.addEventListener("loadstart", () => {
+        interactiveVideo.classList.add("loading");
+    });
+
+    video.addEventListener("canplay", () => {
+        interactiveVideo.classList.remove("loading");
+    });
+});
+</script>
+
+
+/* Responsive Design */
+@media (max-width: 468px) {
+    #video {
+        width: 100%;
+    }
+} */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.footer-column h3 {
+    margin-bottom: 15px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column li {
+    margin-bottom: 10px;
+}
+
+.footer-column a {
+    color: #ddd;
+    text-decoration: none;
+}
+
+.footer-column a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.social-links a {
+    display: inline-block;
+    margin: 0 10px;
+    color: #ddd;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+    font-size: 14px;
+    flex-shrink: 0;
+}

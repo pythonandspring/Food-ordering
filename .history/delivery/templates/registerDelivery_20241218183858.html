@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Person Registration</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('{% static "images/photobackground.jpg" %}') no-repeat center center/cover;
+            min-height: 100vh;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .form-outline {
+            margin-bottom: 15px;
+        }
+
+        .form-outline label {
+            font-weight: bold;
+        }
+
+        .form-outline input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            display: block;
+            color: red;
+            font-size: 16px;
+            margin-top: 5px;
+            font-weight: 700;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #74eb04;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #82cb75;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: #74eb04;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container form-container">
+        <h1>Delivery Person Registration</h1>
+
+        <form id="registration-form" method="POST" novalidate>
+            {% csrf_token %}
+
+            {% if showSuccess %}
+            <div class="alert alert-success" role="alert">
+                Registration Successful!
+            </div>
+            {% endif %}
+
+            <!-- Full Name -->
+            <div class="form-outline">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="Full Name" />
+                <small class="error-message" id="name-error"></small>
+            </div>
+
+            <!-- Email -->
+            <div class="form-outline">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="example@gmail.com" />
+                <small class="error-message" id="email-error"></small>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-outline">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" name="phone" class="form-control" placeholder="Phone Number" />
+                <small class="error-message" id="phone-error"></small>
+            </div>
+
+            <!-- Address -->
+            <div class="form-outline">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" class="form-control" placeholder="Your Delivery Address" />
+                <small class="error-message" id="address-error"></small>
+            </div>
+
+            <!-- Password -->
+            <div class="form-outline">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" />
+                <small class="error-message" id="password-error"></small>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Register</button>
+
+            <!-- Login Link -->
+            <div class="form-footer">
+                <p class="text-muted">Already a member? <a href="{% url 'loginDelivery' %}">Login here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registration-form');
+    
+            form.addEventListener('submit', function (event) {
+                let valid = true;
+    
+                // Full Name Validation
+                const name = document.getElementById('name');
+                const nameError = document.getElementById('name-error');
+                if (!name.value.trim()) {
+                    nameError.textContent = 'Full Name is required.';
+                    valid = false;
+                } else {
+                    nameError.textContent = '';
+                }
+    
+                // Email Validation
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('email-error');
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Email must end with @gmail.com
+                if (!email.value.trim()) {
+                    emailError.textContent = 'Email is required.';
+                    valid = false;
+                } else if (!emailPattern.test(email.value)) {
+                    emailError.textContent = 'Email must be a valid @gmail.com address.';
+                    valid = false;
+                } else {
+                    emailError.textContent = '';
+                }
+    
+                // Phone Number Validation
+                const phone = document.getElementById('phone');
+                const phoneError = document.getElementById('phone-error');
+                const phonePattern = /^[0-9]{10}$/;
+                if (!phone.value.trim()) {
+                    phoneError.textContent = 'Phone Number is required.';
+                    valid = false;
+                } else if (!phonePattern.test(phone.value)) {
+                    phoneError.textContent = 'Enter a valid 10-digit phone number.';
+                    valid = false;
+                } else {
+                    phoneError.textContent = '';
+                }
+    
+                // Address Validation
+                const address = document.getElementById('address');
+                const addressError = document.getElementById('address-error');
+                if (!address.value.trim()) {
+                    addressError.textContent = 'Address is required.';
+                    valid = false;
+                } else {
+                    addressError.textContent = '';
+                }
+    
+                // Password Validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('password-error');
+                const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+                if (!password.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else if (!passwordPattern.test(password.value)) {
+                    passwordError.textContent = 'Password must be at least 8 characters long, include uppercase, lowercase, numbers, and symbols.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+    
+                // Prevent form submission if validation fails
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+    
+</body>
+
+</html>

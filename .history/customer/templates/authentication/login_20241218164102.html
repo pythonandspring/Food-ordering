@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">Food Ordering System</div>
+        <nav class="nav">
+            <a href="{% url 'Home' %}">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+    <style>
+        .error-message {
+            display: block;
+            color: red;
+            font-size: 16px;
+            margin-top: 5px;
+            font-weight: 700;
+        }
+    </style>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome Back!</h1>
+            <h3>Login to Continue Your Food Journey</h3>
+        </div>
+    </section>
+
+    <!-- Login Form Section -->
+    <section class="login-form">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form id="login-form" method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Username -->
+                <div class="form-field">
+                    <label for="username">Email or Username:</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Enter your email or username" 
+                        required 
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[a-zA-Z0-9]{3,}"
+                    >
+                    <small class="error-message" id="username-error"></small>
+                </div>
+    
+                <!-- Password -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password" 
+                        required 
+                        minlength="8"
+                    >
+                    <small class="error-message" id="password-error"></small>
+                </div>
+    
+                <!-- Forgot Password and Remember Me -->
+                <div class="form-options">
+                    <div>
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                </div>
+    
+                <!-- Login Button -->
+                <button type="submit" class="submit-btn">Login</button>
+    
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" class="social-btn google">Google</button>
+                    <button type="button" class="social-btn facebook">Facebook</button>
+                    <button type="button" class="social-btn twitter">Twitter</button>
+                </div>
+            </form>
+    
+            <!-- Register Prompt -->
+            <div class="register-prompt">
+                <p>New to Food Delivery System? <a href="{% url 'register' %}">Register Here</a></p>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // JavaScript for form validation
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('login-form').addEventListener('submit', function (event) {
+                let valid = true;
+
+                // Username Validation
+                const username = document.getElementById('username');
+                const usernameError = document.getElementById('username-error');
+                const usernamePattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^[a-zA-Z0-9]{3,}$/;
+
+                if (!username.value.trim()) {
+                    usernameError.textContent = 'Email or username is required.';
+                    valid = false;
+                } else if (!usernamePattern.test(username.value)) {
+                    usernameError.textContent = 'Enter a valid email or username.';
+                    valid = false;
+                } else {
+                    usernameError.textContent = '';
+                }
+
+                // Password Validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('password-error');
+
+                if (!password.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else if (password.value.length < 8) {
+                    passwordError.textContent = 'Password must be at least 8 characters long.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+
+                // Prevent form submission if validation fails
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2024 Food Delivery System | All rights reserved</p>
+    </footer>
+</body>
+</html>

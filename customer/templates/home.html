@@ -1,0 +1,414 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+        <!-- Add Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Food Ordering System</title>
+    <style>
+        /* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and Background */
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f9f9f9;
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    color: #fff;
+    background: url('{% static "images/photobackground.jpg" %}') no-repeat center center/cover;
+    height: 100vh;
+    position: relative;
+}
+
+/* Translucent Foggy Effect Container */
+.hero .content-container {
+    position: relative;
+    padding: 40px;
+    max-width: 90%; /* Allow width to grow up to 90% of its parent */
+    background: rgba(0, 0, 0, 0.2); /* Translucent white background */
+    backdrop-filter: blur(6px); /* Foggy blur effect */
+    border-radius: 15px; /* Rounded corners */
+    z-index: 1; /* Ensure content stays above the background */
+    text-align: center; /* Center-align the text */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    justify-content: center; /* Center content vertically */
+    min-height: 200px; /* Ensure it has some minimum height */
+    height: auto; /* Allow the height to adjust based on the content */
+    width: auto; /* Allow width to grow as per content */
+}
+
+/* Hero Content Elements */
+.hero h2 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: Montserrat, sans-serif; /* Change font family for better readability */
+    font-size: 3em;
+    margin-bottom: 15px;
+    z-index: 2; /* Keep above the foggy background */
+}
+
+.hero p {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: Montserrat, sans-serif; /* Change font family for better readability */
+    font-size: 1.6em; /* Increase font size for better visibility */
+    margin-bottom: 20px;
+    max-width: 800px; /* Increase max-width for a more spacious look */
+    z-index: 1;
+    line-height: 1.5; /* Better line spacing for readability */
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5); /* Add text shadow for clarity */
+}
+
+
+
+/* Optional: Add a light box shadow to the hero section for more contrast */
+.hero {
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+
+.hero .btn {
+    padding: 10px 20px;
+    background: linear-gradient(103deg, #82cb75, #74eb04);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    z-index: 2; /* Ensure button is above foggy background */
+    transition: all 0.3s ease-in-out;
+}
+
+.hero .btn:hover {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background-color: linear-gradient(103deg, #82cb75, #74eb04);
+    color: #f0f0f0; /* Slightly lighter text on hover */
+    transform: scale(1.00); /* Slightly enlarge the button */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Larger shadow for depth */
+    letter-spacing: 1px; /* Add some space between letters for a modern effect */
+
+}
+
+
+        /* Services Section */
+        .services {
+            display: flex;
+            justify-content: space-around;
+            padding: 60px 20px;
+            background-color: #f3f3f3;
+            gap: 30px;
+        }
+
+        
+
+        .service-box:hover {
+            transform: scale(1.05);
+        }
+
+        .service-img {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .service-content {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Translucent background */
+            text-align: center;
+            border-radius: 15px;
+            color: #333;
+        }
+
+        .service-content h3 {
+            font-size: 1.6em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .service-content p {
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        .service-content .btn {
+            letter-spacing: 0.05cap;
+            padding: 10px 20px;
+            background-color: #74eb04; /* Bright button color */
+            color: #fff;
+            border-radius: 10px; /* Rounded corners */
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+        }
+        
+
+.service-content .btn:hover {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background-color: linear-gradient(103deg, #82cb75, #74eb04);
+    color: #f0f0f0; /* Slightly lighter text on hover */
+    transform: scale(1.00); /* Slightly enlarge the button */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Larger shadow for depth */
+    letter-spacing: 1px; /* Add some space between letters for a modern effect */
+}
+
+
+       /* Footer Styles */
+        /* Footer Styles */
+/* Footer Styles */
+.footer {
+    background-color: #333; /* Dark background */
+    color: #fff; /* White text */
+    padding: 40px 0;
+    font-size: 14px;
+    text-align: left; /* Align text to the left */
+}
+
+.footer-container {
+    display: grid; /* Use grid layout for better structure */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Auto-adjust columns */
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.footer-section {
+    padding: 0 20px;
+}
+
+.footer-section h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #f4f4f4;
+}
+
+.footer-section p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 8px 0;
+}
+
+.footer-section ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #82cb75; /* Highlight on hover */
+}
+
+.footer-section.social ul {
+    display: flex;
+    gap: 15px;
+}
+
+.footer-section.social ul li a {
+    font-size: 30px; /* Icon size */
+    color: #ccc; /* Icon color */
+    transition: color 0.3s ease;
+}
+
+.footer-section.social ul li a:hover {
+    color: #82cb75; /* Green on hover */
+}
+
+.footer-section.social ul li a i {
+    transition: transform 0.3s ease;
+}
+
+.footer-section.social ul li a:hover i {
+    transform: scale(1.1); /* Zoom effect */
+}
+
+.footer-section.newsletter form {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-section.newsletter input {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.footer-section.newsletter button {
+    font-weight: bold;
+    font-family: Montserrat, sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    padding: 12px;
+    background-color: #32b91a;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.footer-section.newsletter button:hover {
+    font-weight: bold;
+    font-family: Montserrat, sans-serif;
+    background-color: #34e308; /* Darker green on hover */
+}
+
+.footer-bottom {
+    background-color: #222;
+    padding: 10px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: #888;
+}
+
+
+        /* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+    </style>
+</head>
+<body>
+    
+    <section class="hero">
+        <div class="content-container">
+            <h2>Welcome to Your Food Paradise</h2>
+            <br>
+        
+            <p>Craving food? Sign up, serve, or deliver — let’s make it quick, let’s make it bigger!</p>
+
+            <br>
+            <p><a  href="#services" class="btn">Get Started</a></p>
+        </div>
+    </section>
+    
+
+    <section id="services" class="services">
+        <div class="service-box">
+            <div class="service-img" style="background-image: url('{% static "images/photo1.jpg" %}');"></div>
+            <div class="service-content">
+                <h3>Hungry ? We've Got You!</h3>
+                <p>Sign up to explore a variety of cuisines from local restaurants.</p>
+                <a class="btn" href="/login">Explore</a>
+
+                
+            </div>
+        </div>
+        <div class="service-box">
+            <div class="service-img" style="background-image: url('{% static "images/photo2.jpg" %}');"></div>
+            <div class="service-content">
+                <h3>Expand Your Restaurant’s Reach</h3>
+                <p>Partner with us and expand your reach to more customers.</p>
+                <a class="btn" href="loginRestaurant">Grow</a>
+            </div>
+        </div>
+        <div class="service-box">
+            <div class="service-img" style="background-image: url('{% static "images/photo3.jpg" %}');"></div>
+            <div class="service-content">
+                <h3>Become a Delivery Partner</h3>
+                <p>Join us as a delivery partner and start earning today.</p>
+                <a class="btn" href="loginDelivery">Ride</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer HTML -->
+<footer class="footer">
+    <div class="footer-container">
+        <!-- About Us Section -->
+        <div class="footer-section about">
+            <h4>About Us</h4>
+            <p>We are a leading food delivery service offering a variety of cuisines from top-rated restaurants, delivered straight to your door.</p>
+        </div>
+
+        <!-- Useful Links Section -->
+        <div class="footer-section links">
+            <h4>Useful Links</h4>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Menu</a></li>
+                <li><a href="#">Track Order</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+
+        <!-- Social Media Links Section -->
+        <div class="footer-section social">
+            <h4>Follow Us</h4>
+            <ul>
+                <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Newsletter Signup Section -->
+        <div class="footer-section newsletter">
+            <h4>Stay Updated</h4>
+            <form>
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+
+        <!-- Contact Us Section -->
+        <div class="footer-section contact">
+            <h4>Contact Us</h4>
+            <ul>
+                <li>Email: <a href="mailto:support@example.com">support@example.com</a></li>
+                <li>Phone: <a href="tel:+123456789">+1 (234) 567-89</a></li>
+                <li>Address: 123 Food St, Delivery City</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 Food Delivery Service | All Rights Reserved</p>
+    </div>
+</footer>
+
+    
+
+    <script>
+        /* Smooth Scrolling Header Effect */
+        document.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.style.transform = `translateY(${-window.scrollY * 0.3}px)`;
+        });
+    </script>
+</body>
+</html>

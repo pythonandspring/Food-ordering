@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Styling for the form and error messages */
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .error-message {
+            display: block;
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            background-color: #eee;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form Section -->
+    <section class="login-form">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form id="login-form" method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Username -->
+                <div class="form-field">
+                    <label for="username">Email or Username:</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Enter your email or username" 
+                        required 
+                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[a-zA-Z0-9]{3,}"
+                    >
+                    <small class="error-message" id="username-error"></small>
+                </div>
+    
+                <!-- Password -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password" 
+                        required 
+                        minlength="8"
+                    >
+                    <small class="error-message" id="password-error"></small>
+                </div>
+    
+                <!-- Forgot Password and Remember Me -->
+                <div class="form-options">
+                    <div>
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>
+                </div>
+    
+                <!-- Login Button -->
+                <button type="submit" class="submit-btn">Login</button>
+    
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <p>Or login with:</p>
+                    <button type="button" class="social-btn google">Google</button>
+                    <button type="button" class="social-btn facebook">Facebook</button>
+                    <button type="button" class="social-btn twitter">Twitter</button>
+                </div>
+            </form>
+    
+            <!-- Register Prompt -->
+            <div class="register-prompt">
+                <p>New to Food Delivery System? <a href="{% url 'register' %}">Register Here</a></p>
+            </div>
+        </div>
+    </section>
+    
+    <script>
+        // JavaScript for form validation
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('login-form').addEventListener('submit', function (event) {
+                let valid = true;
+
+                // Username Validation
+                const username = document.getElementById('username');
+                const usernameError = document.getElementById('username-error');
+                const usernamePattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$|^[a-zA-Z0-9]{3,}$/;
+
+                if (!username.value.trim()) {
+                    usernameError.textContent = 'Email or username is required.';
+                    valid = false;
+                } else if (!usernamePattern.test(username.value)) {
+                    usernameError.textContent = 'Enter a valid email or username.';
+                    valid = false;
+                } else {
+                    usernameError.textContent = '';
+                }
+
+                // Password Validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('password-error');
+
+                if (!password.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else if (password.value.length < 8) {
+                    passwordError.textContent = 'Password must be at least 8 characters long.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+
+                // Prevent form submission if validation fails
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

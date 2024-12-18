@@ -1,0 +1,332 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Registration</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        /* Body Style */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('{% static "images/photobackground.jpg" %}') no-repeat center center/cover;
+            background-size: cover;
+            min-height: 100vh;
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-container h1 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .form-footer a {
+            color: #74eb04;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .form-outline input,
+        .form-outline select,
+        .form-outline textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #74eb04;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #82cb75;
+        }
+
+        .error-message {
+            display: block;
+            color: red;
+            font-size: 16px;
+            margin-top: 5px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container form-container">
+        <h1>Customer Registration</h1>
+
+        <form id="register-form" method="POST" novalidate>
+            {% csrf_token %}
+            
+            {% if showSuccess %}
+            <div class="alert alert-success" role="alert">
+                Registration Successful!
+            </div>
+            {% endif %}
+            
+            <!-- Section 1: Customer Details -->
+            <div class="form-outline my-4">
+                <label class="form-label" for="name">Full Name</label>
+                <input type="text" id="name" class="form-control" placeholder="Full Name" name="name" required />
+                <small class="error-message" id="name-error"></small>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" class="form-control" placeholder="example@gmail.com" name="email" required />
+                <small class="error-message" id="email-error"></small>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="phone">Phone Number</label>
+                <input type="text" id="phone" class="form-control" placeholder="Phone Number" name="phone" required />
+                <small class="error-message" id="phone-error"></small>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="address">Address</label>
+                <input type="text" id="address" class="form-control" placeholder="Your Address" name="address" required />
+                <small class="error-message" id="address-error"></small>
+            </div>
+            <div class="form-outline mb-4
+            <label for="state">State:</label>
+            <select id="state" name="state" required>
+                <option value="">Select State</option>
+                {% for state in states %}
+                <option value="{{ state.id }}">{{ state.name }}</option>
+                {% endfor %}
+            </select>
+            <small class="error-message" id="state-error"></small><br><br>
+
+            <label for="city">City:</label>
+            <select id="city" name="city" required>
+                <option value="">Select City</option>
+            </select>
+            <small class="error-message" id="city-error"></small><br><br>
+
+            <label for="place">Place:</label>
+            <select id="place" name="place" required>
+                <option value="">Select Place</option>
+            </select>
+            <small class="error-message" id="place-error"></small><br><br>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="latitude">Latitude</label>
+                <input type="text" id="latitude" class="form-control" placeholder="Latitude" name="latitude" required />
+                <small class="error-message" id="latitude-error"></small>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="longitude">Longitude</label>
+                <input type="text" id="longitude" class="form-control" placeholder="Longitude" name="longitude" required />
+                <small class="error-message" id="longitude-error"></small>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Password" name="password" required />
+                <small class="error-message" id="password-error"></small>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-danger">Submit</button>
+
+            <!-- Footer with login link -->
+            <div class="form-footer">
+                <p class="text-muted">Already a member? <a href="{% url 'login' %}">Login here</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#state').change(function() {
+                var stateId = $(this).val();
+                if (stateId) {
+                    $.ajax({
+                        url: '{% url "load_cities" %}',
+                        data: {
+                            'state_id': stateId
+                        },
+                        success: function(data) {
+                            $('#city').html('<option value="">Select City</option>');
+                            $.each(data, function(key, value) {
+                                $('#city').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                            $('#place').html('<option value="">Select Place</option>'); // Reset places dropdown
+                        }
+                    });
+                } else {
+                    $('#city').html('<option value="">Select City</option>');
+                    $('#place').html('<option value="">Select Place</option>');
+                }
+            });
+
+            $('#city').change(function() {
+                var cityId = $(this).val();
+                if (cityId) {
+                    $.ajax({
+                        url: '{% url "load_places" %}',
+                        data: {
+                            'city_id': cityId
+                        },
+                        success: function(data) {
+                            $('#place').html('<option value="">Select Place</option>');
+                            $.each(data, function(key, value) {
+                                $('#place').append('<option value="' + value.id + '">' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#place').html('<option value="">Select Place</option>');
+                }
+            });
+
+            // Form validation
+            $('#register-form').submit(function(event) {
+                event.preventDefault(); // Prevent page reload
+
+                let valid = true;
+
+                // Name validation
+                if (!$('#name').val()) {
+                    $('#name-error').text('Full Name is required.');
+                    valid = false;
+                } else {
+                    $('#name-error').text('');
+                }
+
+                // Email validation
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!$('#email').val() || !emailPattern.test($('#email').val())) {
+                    $('#email-error').text('Valid email is required.');
+                    valid = false;
+                } else {
+                    $('#email-error').text('');
+                }
+
+                // Phone validation
+                if (!$('#phone').val()) {
+                    $('#phone-error').text('Phone number is required.');
+                    valid = false;
+                } else {
+                    $('#phone-error').text('');
+                }
+
+                // Address validation
+                if (!$('#address').val()) {
+                    $('#address-error').text('Address is required.');
+                    valid = false;
+                } else {
+                    $('#address-error').text('');
+                }
+
+                // State validation
+                if (!$('#state').val()) {
+                    $('#state-error').text('State is required.');
+                    valid = false;
+                } else {
+                    $('#state-error').text('');
+                }
+
+                // City validation
+                if (!$('#city').val()) {
+                    $('#city-error').text('City is required.');
+                    valid = false;
+                } else {
+                    $('#city-error').text('');
+                }
+
+                // Place validation
+                if (!$('#place').val()) {
+                    $('#place-error').text('Place is required.');
+                    valid = false;
+                } else {
+                    $('#place-error').text('');
+                }
+
+                // Latitude validation
+                if (!$('#latitude').val()) {
+                    $('#latitude-error').text('Latitude is required.');
+                    valid = false;
+                } else {
+                    $('#latitude-error').text('');
+                }
+
+                // Longitude validation
+                if (!$('#longitude').val()) {
+                    $('#longitude-error').text('Longitude is required.');
+                    valid = false;
+                } else {
+                    $('#longitude-error').text('');
+                }
+
+                // Password validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('password-error');
+                if (!password.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else if (password.value.length < 8) {
+                    passwordError.textContent = 'Password must be at least 8 characters long.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+
+                if (valid) {
+                    this.submit(); // Proceed with form submission if valid
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
