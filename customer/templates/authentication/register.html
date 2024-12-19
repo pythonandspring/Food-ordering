@@ -85,6 +85,13 @@
             background-color: #82cb75;
         }
 
+        .error-message {
+            display: block;
+            color: red;
+            font-size: 16px;
+            margin-top: 5px;
+            font-weight: 700;
+        }
     </style>
 </head>
 
@@ -92,7 +99,7 @@
     <div class="container form-container">
         <h1>Customer Registration</h1>
 
-        <form method="POST">
+        <form id="register-form" method="POST" novalidate>
             {% csrf_token %}
             
             {% if showSuccess %}
@@ -105,58 +112,67 @@
             <div class="form-outline my-4">
                 <label class="form-label" for="name">Full Name</label>
                 <input type="text" id="name" class="form-control" placeholder="Full Name" name="name" required />
+                <small class="error-message" id="name-error"></small>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="email">Email Address</label>
                 <input type="email" id="email" class="form-control" placeholder="example@gmail.com" name="email" required />
+                <small class="error-message" id="email-error"></small>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="phone">Phone Number</label>
                 <input type="text" id="phone" class="form-control" placeholder="Phone Number" name="phone" required />
+                <small class="error-message" id="phone-error"></small>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="address">Address</label>
                 <input type="text" id="address" class="form-control" placeholder="Your Address" name="address" required />
-
+                <small class="error-message" id="address-error"></small>
             </div>
-            <!-- ADDED LOCATION DROPDOWN -->
-            <!-- <label for="user_name">User Name:</label>
-        <input type="text" id="user_name" name="user_name" required><br><br> -->
-
-        <label for="state">State:</label>
-        <select id="state" name="state" required>
-            <option value="">Select State</option>
-            {% for state in states %}
-            <option value="{{ state.id }}">{{ state.name }}</option>
-            {% endfor %}
-        </select><br><br>
-
-        <label for="city">City:</label>
-        <select id="city" name="city" required>
-            <option value="">Select City</option>
-        </select><br><br>
-
-        <label for="place">Place:</label>
-        <select id="place" name="place" required>
-            <option value="">Select Place</option>
-        </select><br><br>
-
+            <div class="form-outline mb-4">
+            <label class="form-label" for="state">State:</label>
+            <select id="state" name="state" required>
+                <option value="">Select State</option>
+                {% for state in states %}
+                <option value="{{ state.id }}">{{ state.name }}</option>
+                {% endfor %}
+            </select>
+            <small class="error-message" id="state-error"></small>
+            </div>
+            
+            <div class="form-outline mb-4">
+            <label class="form-label" for="city">City:</label>
+            <select id="city" name="city" required>
+                <option value="">Select City</option>
+            </select>
+            <small class="error-message" id="city-error"></small>
+            </div>
+            <div class="form-outline mb-4">
+            <label class="form-label" for="place">Place:</label>
+            <select id="place" name="place" required>
+                <option value="">Select Place</option>
+            </select>
+            <small class="error-message" id="place-error"></small>
+            </div>
             <div class="form-outline mb-4">
                 <label class="form-label" for="latitude">Latitude</label>
                 <input type="text" id="latitude" class="form-control" placeholder="Latitude" name="latitude" required />
+                <small class="error-message" id="latitude-error"></small>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="longitude">Longitude</label>
                 <input type="text" id="longitude" class="form-control" placeholder="Longitude" name="longitude" required />
+                <small class="error-message" id="longitude-error"></small>
             </div>
 
             <div class="form-outline mb-4">
                 <label class="form-label" for="password">Password</label>
                 <input type="password" id="password" class="form-control" placeholder="Password" name="password" required />
+                <small class="error-message" id="password-error"></small>
             </div>
 
             <!-- Submit Button -->
@@ -213,6 +229,117 @@
                     });
                 } else {
                     $('#place').html('<option value="">Select Place</option>');
+                }
+            });
+
+            // Form validation
+            $('#register-form').submit(function(event) {
+                event.preventDefault(); // Prevent page reload
+
+                let valid = true;
+
+                // Name validation
+                if (!name.match(/^[a-zA-Z ]+$/)) {
+                    $('#name-error').text('Name should contain only alphabets.');
+                    valid = false;
+                } else {
+                    $('#name-error').text('');
+                }
+
+
+                // Email validation
+                // Email Validation
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('email-error');
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/; // Email must end with @gmail.com
+                if (!email.value.trim()) {
+                    emailError.textContent = 'Email is required.';
+                    valid = false;
+                } else if (!emailPattern.test(email.value)) {
+                    emailError.textContent = 'Email must be a valid @gmail.com address.';
+                    valid = false;
+                } else {
+                    emailError.textContent = '';
+                }
+
+                // Phone validation
+                 // Phone Number Validation
+                 const phone = document.getElementById('phone');
+                const phoneError = document.getElementById('phone-error');
+                const phonePattern = /^[0-9]{10}$/;
+                if (!phone.value.trim()) {
+                    phoneError.textContent = 'Phone Number is required.';
+                    valid = false;
+                } else if (!phonePattern.test(phone.value)) {
+                    phoneError.textContent = 'Enter a valid 10-digit phone number.';
+                    valid = false;
+                } else {
+                    phoneError.textContent = '';
+                }
+
+                // Address validation
+                if (!$('#address').val()) {
+                    $('#address-error').text('Address is required.');
+                    valid = false;
+                } else {
+                    $('#address-error').text('');
+                }
+
+                // State validation
+                if (!$('#state').val()) {
+                    $('#state-error').text('State is required.');
+                    valid = false;
+                } else {
+                    $('#state-error').text('');
+                }
+
+                // City validation
+                if (!$('#city').val()) {
+                    $('#city-error').text('City is required.');
+                    valid = false;
+                } else {
+                    $('#city-error').text('');
+                }
+
+                // Place validation
+                if (!$('#place').val()) {
+                    $('#place-error').text('Place is required.');
+                    valid = false;
+                } else {
+                    $('#place-error').text('');
+                }
+
+                // Latitude validation
+                if (!$('#latitude').val()) {
+                    $('#latitude-error').text('Latitude is required.');
+                    valid = false;
+                } else {
+                    $('#latitude-error').text('');
+                }
+
+                // Longitude validation
+                if (!$('#longitude').val()) {
+                    $('#longitude-error').text('Longitude is required.');
+                    valid = false;
+                } else {
+                    $('#longitude-error').text('');
+                }
+
+                // Password validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('password-error');
+                if (!password.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } else if (password.value.length < 8) {
+                    passwordError.textContent = 'Password must be at least 8 characters long.';
+                    valid = false;
+                } else {
+                    passwordError.textContent = '';
+                }
+
+                if (valid) {
+                    this.submit(); // Proceed with form submission if valid
                 }
             });
         });

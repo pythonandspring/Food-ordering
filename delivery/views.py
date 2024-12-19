@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from delivery.models import deliveryUser
 from customer.models import Order
-
+from customer.models import State, City, Place
 # Home view for logged-in users
 @login_required
 def home(request):
@@ -26,7 +26,7 @@ def home(request):
 
         return redirect('home')  # Redirect to avoid resubmission on refresh
 
-    return render(request, 'Deliveryhome.html', {'orders': orders, 'messages': messages.get_messages(request)})
+    return render(request, 'Deliveryhome.html', {'orders': orders, 'messages': messages.get_messages(request), 'customer_address': delivery_user.address})
 
 def loginDelivery(request):
     if request.method == 'POST':
@@ -52,11 +52,18 @@ def loginDelivery(request):
     return render(request, 'loginDelivery.html')
 
 def registerDelivery(request):
+    states = State.objects.all()
     if request.method == 'POST':
         # Get form data
         name = request.POST.get('name')
         email = request.POST.get('email')
         password = request.POST.get('password')
+        state_id = request.POST.get('state')
+        city_id = request.POST.get('city')
+        place_id = request.POST.get('place')
+        state = State.objects.get(id=state_id)
+        city = City.objects.get(id=city_id)
+        place = Place.objects.get(id=place_id)
         phone = request.POST.get('phone')
         address = request.POST.get('address')
 
@@ -64,6 +71,9 @@ def registerDelivery(request):
             username=email,
             password=make_password(password),
             email=email,
+            state=state, 
+            city=city, 
+            place=place,
             deliveryContact=phone,
             name=name,
             address=address,
@@ -81,7 +91,4 @@ def registerDelivery(request):
             delivery_data.save()
             messages.success(request, "Successfully Registered")
             return redirect('loginDelivery')
-    return render(request, 'registerDelivery.html')
-
-
-
+    return render(request, 'registerDelivery.html', {'states': states})

@@ -19,6 +19,7 @@
         rel="stylesheet">
     <title>Document</title>
     <link rel="stylesheet" href={% static 'style.css' %}>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Add jQuery -->
     <style>
         .item {
             width: 100%;
@@ -67,6 +68,20 @@
         <br>
         <br>
         <h1>What's on your mind</h1>
+        <br>
+        <br>
+        <form method="GET" action="{% url 'menu' %}">
+            <div class="form-group">
+                <label for="city">Select City:</label>
+                <select name="city" id="city" class="form-control">
+                    <option value="">All Cities</option>
+                    {% for city in cities %}
+                    <option value="{{ city.id }}" {% if request.GET.city == city.id|stringformat:"s" %}selected{% endif %}>{{ city.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Filter</button>
+        </form>
         <br>
         <br>
         <section id='hehe' class="d-flex justify-content-evenly flex-wrap">
@@ -229,6 +244,11 @@ h1 {
     transform: scale(1);
     box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
 }
+.micButton.listening {
+    background-color: black !important;
+    color: white !important;
+}
+
 
     </style>
     
@@ -238,69 +258,107 @@ h1 {
                 <h1>Order from your favourite restaurant</h1>
             </div>
             <!-- Search Bar -->
-            <div class="custom-search mb-5 d-flex justify-content-center align-items-center">
-                <input 
-                    type="text" 
-                    id="search-bar" 
-                    class="form-control search-bar shadow" 
-                    placeholder="Search for a restaurant..." 
-                >
-                <button 
-                    class="btn search-btn shadow">
-                    <i class="bi bi-search"></i> Search
-                </button>
+<div class="custom-search mb-5 d-flex justify-content-center align-items-center">
+    <input 
+        type="text" 
+        id="search-bar" 
+        class="form-control search-bar shadow" 
+        placeholder="Search for a restaurant..." 
+    >
+    <button 
+        class="btn search-btn shadow" 
+        id="voice-search-btn">
+        <i class="bi bi-mic"></i> 
+    </button>
+    <button 
+        class="btn search-btn shadow" 
+        id="search-btn">
+        <i class="bi bi-search"></i> Search
+    </button>
+</div>
+
+<!-- Restaurant Cards -->
+<div class="row g-4" id="restaurant-list">
+    {% for restaurant in restaurant_list %}
+    <div class="col-md-4 restaurant-item" data-name="{{ restaurant.restaurantName|lower }}">
+        <div class="restaurant-card">
+            <video class="restaurant-video" autoplay loop muted>
+                <source src="{% static 'video' %}{{ forloop.counter }}.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="restaurant-card-body">
+                <h5 class="restaurant-card-title">{{ restaurant.restaurantName }}</h5>
             </div>
-            
-        
-            <!-- Restaurant Cards -->
-            <div class="row g-4" id="restaurant-list">
-                {% for restaurant in restaurant_list %}
-                <div class="col-md-4 restaurant-item" data-name="{{ restaurant.restaurantName|lower }}">
-                    <div class="restaurant-card">
-                        <video class="restaurant-video" autoplay loop muted>
-                            <source src="{% static 'video' %}{{ forloop.counter }}.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div class="restaurant-card-body">
-                            <h5 class="restaurant-card-title">{{ restaurant.restaurantName }}</h5>
-                        </div>
-                        <div class="restaurant-card-footer">
-                            <a href="{% url 'restaurant_menu' restaurant.id %}" class="btn w-100">View Menu</a>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+            <div class="restaurant-card-footer">
+                <a href="{% url 'restaurant_menu' restaurant.id %}" class="btn w-100">View Menu</a>
             </div>
         </div>
-        
-    </section>
-    
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const searchBar = document.getElementById('search-bar');
-            const restaurantItems = document.querySelectorAll('.restaurant-item');
-    
-            searchBar.addEventListener('input', function () {
-    const query = searchBar.value.toLowerCase();
-    let found = false;
+    </div>
+    {% endfor %}
+</div>
 
-    restaurantItems.forEach(item => {
-        const name = item.getAttribute('data-name');
-        if (name.includes(query)) {
-            item.style.display = "block";
-            found = true;
-        } else {
-            item.style.display = "none";
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchBar = document.getElementById('search-bar');
+        const restaurantItems = document.querySelectorAll('.restaurant-item');
+        const searchButton = document.getElementById('search-btn');
+        const restaurantList = document.getElementById('restaurant-list');
+
+        // Function to handle search logic
+        function handleSearch() {
+            const query = searchBar.value.toLowerCase().trim();
+
+            if (!query) {
+                // If the search bar is empty, reset to show all restaurants
+                restaurantItems.forEach(item => {
+                    item.style.display = "block";
+                });
+                return;
+            }
+
+            let found = false;
+
+            restaurantItems.forEach(item => {
+                const name = item.getAttribute('data-name');
+                if (name.includes(query)) {
+                    item.style.display = "block";
+                    found = true;
+                } else {
+                    item.style.display = "none";
+                }
+            });
+
+            // Show "No results found" if no matches
+            if (!found) {
+                restaurantList.innerHTML = `<p class="text-center">No results found</p>`;
+            }
         }
-    });
 
-    if (!found) {
-        document.getElementById('restaurant-list').innerHTML = `<p class="text-center">No results found</p>`;
-    }
-});
+        // Click event for search button
+        searchButton.addEventListener('click', handleSearch);
 
+        // Keydown event for Enter key
+        searchBar.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent form submission or page reload
+                handleSearch();
+            }
         });
-    </script>
+
+        // Voice search functionality
+        document.getElementById('voice-search-btn').addEventListener('click', function() {
+            fetch('/run-speech-recog/')
+                .then(response => response.json())
+                .then(data => {
+                    searchBar.value = data.transcript;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+
+
+
     <br>
     <br>
     <div class="container-fluid text-center d-flex justify-content-center flex-wrap py-5">
@@ -308,13 +366,15 @@ h1 {
     </div>
 
     <!-- Search Bar -->
-
-    <form method="GET" action="{% url 'menu' %}" class="mb-5 d-flex justify-content-center">
-        <div class="input-group custom-search" style="max-width: 700px; width: 100%;">
-            <input type="text" name="q" placeholder="Search for food..." class="form-control" value="{{ request.GET.q }}">
-            <button type="submit" class="btn btn-primary">Search</button>
-        </div>
-    </form>
+<form method="GET" action="{% url 'menu' %}" class="mb-5 d-flex justify-content-center">
+    <div class="input-group custom-search" style="max-width: 700px; width: 100%;">
+        <input type="text" name="q" id="searchInput" placeholder="Search for food..." class="form-control" value="{{ request.GET.q }}">
+        <button type="button" id="micButton" class="btn btn-secondary">
+            <i class="fas fa-microphone"></i> <!-- Font Awesome Icon -->
+        </button>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
     
     
     <section class="cards d-flex justify-content-evenly flex-wrap">
@@ -330,6 +390,21 @@ h1 {
                     <div class="item-name">
                         <h4>{{ food.name }}</h4>
                         <p>{{ food.category }}</p> <!-- Add this line -->
+                        {% if food.is_out_of_stock %}
+                        <button class="btn btn-secondary" disabled>Out Of Stock</button>
+                        {% else %}
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <div class="cart ml-4">
+                                <input hidden type="text" name="id" value="{{ food.id }}">
+                                {% if food.id|stringformat:"s" in cart %}
+                                <input type="submit" class="btn btn-success border btn-sm added-to-cart" value="Added to Cart" disabled>
+                                {% else %}
+                                <input type="submit" class="btn btn-danger border btn-sm" value="Add to Cart">
+                                {% endif %}
+                            </div>
+                        </form>
+                        {% endif %}
                         <p>Fresh & sweet</p>
                     </div>
                     <div class="rating">
@@ -339,28 +414,77 @@ h1 {
                         <div></div>
                     </div>
                 </div>
-                <div class="item-price-and-cart d-flex align-items-center">
-                    <div class="item-price">
-                        <p>{{ food.price }}</p>
+                <!-- <form action="#" method="post">
+                    {% csrf_token %}
+                    <div class="cart ml-4">
+                        <input hidden type="text" name="id" value="{{ food.id }}">
+                        {% if food.id|stringformat:"s" in cart %}
+                        <input type="submit" class="btn btn-success border btn-sm added-to-cart"
+                            value="Added to Cart" disabled>
+                        {% else %}
+                        <input type="submit" class="btn btn-danger border btn-sm" value="Add to Cart">
+                        {% endif %}
                     </div>
-                    <form action="#" method="post">
-                        {% csrf_token %}
-                        <div class="cart ml-4">
-                            <input hidden type="text" name="id" value="{{ food.id }}">
-                            {% if food.id|stringformat:"s" in cart %}
-                            <input type="submit" class="btn btn-success border btn-sm added-to-cart"
-                                value="Added to Cart" disabled>
-                            {% else %}
-                            <input type="submit" class="btn btn-danger border btn-sm" value="Add to Cart">
-                            {% endif %}
-                        </div>
-                    </form>
-                </div>
+                </form> -->
             </div>
         </div>
-        {% endfor %}
-        {% endif %}
-    </section>
+    </div>
+    {% endfor %}
+    {% endif %}
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const micButton = document.getElementById("micButton");
+        const searchInput = document.getElementById("searchInput");
+
+        // Check if browser supports SpeechRecognition
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            micButton.disabled = true;
+            micButton.title = "Voice search is not supported in this browser.";
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+
+        micButton.addEventListener("click", () => {
+            recognition.start();
+        });
+
+        recognition.onstart = () => {
+            // Change the button's appearance when recognition starts
+            micButton.style.backgroundColor = "black"; // Black background color
+            micButton.style.color = "white"; // White icon color
+            micButton.innerHTML = `<i class="fas fa-microphone"></i>`;
+            micButton.style.background = "linear-gradient(45deg, #00bcd4, #8e44ad)"; // Animated background
+
+
+        };
+
+        recognition.onend = () => {
+            // Reset the button's style after recognition ends
+            micButton.style.backgroundColor = ""; // Revert to original background color
+            micButton.style.color = ""; // Revert to original icon color
+            micButton.innerHTML = `<i class="fas fa-microphone"></i>`; // Revert to microphone icon
+        };
+
+        recognition.onresult = (event) => {
+            let transcript = event.results[0][0].transcript;
+            // Remove trailing period, if any
+            transcript = transcript.trim().replace(/\.$/, '');
+            searchInput.value = transcript;
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error:", event.error);
+        };
+        
+    });
+</script>
+
+
     <div class="container text-center justify-content-center mt-5">
     </div>
     {% include "home/footer.html" %}

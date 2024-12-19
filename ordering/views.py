@@ -8,6 +8,9 @@ from django.contrib.auth import get_user_model
 from restaurant.models import foodItems, restaurantUser
 from django.db.models import Q
 from django.http import request
+from customer.models import City
+from django.http import request, JsonResponse
+import speech_recognition as sr
 
 def home(request):
     return render(request, 'home/home.html')
@@ -59,6 +62,13 @@ User = get_user_model()
 
 @login_required
 def menu(request):
+    cities = City.objects.all()
+    selected_city = request.GET.get('city')
+    if selected_city:
+        restaurant_list = restaurantUser.objects.filter(city_id=selected_city)
+    else:
+        restaurant_list = restaurantUser.objects.all()
+    cities = City.objects.all()
     user = request.user
     query = request.GET.get('q')
     foods = foodItems.objects.all()
@@ -93,8 +103,8 @@ def menu(request):
         'foodItems': foods,
         'cart': request.session.get('cart', {}),
         'Empty': cartEmpty,
-        'restaurant_list': list_restaurant
-    
+        'restaurant_list': restaurant_list,
+        'cities': cities
     })
 
 
@@ -114,3 +124,32 @@ def restaurantPage(request):
     print(rname)
 
     return render(request,'restaurantPage.html')
+
+
+
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = 'home/password_reset.html'
+    email_template_name = 'home/password_reset_email.html'
+    subject_template_name = 'home/password_reset_subject'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+    success_url = reverse_lazy('login')
+def run_speech_recog(request):
+    recognizer = sr.Recognizer()
+    try:
+        with sr.Microphone() as source:
+            print("Listening...")
+            audio = recognizer.listen(source)
+            transcript = recognizer.recognize_google(audio)
+            return JsonResponse({"transcript": transcript})
+    except sr.UnknownValueError:
+        return JsonResponse({"error": "Speech not recognized. Please try again."}, status=400)
+    except sr.RequestError as e:
+        return JsonResponse({"error": f"Speech recognition service error: {e}"}, status=500)
+    except AttributeError as e:
+        return JsonResponse({"error": "PyAudio is not installed or configured properly."}, status=500)

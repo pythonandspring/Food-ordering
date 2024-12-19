@@ -17,6 +17,8 @@
         background: white;
         border-radius: 10px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
       }
 
       h1 {
@@ -98,6 +100,13 @@
         background-color: #069419;
       }
 
+      .delete-button {
+        background-color: #ff4d4d;
+      }
+      .delete-button:hover {
+        background-color: #ff1a1a;
+      }
+
       .alert {
         padding: 15px;
         margin-bottom: 20px;
@@ -114,11 +123,20 @@
         background-color: #f2dede;
         border-color: #ebccd1;
       }
+
+      .action-buttons {
+        display: flex;
+        gap: 5px;
+      }
+      .action-buttons form {
+        margin: 0;
+      }
     </style>
   </head>
   <body>
     <div class="container">
       <h1>Restaurant Orders</h1>
+      <p>Total Orders: {{ orders|length }}</p> 
       <div class="search-bar">
         <input type="text" placeholder="Enter Order Id..." />
         <button>Search</button>
@@ -134,17 +152,17 @@
         <thead>
           <tr>
             <th>Order Id</th>
-            <th>Food</th>
-            <th>Food Name</th>
+            {% comment %} <th>Food</th> {% endcomment %}
+            <th>Order Items</th>
             <th>Category</th>
-            <th>Restaurant</th>
+            <th>Restaurant Name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Customer</th>
             <th>Order Time</th>
             <th>Order Status</th>
             <th>Delivery Person</th>
-            <th>Delivery Contact</th>
+            {% comment %} <th>Delivery Contact</th> {% endcomment %}
             <th>Delivery Time</th>
             <th>Action</th>
           </tr>
@@ -153,7 +171,7 @@
           {% for order in orders %}
           <tr>
             <td>{{ order.order_no }}</td>
-            <td>{{ order.item }}</td>
+            {% comment %} <td>{{ order.item }}</td> {% endcomment %}
             <td>{{ order.item }}</td>
             <td>{{ order.category }}</td>
             <td>{{ order.restaurant_name }}</td>
@@ -173,14 +191,18 @@
                 </select>
             </td>
             <td>{{ order.delivery_person }}</td>
-            <td>{{ order.delivery_contact }}</td>
+            {% comment %} <td>{{ order.delivery_contact }}</td> {% endcomment %}
             <td>{{ order.date_time }}</td>
-            <td>
+            <td class="action-buttons">
               <button type="submit">Update</button>
               </form>
               <form method="post" action="{% url 'assign_delivery_person' order.id %}">
                 {% csrf_token %}
                 <button type="submit">Assign Delivery</button>
+              </form>
+              <form method="post" action="{% url 'delete_order' order.id %}">
+                {% csrf_token %}
+                <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this order?');">Delete</button>
               </form>
             </td>
           </tr>

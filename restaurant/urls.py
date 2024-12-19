@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from restaurant import views as restaurantviews
+from customer import views as customerviews
 
 urlpatterns = [
     path('logoutRestaurant/', restaurantviews.logoutRestaurant, name='logoutR'),
@@ -16,6 +17,10 @@ urlpatterns = [
     path('updateOrderStatus/<int:order_id>/', restaurantviews.update_order_status, name='update_order_status'),
     path('assignDeliveryPerson/<int:order_id>/', restaurantviews.assign_delivery_person, name='assign_delivery_person'),
     path('updateDeliveryPerson/<int:order_id>/', restaurantviews.update_delivery_person, name='update_delivery_person'),
+    path('delete_order/<int:order_id>/', restaurantviews.delete_order, name='delete_order'),
+    path('toggleStock/<int:food_id>/', restaurantviews.toggle_stock, name='toggle_stock'),
+    path('load-cities/', customerviews.load_cities, name='load_cities'),
+    path('load-places/', customerviews.load_places, name='load_places'),
 ]
 
 if settings.DEBUG:

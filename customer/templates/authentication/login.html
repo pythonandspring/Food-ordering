@@ -6,6 +6,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                const email = document.getElementById('email');
+                const password = document.getElementById('password');
+                let valid = true;
+
+                if (!email.value) {
+                    valid = false;
+                    email.classList.add('error');
+                } else {
+                    email.classList.remove('error');
+                }
+
+                if (!password.value) {
+                    valid = false;
+                    password.classList.add('error');
+                } else {
+                    password.classList.remove('error');
+                }
+
+                if (!valid) {
+                    event.preventDefault(); 
+                    document.getElementById('error-message').style.display = 'block';
+                }
+            });
+        });
+    </script>
+    <style>
+        .error {
+            border-color: red;
+        }
+        #error-message {
+            display: none;
+            color: red;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -48,6 +87,9 @@
                     {% endfor %}
                 {% endif %}
 
+                <!-- Error message for empty fields -->
+                <div id="error-message">Please fill in all fields.</div>
+
                 <!-- Email input (Username) -->
                 <div class="form-field">
                     <label for="email">Email or Username:</label>
@@ -66,7 +108,7 @@
                         <input type="checkbox" id="remember" name="remember">
                         <label for="remember">Remember Me</label>
                     </div>
-                    <a href="{% url 'forgetPassword' %}">Forgot password?</a>
+                    <a href="{% url 'password_reset' %}">Forgot password?</a>
                 </div>
 
                 <!-- Submit button -->

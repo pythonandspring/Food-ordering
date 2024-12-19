@@ -1,17 +1,14 @@
 from django.contrib import admin
-from customer.models import customerUser, Feedback, Contact, Order
+from customer.models import customerUser, Feedback, Contact, Order, State, City, Place
 from import_export.admin import ImportExportModelAdmin
-# Register your models here.
-from django.contrib import admin
-from customer.models import State, City, Place
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'password', 'state', 'city', 'place']
-    search_fields = ('name',)
+    list_display = ['name', 'email', 'state', 'city', 'place', 'address']  # Ensure 'address' is displayed
+    search_fields = ('name', 'email', 'address')  # Add 'address' to search fields
     list_filter = ('state', 'city', 'place')
 
 admin.site.register(customerUser, UserAdmin)
-# Register your models here.
+
 class Comments(admin.ModelAdmin):
     list_display = ['stars', 'comments']
 

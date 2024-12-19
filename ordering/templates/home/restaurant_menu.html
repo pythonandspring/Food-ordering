@@ -198,68 +198,196 @@
         <h1>{{ restaurant.restaurantName }} Menu</h1>
 
         <!-- Search Bar -->
-        <div class="mb-4">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="input-group shadow-sm">
-                        <input id="search-bar" type="text" class="form-control rounded-pill" 
-                               placeholder="Search for food..." onkeyup="filterFoodItems()" 
-                               style="padding: 10px 20px; border: 2px solid #4e85be;">
-                        <span class="input-group-text bg-primary text-white rounded-pill" style="border: none;">
-                            <i class="bi bi-search"></i>
-                        </span>
-                    </div>
-                </div>
+<div class="mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="input-group shadow-sm">
+                <input type="text" 
+                       class="form-control rounded-pill"
+                       id="searchInput"
+                       placeholder="Search for food..." 
+                       onkeyup="filterFoodItems()" 
+                       style="padding: 10px 20px; border: 2px solid #4e85be;">
+                <button class="btn btn-secondary rounded-pill" id="micButton">
+                    <i class="bi bi-mic"></i>
+                </button>
+                <button class="btn btn-primary rounded-pill" id="searchButton">
+                    <i class="bi bi-search"></i>
+                </button>
             </div>
         </div>
 
         <!-- Category Tabs -->
-        <div class="mb-4">
-            <ul class="nav nav-tabs custom-nav">
-                <li class="nav-item">
-                    <button class="nav-link active custom-nav-link" onclick="filterCategory('all')">All</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link custom-nav-link" onclick="filterCategory('tiffin')">Tiffins</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link custom-nav-link" onclick="filterCategory('veg')">Veg</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link custom-nav-link" onclick="filterCategory('non veg')">Non-Veg</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link custom-nav-link" onclick="filterCategory('Ice cream')">Ice-Creams</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link custom-nav-link" onclick="filterCategory('drinks')">Drinks</button>
-                </li>
-            </ul>
-        </div>
 
-        <!-- Food Items -->
-        <div class="row">
-            {% for food in food_items %}
-            <div class="col-md-4 food-card" data-category="{{ food.category }}">
-                <div class="card mb-4">
-                    <img src="/media/{{ food.image }}" class="card-img-top" alt="{{ food.name }}" 
-                         style="height: 200px; width: 100%; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ food.name }}</h5>
-                        <p class="card-text">Category: {{ food.category }}</p>
-                        <p class="card-text">Price: ₹{{ food.price }}</p>
-                        <form action="#" method="post">
-                            {% csrf_token %}
-                            <input hidden type="text" name="id" value="{{ food.id }}">
-                            <input type="button" class="btn btn-danger" value="Add to Cart" 
-                                   onclick="handleAddToCart(this)">
-                        </form>
-                    </div>
-                </div>
+
+<!-- Styles for Both Mic and Search Buttons -->
+<style>
+    /* Common styles for both buttons */
+    .btn {
+        border: none;
+        padding: 10px 15px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style for the Mic Button */
+    #micButton {
+        background-color: #4e85be;
+        color: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    /* Style for the Search Button */
+    #searchButton {
+        background-color: #4e85be;
+        color: white;
+    }
+
+    /* Hover effect for both buttons */
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Active effect for both buttons */
+    .btn:active {
+        transform: translateY(2px);
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Specific style for search button when focused */
+    #searchButton:focus {
+        background-color: #0056b3;
+    }
+
+    /* Icon size and alignment for both buttons */
+    .btn i {
+        font-size: 22px; /* Set the same size for both icons */
+        color: white; /* Ensure both icons are white */
+        margin: 0; /* Remove any unwanted margins */
+    }
+
+    /* Additional spacing for search and mic buttons */
+    #micButton, #searchButton {
+        width: 50px; /* Set width for a consistent button size */
+        height: 50px; /* Set height to make the buttons circular */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<!-- Category Tabs -->
+<div class="mb-4">
+    <ul class="nav nav-tabs custom-nav">
+        <li class="nav-item">
+            <button class="nav-link active custom-nav-link" onclick="filterCategory('all')">All</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('tiffin')">Tiffins</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('veg')">Veg</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('non veg')">Non-Veg</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('Ice cream')">Ice-Creams</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('drinks')">Drinks</button>
+        </li>
+    </ul>
+</div>
+
+<!-- Food Items -->
+<div class="row">
+    {% for food in food_items %}
+    <div class="col-md-4 food-card" data-category="{{ food.category }}">
+        <div class="card mb-4">
+            <img src="/media/{{ food.image }}" class="card-img-top" alt="{{ food.name }}" 
+                 style="height: 200px; width: 100%; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">{{ food.name }}</h5>
+                <p class="card-text">Category: {{ food.category }}</p>
+                <p class="card-text">Price: ₹{{ food.price }}</p>
+                <form action="#" method="post">
+                    {% csrf_token %}
+                    <input hidden type="text" name="id" value="{{ food.id }}">
+                    <input type="button" class="btn btn-danger" value="Add to Cart" 
+                           onclick="handleAddToCart(this)">
+                </form>
             </div>
-            {% endfor %}
         </div>
     </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const micButton = document.getElementById("micButton");
+        const searchInput = document.getElementById("searchInput");
+
+        // Check if browser supports SpeechRecognition
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            micButton.disabled = true;
+            micButton.title = "Voice search is not supported in this browser.";
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+
+        micButton.addEventListener("click", () => {
+            recognition.start();
+        });
+
+        recognition.onstart = () => {
+            micButton.classList.add("listening");
+            micButton.innerHTML = `<i class="bi bi-mic-fill"></i>`;
+        };
+
+        recognition.onend = () => {
+            micButton.classList.remove("listening");
+            micButton.innerHTML = `<i class="bi bi-mic"></i>`;
+        };
+
+        recognition.onresult = (event) => {
+            let transcript = event.results[0][0].transcript;
+            transcript = transcript.trim().replace(/\.$/, ''); // Remove trailing period
+            searchInput.value = transcript;
+            filterFoodItems(); // Trigger the food items filter
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error:", event.error);
+        };
+    });
+
+    function filterFoodItems() {
+        // Logic to filter food items based on search input
+        const query = document.getElementById("searchInput").value.toLowerCase();
+        const foodCards = document.querySelectorAll(".food-card");
+
+        foodCards.forEach(card => {
+            const foodName = card.querySelector(".card-title").textContent.toLowerCase();
+            if (foodName.includes(query)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
+
     {% include "home/footer.html" %}
 </body>
 

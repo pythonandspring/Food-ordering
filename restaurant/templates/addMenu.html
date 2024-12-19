@@ -183,6 +183,7 @@
                     <td>
                         <a href="{% url 'update_food' food.id %}" class="btn1 btn-warning">Update</a>
                         <a href="{% url 'delete_food' food.id %}" class="btn1 btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                        <a href="{% url 'toggle_stock' food.id %}" class="btn1 btn-secondary">{% if food.is_out_of_stock %}In Stock{% else %}Out Of Stock{% endif %}</a>
                     </td>
                 </tr>
                 {% empty %}

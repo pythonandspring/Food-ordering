@@ -116,6 +116,7 @@
 
         <div class="orders-container">
             <h3>Assigned Orders</h3>
+            <p>Total Orders: {{ orders|length }}</p>  <!-- Display total number of orders -->
             {% if orders %}
                 <table>
                     <thead>
@@ -131,7 +132,7 @@
                             <tr>
                                 <td>{{ order.order_no }}</td>
                                 <td>{{ order.customer.name }}</td>  <!-- Corrected field name -->
-                                <td>{{ order.customer.address }}</td>  <!-- Corrected field name -->
+                                <td>{{ order.customer.address }}</td>  <!-- Corrected field name to access address -->
                                 <td>
                                     <form method="post" action="{% url 'home' %}">
                                         {% csrf_token %}

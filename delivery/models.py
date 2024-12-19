@@ -4,10 +4,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from customer.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
-
+from customer.models import State, City, Place
 class deliveryUser(CustomUser):
     name = models.CharField(max_length=50)
     address = models.TextField()
+    state = models.ForeignKey(State, on_delete=models.CASCADE, default=1)  # Ensure State with id=1 exists
+    city = models.ForeignKey(City, on_delete=models.CASCADE, default=1)    # Ensure City with id=1 exists
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, default=1)
     deliveryContact = PhoneNumberField(null=True, blank=True)
 
     def __str__(self):
