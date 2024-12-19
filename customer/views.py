@@ -16,6 +16,9 @@ from django.contrib.auth import get_user_model
 from django.utils.crypto import get_random_string
 from restaurant.models import foodItems
 # Create your views here.
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 User = get_user_model()
 
@@ -70,11 +73,10 @@ def registerUser(request):
         city = City.objects.get(id=city_id)
         place = Place.objects.get(id=place_id)
 
-        if customerUser.objects.filter(email= email).exists():
-            messages.error(request,'User Already Exist in the System')
-            return redirect('login')
+        # if customerUser.objects.filter(email= email).exists():
+        #     messages.error(request,'User Already Exist in the System')
+        #     return redirect('login')
         hashed_password = make_password(password)
-
 
         try:
             user = customerUser.objects.create(
@@ -83,18 +85,29 @@ def registerUser(request):
                 username=email,
                 password=hashed_password,
                 is_user=True,
-                  state=state, 
+                state=state, 
                 city=city, 
                 place=place,
                 latitude=latitude,
                 longitude=longitude
             )
             user.save()
+
+            # welcome email
+            
+            
+            subject = 'Welcome to Food Ordering'
+            html_message = render_to_string('welcome_email.html', {'name': name})
+            plain_message = strip_tags(html_message)
+            from_email = 'InFoodSys@gmail.com'
+            to = email
+
+            send_mail(subject, plain_message, from_email, [to], html_message=html_message)
+
             messages.success(request,'Successfully Registered')
             return redirect('login')
         except:
             messages.error(request,'Error!! Try Again')
-            
 
     return render(request,'authentication/register.html', {'states': states})
 

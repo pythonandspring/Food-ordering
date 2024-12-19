@@ -185,3 +185,13 @@ LOGIN_REDIRECT_URL = 'login'
 MEDIA_ROOT = BASE_DIR /'media'
 
 MEDIA_URL = '/media/'
+
+
+
+EMAIL_HOST = 'live.smtp.mailtrap.io'
+
+EMAIL_HOST_USER = 'api'
+
+EMAIL_HOST_PASSWORD = 'a1f2925714fa939e62e7ed9945e37e0f'
+
+EMAIL_PORT = '587'

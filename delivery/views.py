@@ -82,3 +82,6 @@ def registerDelivery(request):
             messages.success(request, "Successfully Registered")
             return redirect('loginDelivery')
     return render(request, 'registerDelivery.html')
+
+
+
