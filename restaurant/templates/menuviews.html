@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ restaurant.name }} - Menu</title>
+</head>
+<body>
+    <h1>Menu for {{ restaurant.name }}</h1>
+    <p>Address: {{ restaurant.location }}</p>
+    <p>Cuisine Type: {{ restaurant.cuisine_type }}</p>
+
+    <ul>
+        {% for item in menu_items %}
+            <li>
+                <strong>{{ item.name }}</strong> - ${{ item.price }}<br>
+                <img src="{{ item.image.url }}" alt="{{ item.name }}" width="100">
+            </li>
+        {% empty %}
+            <li>No menu items available.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'restaurant_list' %}">Back to Restaurant List</a>
+</body>
+</html>

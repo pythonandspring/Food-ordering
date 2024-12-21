@@ -1,0 +1,8 @@
+<h1>Available Restaurants in Your Area</h1>
+<ul>
+    {% for restaurant in restaurants %}
+        <li>
+            <a href="{% url 'restaurant_menu' restaurant.id %}">{{ restaurant.restaurantName }}</a>
+        </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Restaurants</title>
+</head>
+<body>
+    <h1>Restaurants in Your Area</h1>
+    <ul>
+        {% for restaurant in restaurants %}
+            <li>
+                <a href="{% url 'restaurant_menu' restaurant.id %}">{{ restaurant.restaurantName }}</a>
+            </li>
+        {% empty %}
+            <li>No restaurants found in your area.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
