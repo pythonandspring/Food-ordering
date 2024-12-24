@@ -1,0 +1,16 @@
+Django==4.1.3
+pillow==10.2.0
+mysql-connector-python==8.0.33
+mysqlclient==2.2.5
+djangorestframework==3.14.0
+markdown
+django-filter
+django-phonenumbers
+drf-yasg
+django-import-export
+speechrecognition
+pyaudio
+pyttsx3
+#Installation Procedure
+#pip install -r requirements.txt
+#python manage.py runserver

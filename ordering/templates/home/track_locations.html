@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer and Restaurant Locations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #map {
+            height: 500px; /* Fixed height for the map */
+            width: 100%; /* Full width */
+            margin-bottom: 20px;
+        }
+        .order-details {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .order-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+        .order-details th, .order-details td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .order-details th {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+        .order-details tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .order-details tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Customer and Restaurant Locations</h1>
+    <div id="map"></div>
+    <div class="order-details">
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <th>Items</th>
+                <td>{{ order.item }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ order.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ order.category }}</td>
+            </tr>
+            <tr>
+                <th>Total Price</th>
+                <td>{{ order.sum_of_price }}</td>
+            </tr>
+            <tr>
+                <th>Restaurant</th>
+                <td>{{ order.restaurant_name }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Load the Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfGrxgDpMfg0_K14Ph2VPepvqmD5wSsNM&callback=initMap" async defer></script>
+    <script>
+        let map;
+        let customerMarker;
+        const restaurantMarkers = [];
+        const polylines = [];
+
+        // Initialize and add the map
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: { lat: 20.5937, lng: 78.9629 }, // Initial center (India)
+            });
+
+            // Set customer location from template context
+            const customerLocation = {
+                lat: parseFloat("{{ customer_latitude }}"),
+                lng: parseFloat("{{ customer_longitude }}")
+            };
+            map.setCenter(customerLocation);
+            customerMarker = new google.maps.Marker({
+                position: customerLocation,
+                map: map,
+                title: "Your Location",
+                icon: {
+                    url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                }
+            });
+
+            // Set restaurant location from template context
+            const restaurantLocation = {
+                lat: parseFloat("{{ restaurant_latitude }}"),
+                lng: parseFloat("{{ restaurant_longitude }}")
+            };
+            const marker = new google.maps.Marker({
+                position: restaurantLocation,
+                map: map,
+                title: "{{ order.restaurant_name }}",
+                icon: {
+                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                }
+            });
+            restaurantMarkers.push(marker);
+
+            // Draw a polyline from the customer to the restaurant
+            const polyline = new google.maps.Polyline({
+                path: [customerLocation, restaurantLocation],
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 4
+            });
+            polyline.setMap(map);
+            polylines.push(polyline);
+        }
+
+        // Handle location error
+        function handleLocationError(browserHasGeolocation, pos) {
+            const errorMessage = browserHasGeolocation ?
+                'Error: The Geolocation service failed.' :
+                'Error: Your browser doesn\'t support geolocation.';
+            alert(errorMessage);
+            map.setCenter(pos);
+        }
+    </script>
+</body>
+</html>

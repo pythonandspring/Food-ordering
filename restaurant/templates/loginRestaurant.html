@@ -1,0 +1,473 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(event) {
+                const email = document.getElementById('email');
+                const password = document.getElementById('password');
+                let valid = true;
+
+                if (!email.value) {
+                    valid = false;
+                    email.classList.add('error');
+                } else {
+                    email.classList.remove('error');
+                }
+
+                if (!password.value) {
+                    valid = false;
+                    password.classList.add('error');
+                } else {
+                    password.classList.remove('error');
+                }
+
+                if (!valid) {
+                    event.preventDefault();
+                    document.getElementById('error-message').style.display = 'block';
+                }
+            });
+        });
+    </script>
+    <style>
+        body {
+            background-image: url('{% static "images/background1.jpg" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .logo {
+            font-size: 20px; /* Decreased font size */
+            font-weight: bold;
+        }
+
+        .nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 30px 20px; /* Reduced padding */
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 28px; /* Reduced font size */
+            margin-bottom: 10px;
+        }
+
+        .hero h3 {
+            font-size: 16px; /* Reduced font size */
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .form-options div {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-options input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .form-options a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #74eb04;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #82cb75;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-login p {
+            margin-bottom: 10px;
+        }
+
+        .social-btn {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .social-btn.google {
+            background-color: #db4437;
+            color: white;
+        }
+
+        .social-btn.facebook {
+            background-color: #3b5998;
+            color: white;
+        }
+
+        .social-btn.twitter {
+            background-color: #1da1f2;
+            color: white;
+        }
+
+        .register-prompt {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .register-prompt a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 18px; /* Increased font size */
+        }
+
+        .register-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            margin-top: auto; /* Ensure footer stays at the bottom */
+        }
+
+        .error {
+            border-color: red;
+        }
+
+        #error-message {
+            display: none;
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .alert-primary {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+    </style>
+    <style>
+        {% comment %} /* Basic Styling for Error Handling and Form */
+        .form-container {
+            max-width: 500px;
+            margin: 20px auto;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        } {% endcomment %}
+
+        {% comment %} .submit-btn {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .social-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .social-btn {
+            background-color: #59e811;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            background-color: #ddd;
+        } {% endcomment %}
+
+        .error-message {
+            display: block;
+            color: red;
+            font-size: 16px;
+            margin-top: 5px;
+            font-weight: 700;
+        }
+        .alert {
+            text-align: center;
+            font-weight: bold;
+        }
+        .alert-danger {
+            color: red;
+        }
+        .alert-primary {
+            color: green;
+        }
+
+    </style>
+</head>
+<header class="header">
+    <div class="logo">InFoodSys</div>
+    <nav class="nav">
+        <a href="{% url 'Home' %}">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Restaurant Login</h1>
+            <h3>Login to manage your restaurant orders</h3>
+        </div>
+    </section>
+
+    <!-- Login Form Section -->
+    <section class="login-form">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form id="login-form" method="post" novalidate>
+                {% csrf_token %}
+                
+                <!-- Display messages (Success/Errors) -->
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'error' %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                        {% elif message.tags == 'success' %}
+                            <div class="alert alert-success" role="alert">
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <!-- Error message for empty fields -->
+                <div id="error-message">Please fill in all fields.</div>
+
+                <!-- Email input (Username) -->
+                <div class="form-field">
+                    <label for="email">Email:</label>
+                    <input 
+                        type="text" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your restaurant email or username" 
+                        required
+                    >
+                    <small class="error-message" id="email-error"></small>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-field">
+                    <label for="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        placeholder="Enter your password" 
+                        required 
+                    >
+                    <small class="error-message" id="password-error"></small>
+                </div>
+
+                <!-- Remember Me and Forgot Password -->
+                <div class="form-options">
+                    {% comment %} <div>
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember Me</label>
+                    </div>{% endcomment %}
+
+                    <a href="{% url 'password_reset' %}">Forgot password?</a>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+
+            <!-- Register Prompt -->
+            <div class="register-prompt">
+                <p>New to  InFoodSys</p>
+                <a href="{% url 'registerRestaurant' %}">Register as Restaurant</a>
+            </div>
+
+            <!-- User Login Prompt -->
+            {% comment %} <div class="text-center my-5">
+                <p>Are you a customer? <a href="{% url 'login' %}" class="btn btn-danger">User Login</a></p>
+            </div> {% endcomment %}
+        </div>
+    </section>
+
+    
+    <!-- Footer Section -->
+    {% comment %} <footer class="footer">
+        <p>&copy; 2024 Food Delivery System | All rights reserved</p>
+    </footer>
+
+
+    <!-- JavaScript for Validation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('login-form');
+            form.addEventListener('submit', function (event) {
+                let valid = true;
+
+                // Email Validation
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('email-error');
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+                if (!email.value.trim()) {
+                    emailError.textContent = 'Email is required.';
+                    valid = false;
+                } else if (!emailPattern.test(email.value)) {
+                    emailError.textContent = 'Email must end with @gmail.com.';
+                    valid = false;
+                } else {
+                    emailError.textContent = '';
+                }
+
+                // Password Validation
+                const password = document.getElementById('password');
+                const passwordError = document.getElementById('password-error');
+                const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/;
+                if (!password.value.trim()) {
+                    passwordError.textContent = 'Password is required.';
+                    valid = false;
+                } 
+
+
+                {% comment %} else if (!passwordPattern.test(password.value)) {
+                    passwordError.textContent = 'Password must have at least 8 characters, including uppercase, lowercase, a number, and a special character.';
+                    valid = false;
+                }  {% endcomment %}
+                
+                {% comment %} else {
+                    passwordError.textContent = '';
+                }
+
+                // Prevent submission if invalid
+                if (!valid) {
+                    event.preventDefault();
+                }
+            });
+        }); {% endcomment %}
+    </script>
+</body>
+</html>

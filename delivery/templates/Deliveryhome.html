@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Delivery User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: white;
+            background-color: #069419;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .actions a {
+            padding: 10px 20px;
+            border: none;
+            background-color: #069419;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .actions a:hover {
+            background-color: #069419;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead th {
+            background-color: #069419;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        tbody td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome, {{ user.deliveryuser.name }}!</h1>  <!-- Display logged-in user's name -->
+
+        <p>Welcome to the Delivery Dashboard. You can manage your deliveries, view orders, and more.</p>
+
+        <div class="actions">
+            <a href="{% url 'logout' %}">Logout</a>  <!-- Logout link -->
+        </div>
+
+        <!-- Display messages -->
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="orders-container">
+            <h3>Assigned Orders</h3>
+            <p>Total Orders: {{ orders|length }}</p>  <!-- Display total number of orders -->
+            {% if orders %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Delivery Address</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.order_no }}</td>
+                                <td>{{ order.customer.name }}</td>  <!-- Corrected field name -->
+                                <td>{{ order.customer.address }}</td>  <!-- Corrected field name to access address -->
+                                <td>
+                                    <form method="post" action="{% url 'home' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                                        <select name="status">
+                                            {% for value, display in order.get_status_choices %}
+                                            <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>
+                                                {{ display }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                        <button type="submit">Update</button>
+                                    </form>
+                                </td>
+                                {% comment %} <td>{{ order.get_status_display }}</td>  <!-- Display current status --> {% endcomment %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No orders assigned to you at the moment.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Fade out messages after 5 seconds
+        setTimeout(function() {
+            var messages = document.querySelector('.alert');
+            if (messages) {
+                messages.style.transition = 'opacity 1s ease-out';
+                messages.style.opacity = '0';
+                setTimeout(function() {
+                    messages.style.display = 'none';
+                }, 1000);
+            }
+        }, 5000);
+    </script>
+
+</body>
+</html>

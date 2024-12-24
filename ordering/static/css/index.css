@@ -1,0 +1,313 @@
+
+    /* {% comment %} 
+    
+    .item {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .item-name {
+        margin-bottom: 5px;
+    }
+
+    .rating {
+        margin-bottom: 10px;
+    }
+
+    .cart {
+        margin-left: auto;
+    }
+
+    .item-price {
+        margin-right: 10px;
+    }
+
+    .inner img {
+        max-width: 80px;
+    }
+
+    .outer {
+        margin-bottom: 40px;
+        width: calc(25% - 20px);
+        margin-right: 15px;
+        margin-left: 15px;
+        display: inline-block;
+    }
+
+    .added-to-cart {
+        background-color: rgb(2, 63, 2);
+        color: white;
+    }
+    /* Navigation Bar Styling */
+/* Improved Menu Item Card Styling */
+.menu-item-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background: linear-gradient(145deg, #f5f5f5, #d9d9d9);
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.15), -6px -6px 20px rgba(255, 255, 255, 0.7);
+    position: relative;
+    cursor: pointer;
+}
+
+.menu-item-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.menu-item-card:hover {
+    transform: scale(1.08);
+    box-shadow: 6px 6px 30px rgba(0, 0, 0, 0.2), -6px -6px 30px rgba(255, 255, 255, 0.5);
+}
+
+.menu-item-card-body {
+    text-align: center;
+    padding: 20px;
+}
+
+.menu-item-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.menu-item-card-footer .btn {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background 0.4s ease, transform 0.3s ease;
+}
+
+.menu-item-card-footer .btn:hover {
+    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+    transform: scale(1.1);
+}
+
+    .btn-success {
+        background: linear-gradient(90deg, #28a745, #218838);
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: background 0.4s ease, transform 0.3s ease;
+    }
+
+    .btn-success:hover {
+        background: linear-gradient(90deg, #218838, #28a745);
+        transform: scale(1.1);
+    }
+
+
+nav {
+background-color: #006400; /* Dark Green */
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px 20px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Navigation Links Styling */
+nav a {
+text-decoration: none;
+color: white;
+font-size: 16px;
+font-weight: bold;
+margin: 0 15px;
+padding: 8px 15px;
+border-radius: 5px;
+transition: all 0.3s ease;
+}
+
+/* Hover Effects */
+nav a:hover {
+background-color: #32cd32; /* Lighter green shade */
+color: black;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Active Link Styling */
+nav a.active {
+background-color: #228b22; /* Forest Green */
+color: white;
+box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Logo Styling */
+nav .logo {
+font-size: 20px;
+font-weight: bold;
+color: white;
+text-transform: uppercase;
+}
+
+    /* Footer Styles */
+.footer {
+background: linear-gradient(135deg, #2a2a2a, #444); /* Gradient background */
+color: #f1f1f1;
+padding: 40px 20px;
+font-size: 14px;
+text-align: left;
+border-top: 5px solid #82cb75; /* Highlighted border at the top */
+}
+
+.footer-container {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+gap: 30px;
+margin-bottom: 20px;
+}
+
+.footer-section {
+padding: 0 15px;
+}
+
+.footer-section h4 {
+font-size: 20px;
+margin-bottom: 15px;
+color: #82cb75; /* Green highlight */
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.footer-section p {
+color: #bbb;
+line-height: 1.8;
+}
+
+.footer-section ul {
+list-style: none;
+padding: 0;
+}
+
+.footer-section ul li {
+margin: 8px 0;
+}
+
+.footer-section ul li a {
+color: #bbb;
+text-decoration: none;
+transition: color 0.3s, text-shadow 0.3s;
+}
+
+.footer-section ul li a:hover {
+color: #82cb75; /* Highlight on hover */
+text-shadow: 0px 0px 5px #82cb75; /* Glow effect */
+}
+
+.footer-section.social ul {
+display: flex;
+gap: 15px;
+}
+
+.footer-section.social ul li a {
+font-size: 30px;
+color: #bbb;
+transition: color 0.3s, transform 0.3s;
+}
+
+.footer-section.social ul li a:hover {
+color: #82cb75;
+transform: scale(1.2); /* Zoom effect */
+}
+
+.footer-section.social ul li a i {
+transition: transform 0.3s ease;
+}
+
+.footer-section.social ul li a:hover i {
+transform: rotate(10deg); /* Slight rotation on hover */
+}
+
+.footer-section.newsletter form {
+display: flex;
+flex-direction: column;
+}
+
+.footer-section.newsletter input {
+padding: 12px;
+margin-bottom: 10px;
+border: none;
+border-radius: 5px;
+width: 100%;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+font-size: 14px;
+}
+
+.footer-section.newsletter button {
+font-weight: bold;
+font-family: Montserrat, sans-serif;
+text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+padding: 14px;
+background: linear-gradient(135deg, #32b91a, #28a745);
+border: none;
+color: white;
+cursor: pointer;
+border-radius: 5px;
+transition: background 0.3s, transform 0.3s;
+width: 100%;
+}
+
+.footer-section.newsletter button:hover {
+background: linear-gradient(135deg, #34e308, #2ea744); /* Brighter gradient */
+transform: translateY(-2px); /* Subtle lift on hover */
+}
+
+.footer-bottom {
+background-color: #222;
+padding: 15px;
+font-size: 12px;
+text-align: center;
+}
+
+.footer-bottom p {
+margin: 0;
+color: #888;
+}
+
+/* Smooth Scroll */
+html {
+scroll-behavior: smooth;
+}
+
+/* Message Container */
+.message-container {
+text-align: center;
+margin: 20px 0;
+}
+
+.alert {
+display: inline-block;
+padding: 15px 20px;
+border-radius: 5px;
+font-weight: bold;
+font-size: 1.2em;
+margin: 10px 0;
+background: rgba(255, 255, 255, 0.1); /* Semi-transparent */
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.alert-danger {
+color: #f44336;
+background: rgba(244, 67, 54, 0.1); /* Light red background */
+}
+
+.alert-primary {
+color: #007bff;
+background: rgba(0, 123, 255, 0.1); /* Light blue background */
+}
+
+/* Hover Glow for Alerts */
+.alert:hover {
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+

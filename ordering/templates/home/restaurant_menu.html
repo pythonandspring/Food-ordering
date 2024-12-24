@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <title>{{ restaurant.restaurantName }} Menu</title>
+
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #95b0a7; /* Light background for better contrast */
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Page container to center the content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+    
+        h1 {
+            font-weight: bold;
+            color: #0764c7;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    
+        /* Customize the nav-tabs */
+        .custom-nav {
+            background: linear-gradient(90deg, #3f70a4, #00bfff);
+            border-radius: 50px;
+            padding: 5px;
+            margin-bottom: 40px;
+        }
+    
+        .custom-nav-link {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            background-color: transparent;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            transition: all 0.4s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        .custom-nav-link.active {
+            background-color: #fff;
+            color: #007bff;
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+    
+        .custom-nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #007bff;
+            transform: scale(1.05);
+        }
+    
+        /* Search bar styling */
+        #search-bar {
+            padding: 14px 22px;
+            border-radius: 40px;
+            border: 2px solid #007bff;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0px 8px 12px rgba(0, 123, 255, 0.1);
+            transition: box-shadow 0.3s ease;
+            margin-bottom: 30px;
+        }
+    
+        #search-bar:focus {
+            box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.3);
+            outline: none;
+        }
+    
+        .input-group-text {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 50px;
+            border: none;
+            padding: 0 18px;
+        }
+    
+        /* Food card styling */
+        .food-card {
+            display: block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            border-radius: 20px;
+        }
+    
+        .food-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+            opacity: 1;
+        }
+    
+        .card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.4s ease;
+        }
+    
+        .card-img-top {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+    
+        .card-img-top:hover {
+            transform: scale(1.1);
+        }
+    
+        .card-body {
+            padding: 20px;
+            text-align: center;
+        }
+    
+        .card-title {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #343a40;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+    
+        .card-text {
+            color: #6c757d;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+    
+        .btn-danger {
+            background-color: #ff4d4f;
+            border: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+    
+        .btn-danger:hover {
+            background-color: #ff6666;
+            transform: scale(1.05);
+        }
+    
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+    
+        .btn-success:hover {
+            background-color: #34d058;
+            transform: scale(1.05);
+        }
+    
+        /* Responsive design */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2rem;
+            }
+    
+            .custom-nav-link {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+    
+            .food-card {
+                margin-bottom: 20px;
+            }
+        }
+    
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+    
+            .card-img-top {
+                height: 180px;
+            }
+    
+            .custom-nav-link {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+    
+            #search-bar {
+                width: 100%;
+                margin: 10px auto;
+            }
+        }
+    
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+    
+            .custom-nav-link {
+                font-size: 12px;
+                padding: 7px 12px;
+            }
+    
+            .food-card {
+                margin-bottom: 15px;
+            }
+    
+            .card-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    
+    
+
+    <script>
+        function handleAddToCart(button) {
+            button.classList.remove("btn-danger");
+            button.classList.add("btn-success");
+            button.value = "Added to Cart";
+            button.disabled = true;
+
+            const formData = new FormData(button.closest("form"));
+            fetch(button.closest("form").action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}"
+                }
+            }).catch(error => console.error("Error:", error));
+        }
+
+        function filterCategory(category) {
+            const foodCards = document.querySelectorAll(".food-card");
+            foodCards.forEach(card => {
+                if (category === "all" || card.dataset.category === category) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function filterFoodItems() {
+            const query = document.getElementById("search-bar").value.toLowerCase();
+            const foodCards = document.querySelectorAll(".food-card");
+            foodCards.forEach(card => {
+                const foodName = card.querySelector(".card-title").textContent.toLowerCase();
+                if (foodName.includes(query)) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+    {% include "home/header.html" %}
+    <div class="container mt-5">
+        <h1>{{ restaurant.restaurantName }} Menu</h1>
+
+        <!-- Search Bar -->
+<div class="mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="input-group shadow-sm">
+                <input type="text" 
+                       class="form-control rounded-pill"
+                       id="searchInput"
+                       placeholder="Search for food..." 
+                       onkeyup="filterFoodItems()" 
+                       style="padding: 10px 20px; border: 2px solid #4e85be;">
+                <button class="btn btn-secondary rounded-pill" id="micButton">
+                    <i class="bi bi-mic"></i>
+                </button>
+                <button class="btn btn-primary rounded-pill" id="searchButton">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Tabs -->
+
+
+<!-- Styles for Both Mic and Search Buttons -->
+<style>
+    /* Common styles for both buttons */
+    .btn {
+        border: none;
+        padding: 10px 15px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Style for the Mic Button */
+    #micButton {
+        background-color: #4e85be;
+        color: white;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    /* Style for the Search Button */
+    #searchButton {
+        background-color: #4e85be;
+        color: white;
+    }
+
+    /* Hover effect for both buttons */
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Active effect for both buttons */
+    .btn:active {
+        transform: translateY(2px);
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Specific style for search button when focused */
+    #searchButton:focus {
+        background-color: #0056b3;
+    }
+
+    /* Icon size and alignment for both buttons */
+    .btn i {
+        font-size: 22px; /* Set the same size for both icons */
+        color: white; /* Ensure both icons are white */
+        margin: 0; /* Remove any unwanted margins */
+    }
+
+    /* Additional spacing for search and mic buttons */
+    #micButton, #searchButton {
+        width: 50px; /* Set width for a consistent button size */
+        height: 50px; /* Set height to make the buttons circular */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<!-- Category Tabs -->
+<div class="mb-4">
+    <ul class="nav nav-tabs custom-nav">
+        <li class="nav-item">
+            <button class="nav-link active custom-nav-link" onclick="filterCategory('all')">All</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('tiffin')">Tiffins</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('veg')">Veg</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('non veg')">Non-Veg</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('Ice cream')">Ice-Creams</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('drinks')">Drinks</button>
+        </li>
+    </ul>
+</div>
+
+<!-- Food Items -->
+<div class="row">
+    {% for food in food_items %}
+    <div class="col-md-4 food-card" data-category="{{ food.category }}">
+        <div class="card mb-4">
+            <img src="/media/{{ food.image }}" class="card-img-top" alt="{{ food.name }}" 
+                 style="height: 200px; width: 100%; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">{{ food.name }}</h5>
+                <p class="card-text">Category: {{ food.category }}</p>
+                <p class="card-text">Price: ₹{{ food.price }}</p>
+                <form action="#" method="post">
+                    {% csrf_token %}
+                    <input hidden type="text" name="id" value="{{ food.id }}">
+                    <input type="button" class="btn btn-danger" value="Add to Cart" 
+                           onclick="handleAddToCart(this)">
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const micButton = document.getElementById("micButton");
+        const searchInput = document.getElementById("searchInput");
+
+        // Check if browser supports SpeechRecognition
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            micButton.disabled = true;
+            micButton.title = "Voice search is not supported in this browser.";
+            return;
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = "en-US";
+
+        micButton.addEventListener("click", () => {
+            recognition.start();
+        });
+
+        recognition.onstart = () => {
+            micButton.classList.add("listening");
+            micButton.innerHTML = `<i class="bi bi-mic-fill"></i>`;
+        };
+
+        recognition.onend = () => {
+            micButton.classList.remove("listening");
+            micButton.innerHTML = `<i class="bi bi-mic"></i>`;
+        };
+
+        recognition.onresult = (event) => {
+            let transcript = event.results[0][0].transcript;
+            transcript = transcript.trim().replace(/\.$/, ''); // Remove trailing period
+            searchInput.value = transcript;
+            filterFoodItems(); // Trigger the food items filter
+        };
+
+        recognition.onerror = (event) => {
+            console.error("Speech recognition error:", event.error);
+        };
+    });
+
+    function filterFoodItems() {
+        // Logic to filter food items based on search input
+        const query = document.getElementById("searchInput").value.toLowerCase();
+        const foodCards = document.querySelectorAll(".food-card");
+
+        foodCards.forEach(card => {
+            const foodName = card.querySelector(".card-title").textContent.toLowerCase();
+            if (foodName.includes(query)) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
+
+    {% include "home/footer.html" %}
+</body>
+
+</html>
