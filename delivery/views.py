@@ -27,7 +27,7 @@ def home(request):
             messages.success(request, f"Order status of {order.order_no} is {order.get_status_display()}")
 
             # Show the map when the status is confirmed
-            if new_status == 'CONFIRMED':
+            if new_status == 'OUT_FOR_DELIVERY':
                 return redirect(reverse('track_delivery', kwargs={'order_id': order.id}))
         except Order.DoesNotExist:
             messages.error(request, 'Order not found or you are not authorized to update this order')
