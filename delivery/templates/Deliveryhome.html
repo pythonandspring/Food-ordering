@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Delivery User</title>
+
+
+        <!-- Add this in your HTML template, e.g., Deliveryhome.html -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(103deg, #3b5a3b, #9ced07);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #e8f5e9;
+            padding: 15px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #388e3c;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .nav-link.menu-link {
+            color: #4caf50;
+            font-size: 1.2em;
+            margin-right: 20px;
+            text-transform: capitalize;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link.menu-link:hover {
+            color: #1b5e20;
+            text-decoration: underline;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            letter-spacing: 1.5px;
+            text-shadow: 2px 2px 4px rgba(27, 94, 32, 0.2);
+            transform: scale(1.1);
+            border-bottom: 2px solid #1b5e20;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 1500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: white;
+            background-color: #069419;
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .actions a {
+            padding: 10px 20px;
+            border: none;
+            background-color: #069419;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .actions a:hover {
+            background-color: #069419;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        thead th {
+            background-color: #069419;
+            color: white;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        tbody td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .alert-success {
+            color: #3c763d;
+            background-color: #dff0d8;
+            border-color: #d6e9c6;
+        }
+
+        .alert-error {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .action-buttons form {
+            margin: 0;
+        }
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #069419;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #069419;
+        }
+
+        @media (max-width: 480px) {
+            .navbar-brand {
+                font-size: 1.8em;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .actions a {
+                font-size: 1.1em;
+                padding: 8px 20px;
+            }
+
+            tbody td {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <h1>Welcome, {{ user.deliveryuser.name }}!</h1>  <!-- Display logged-in user's name -->
+        <h3>Welcome to the Delivery Dashboard. You can manage your deliveries, view orders, and more.</h3>
+        <div class="actions">
+            <a href="{% url 'feedback_form' %}">Logout</a>  <!-- Logout link -->
+        </div>
+        
+
+        <!-- Display messages -->
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="orders-container">
+            <h3>Assigned Orders</h3>
+            <p>Total Orders: {{ orders|length }}</p>  <!-- Display total number of orders -->
+            {% if orders %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer Name</th>
+                            <th>Delivery Address</th>
+                            <th>Restaurant Name</th> <!-- New column for restaurant name -->
+                            <th>Restaurant Address</th> <!-- New column for restaurant address -->
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.order_no }}</td>
+                                <td>{{ order.customer.name }}</td>
+                                <td>{{ order.customer.address }}</td> <!-- Corrected field for customer address -->
+                                <td>{{ order.restaurant.restaurantName }}</td> <!-- Corrected field for restaurant name -->
+                                <td>{{ order.restaurant.address }}</td> <!-- Corrected field for restaurant address -->
+                                <td>
+                                    <form method="post" action="{% url 'home' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                                        <select name="status">
+                                            {% for value, display in order.get_status_choices %}
+                                            <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>
+                                                {{ display }}
+                                            </option>
+                                            {% endfor %}
+                                        </select>
+                                </td>
+                                <td class="action-buttons">
+                                    <button type="submit">Update</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No orders assigned to you at the moment.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Fade out messages after 5 seconds
+        setTimeout(function() {
+            var messages = document.querySelector('.alert');
+            if (messages) {
+                messages.style.transition = 'opacity 1s ease-out';
+                messages.style.opacity = '0';
+                setTimeout(function() {
+                    messages.style.display = 'none';
+                }, 1000);
+            }
+        }, 5000);
+    </script>
+    
+</body>
+</html>
