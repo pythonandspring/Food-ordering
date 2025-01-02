@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 # Food Ordering System
 
 ## Introduction
@@ -178,4 +177,4 @@ The goal of this project is to streamline the interaction between customers and 
 
 ## Conclusion
 This project aims to provide a comprehensive solution for the food delivery industry, improving the user experience for customers and streamlining operations for restaurants. By leveraging modern web technologies, scalable architecture, and real-time tracking features, the platform is well-positioned to meet the demands of high traffic volumes while offering a seamless experience.
->>>>>>> origin/feature3.0
+
