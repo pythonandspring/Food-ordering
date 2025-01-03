@@ -211,5 +211,5 @@ except Exception as e:
     print(f"An error occurred: {e}")
 
 # Debugging statements
-print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")
-print(f"EMAIL_HOST_PASSWORD: {EMAIL_HOST_PASSWORD}")
+# print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")
+# print(f"EMAIL_HOST_PASSWORD: {EMAIL_HOST_PASSWORD}")
