@@ -1,28 +1,39 @@
-FROM python:3.9-alpine
+FROM python:3.11-alpine
 
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Install system dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev mariadb-connector-c-dev
-
+# Set the working directory in the container
 WORKDIR /django
 
-COPY requirements.txt requirements.txt
+# Install system dependencies 
+RUN apk update && apk add --no-cache \
+    build-base \
+    mariadb-dev \
+    python3-dev \
+    libstdc++ \
+    alsa-lib-dev \
+    portaudio-dev \
+    libffi-dev
+
+# Copy the requirements file to the working directory
+COPY requirements.txt .
 
 # Install Python dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt -v
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the entire project into the Docker image
+# Copy the application code
 COPY . .
 
-# Run migrations and create a superuser
-RUN python manage.py migrate
+# Run migrate command
+RUN python manage.py migrate --fake
 
-# Run Django migrations and create a superuser
-# RUN python manage.py migrate
-# RUN echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'admin')" | python manage.py shell
+# Run the tests
+RUN python manage.py test --verbosity=2
 
+# Expose the port for Django development server
 EXPOSE 8000
 
+# Default command to run the Django development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

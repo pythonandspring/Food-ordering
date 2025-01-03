@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+    <title>Food Catalog</title>
+   <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+  align-items: center;
+}
+
+.container {
+  width: 80%;
+  margin: 50px auto;
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  background-color: #069419;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.food-form {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.food-form label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.food-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 14px;
+      color: #fff;
+      background-color: #28a745;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+
+    }
+.food-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+.food-table th,
+.food-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.food-table th {
+  background-color: white;
+  color: rgb(10, 10, 10);
+}
+
+.food-table td {
+  background-color: #fff;
+}
+   </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="title">Food Catalog</h1>
+      <form class="food-form">
+        <label for="foodName">Food Name:</label>
+        <input type="text" id="FoodName" placeholder="Enter food name" />
+        <label for="FoodDescription">Food Description:</label>
+        <input type="text" id="Food Description" placeholder="Enter Food Description" />
+
+        <label for="category">Category:</label>
+        <input
+          type="text"
+          id="category"
+          placeholder="Enter category (e.g., Appetizer, Main Course)"
+        />
+
+        <label for="price">Price (₹):</label>
+        <input type="text" id="price" placeholder="Enter price" />
+
+        <a href="http://127.0.0.1:5500/Food-ordering/ordering/templates/home/myfoods.html" <button type="submit" class="btn">Add Food Item</button></a>
+        
+      </form>
+
+      
+          <!-- Rows will be dynamically added here -->
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- saved from url=(0029)file:///D:/Durga/UPDATE2.html -->
+<html lang="en">
+  <head>
+    <title>Update Food Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .update-form-container {
+        width: 400px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        text-align: center;
+      }
+
+      .update-form-container h1 {
+        background-color: #107207;
+        color: #fff;
+        padding: 10px 0;
+        margin: -20px -20px 20px -20px;
+        border-radius: 10px 10px 0 0;
+      }
+
+      .update-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+      }
+
+      .form-group label {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        outline: none;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      textarea {
+        resize: none;
+        height: 60px;
+      }
+
+      .update-btn {
+        background-color: #086e11;
+        color: #fff;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .update-btn:hover {
+        background-color: #217706;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="update-form-container">
+      <h1>Update Food Details</h1>
+      <form class="update-form" method="post" enctype="multipart/form-data" action="{% url 'update_food' food.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="food_id" value="{{ food.id }}">
+        <div class="form-group">
+          <label for="food-title">Food Title</label>
+          <input
+            type="text"
+            id="food-title"
+            name="food-title"
+            value="{{ food.name }}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="food-description">Food Description</label>
+          <textarea id="food-description" name="food-description">{{ food.description }}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="food-price">Food Price</label>
+          <input
+            type="text"
+            id="food-price"
+            name="food-price"
+            value="{{ food.price }}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="food-category">Food Category</label>
+          <input type="text" id="food-category" name="food-category" value="{{ food.category }}">
+        </div>
+        <div class="form-group">
+          <label for="food-image">Food Image</label>
+          <input type="file" id="food-image" name="food-image" accept="image/*">
+        </div>
+        <button type="submit" class="update-btn">Update Food</button>
+      </form>
+    </div>
+  </body>
+</html>

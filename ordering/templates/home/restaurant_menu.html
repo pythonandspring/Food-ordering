@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+    {% load static %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Bootstrap & Icons -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+        <!-- AOS Library for Scroll Animations -->
+        <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+        <title>{{ restaurant.restaurantName }} Menu</title>
+
+        <style>
+            /* General body styling */
+            .frozen-container {
+                
+                background: rgba(0, 0, 0, 0.2); /* Translucent white background */
+                backdrop-filter: blur(6px);
+                border-radius: 12px;
+                
+                padding:20px;
+              
+                animation: fadeIn 1s ease-in-out;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.025);
+                max-width:90% !important;
+
+                
+            }
+            body {
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                padding: 0;
+                background: linear-gradient(103deg, #3b5a3b, #9ced07);
+                /* background: url("{% static 'images/photobackground.jpg' %}") no-repeat center center fixed; */
+                background-size: cover;
+                color: #333;
+                overflow-x: hidden; /* Remove horizontal scroll bars */
+            }
+            .container{
+                max-width:100% !important;
+            }
+            .frozen-container-hero {
+                
+                background: rgba(0, 0, 0, 0.2); /* Translucent white background */
+                backdrop-filter: blur(6px);
+                height:19vh;
+                border-radius: 12px;
+                padding:20px;
+                width:100% 1!important;
+                animation: fadeIn 1s ease-in-out;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.025);
+            }
+            
+        
+            h1 {
+                font-weight: bold;
+                color: #f9f9fa;
+                text-align: center;
+
+                font-size: 2rem;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+            
+/* Search bar styling */
+#search-bar {
+    padding: 12px 18px;
+    border-radius: 10px; /* Block-like shape */
+    border: 2px solid #007bff;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0px 8px 12px rgba(0, 123, 255, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+#search-bar:focus {
+    box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Toggle inactive buttons to default color on click */
+.custom-nav-link:not(.active):focus {
+    background-color: transparent;
+    color: #fff;
+    box-shadow: none;
+}
+
+
+.input-group-text {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50px;
+    border: none;
+    padding: 0 18px;
+}
+
+        /* Food card styling */
+        .food-items-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start; /* Aligns items at the start of the row */
+}
+
+.food-item-col {
+    flex: 1 1 calc(20% - 15px); /* Five cards per row */
+    max-width: calc(20% - 15px); /* Ensures max width is controlled */
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    margin:20px;
+
+}
+
+.food-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 100%;
+    
+}
+
+.food-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.food-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.food-details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.food-name {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.food-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.food-price {
+    color: #ff7043;
+    font-weight: bold;
+}
+.food-category {
+    color: #00c853;
+    font-weight: bold;
+    font-size:medium;
+    padding-bottom: 10px;
+}
+
+.add-to-cart-btn {
+    padding: 5px;
+    width: 40%;
+    background-color: #d30a0a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    
+   
+}
+
+.add-to-cart-btn:hover {
+    background-color: #008e41;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .food-item-col {
+        flex: 1 1 calc(20% - 15px); /* Five cards per row on large screens */
+        max-width: calc(20% - 15px);
+    }
+}
+
+@media (max-width: 992px) {
+    .food-item-col {
+        flex: 1 1 calc(25% - 15px); /* Four cards per row on medium screens */
+        max-width: calc(25% - 15px);
+        margin:2px;
+    }
+}
+
+@media (max-width: 768px) {
+    .food-item-col {
+        flex: 1 1 calc(50% - 15px); /* Two cards per row on smaller screens */
+        max-width: calc(50% - 15px);
+        margin:2px;
+    }
+}
+
+@media (max-width: 576px) {
+    .food-item-col {
+        flex: 1 1 calc(100% - 30px); /* Full width for very small screens */
+        max-width: calc(100% - 30px);
+        margin:2px;
+    }
+}
+/* Advanced Nav Tabs */
+.custom-nav {
+    margin: 10px auto;
+    width: 90%;
+    padding: 14px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #658ea9, #2b64b9); /* Cool gradient */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* Enhanced depth */
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #66fcf1 #1f2833; /* Stylish scrollbar colors */
+}
+
+.custom-nav::-webkit-scrollbar {
+    height: 8px;
+}
+
+.custom-nav::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #66fcf1, #45a29e);
+    border-radius: 10px;
+}
+
+/* Nav Link */
+.custom-nav-link {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    padding: 14px 30px;
+    border-radius: 30px; /* Soft pill-like shape */
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)); /* Subtle glassy effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: transform 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Active State */
+.custom-nav-link.active {
+    background: linear-gradient(135deg, #1de9b6, #1dc4e9); /* Eye-catching gradient */
+    color: #fff;
+    transform: scale(1.2); /* Highlight active link */
+    box-shadow: 0 8px 20px rgba(29, 196, 233, 0.6); /* Vibrant shadow */
+}
+
+/* Hover Effect */
+.custom-nav-link:hover {
+    color: #000;
+    background: linear-gradient(135deg, #f3e5ab, #ff8c42); /* Attractive hover gradient */
+    transform: translateY(-5px) scale(1.1); /* Dynamic hover animation */
+    box-shadow: 0 12px 30px rgba(255, 140, 66, 0.6); /* Glowing effect */
+}
+
+/* Glow Effect */
+.custom-nav-link::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.custom-nav-link:hover::before {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .custom-nav { padding: 12px; }
+    .custom-nav-link { font-size: 14px; padding: 12px 25px; }
+}
+
+@media (max-width: 480px) {
+    .custom-nav { justify-content: flex-start; }
+    .custom-nav-link { font-size: 13px; padding: 10px 20px; }
+}
+
+
+    </style>
+    <style>
+        /* Common styles for both buttons */
+        .btn {
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    
+        /* Style for the Mic Button */
+        #micButton {
+            background-color: #4e85be;
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+    
+        /* Style for the Search Button */
+        #searchButton {
+            background-color: #4e85be;
+            color: white;
+        }
+    
+        /* Hover effect for both buttons */
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+        }
+    
+        /* Active effect for both buttons */
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    
+        /* Specific style for search button when focused */
+        #searchButton:focus {
+            background-color: #0056b3;
+        }
+    
+        /* Icon size and alignment for both buttons */
+        .btn i {
+            font-size: 22px; /* Set the same size for both icons */
+            color: white; /* Ensure both icons are white */
+            margin: 0; /* Remove any unwanted margins */
+        }
+    
+        /* Additional spacing for search and mic buttons */
+        #micButton, #searchButton {
+            width: 50px; /* Set width for a consistent button size */
+            height: 50px; /* Set height to make the buttons circular */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    
+
+    
+
+</head>
+<header>{% include "home/header.html" %}</header>
+<body>
+    <div class="container frozen-container-hero">
+    
+        <h1>{{ restaurant.restaurantName }} Menu</h1>
+
+
+        
+         
+
+        <!-- Search Bar with Microphone -->
+<div class="input-group mb-4">
+    <input id="search-bar" type="text" class="form-control" placeholder="Search for food items..." oninput="filterFoodItems()">
+    <div class="input-group-append">
+        <button class="btn btn-secondary rounded-pill" id="mic-button" onclick="startVoiceSearch()">
+            <i class="bi bi-mic"></i>
+        </button>
+        <button class="btn btn-primary rounded-pill" id="searchButton">
+            <i class="bi bi-search"></i>
+        </button>
+    </div>
+</div>
+
+        <style>
+            /* Styling for the input group */
+.input-group {
+    display: flex;
+    width: 80%; /* Adjust the width of the search bar */
+    max-width: 600px; /* Maximum width for large screens */
+    margin: 0 auto;
+}
+
+/* Styling for the search input */
+#search-bar {
+    padding: 12px 18px;
+    border-radius: 10px; /* Rounded edges */
+    border: 2px solid #007bff;
+    width: 100%; /* Takes up most of the input group width */
+    max-width: 400px;
+    box-shadow: 0px 8px 12px rgba(0, 123, 255, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+#search-bar:focus {
+    box-shadow: 0px 8px 15px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Styling for the input group append to position buttons side by side */
+.input-group-append {
+    display: flex;
+}
+
+/* Styling for the microphone button */
+#mic-button {
+    border-radius: 50%; /* Make the button round */
+    width: 50px; /* Set width */
+    height: 50px; /* Set height to match width for perfect circle */
+    padding: 0; /* Remove any extra padding */
+    background-color: #3e87b4;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#mic-button:hover {
+    background-color: #121cd1;
+}
+
+/* Icon styling */
+#mic-button i {
+    font-size: 20px; /* Adjust icon size to fit inside the circle */
+}
+
+
+/* Styling for the search button */
+#searchButton {
+    border-radius: 50%; /* Make the button round */
+    padding: 10px;
+    background-color: #3e87b4;
+    color: #fff;
+    border: 2px solid #d8d9da;
+    cursor: pointer;
+}
+
+#searchButton:hover {
+    background-color: #121cd1;
+}
+
+
+
+/* Responsive design: Stack buttons on smaller screens */
+@media (max-width: 768px) {
+    .input-group {
+        width: 90%;
+    }
+
+    #search-bar {
+        width: 70%;
+    }
+
+    #mic-button, #searchButton {
+        padding: 6px;
+    }
+}
+
+
+        </style>
+
+        <!-- Category Tabs -->
+<div class="mb-4">
+    <ul class="nav nav-tabs custom-nav">
+        <li class="nav-item">
+            <button class="nav-link active custom-nav-link" onclick="filterCategory('all')">All</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('tiffin')">Tiffins</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('starter')">Starters</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('biriyani')">Biriyani</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('pizza')">Pizzas</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('dessert')">Desserts</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link custom-nav-link" onclick="filterCategory('snacks')">Snacks</button>
+        </li>
+    </ul>
+</div>
+        <!-- Food Items -->
+<section id="food-items-section" class="section">
+    <div class="food-items-row">
+        {% for food in food_items %}
+        <div class="food-item-col" data-category="{{ food.category }}">
+            <div class="food-card">
+                <img src="/media/{{ food.image }}" class="food-image" alt="{{ food.name }}">
+                <div class="food-details">
+                    <h4 class="card-title">{{ food.name }}</h4>
+                    <div class="food-info">
+                        <span class="food-category">Category: {{ food.category }}</span>
+                        <span class="food-price">Price: ₹{{ food.price }}</span>
+                    </div>
+                    <button class="add-to-cart-btn" id="btn-{{ food.id }}" onclick="toggleCart({{ food.id }})" {% if food.is_out_of_stock %}disabled{% endif %}>
+                        {% if food.is_out_of_stock %}Out of Stock{% else %}Add to Cart{% endif %}
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    // Function to calculate similarity between two strings
+    function stringSimilarity(str1, str2) {
+        str1 = str1.toLowerCase();
+        str2 = str2.toLowerCase();
+
+        let matches = 0;
+        const len = Math.min(str1.length, str2.length);
+
+        for (let i = 0; i < len; i++) {
+            if (str1[i] === str2[i]) matches++;
+        }
+
+        return matches / Math.max(str1.length, str2.length);
+    }
+
+    // Function to filter food items based on the selected category
+    function filterCategory(category) {
+        const threshold = 0.5; // Set a threshold for similarity (0 to 1)
+        const foodItems = document.querySelectorAll(".food-item-col"); // Select all food items
+        const lowerCategory = category.toLowerCase(); // Convert the selected category to lowercase
+
+        foodItems.forEach(item => {
+            const itemCategory = item.dataset.category.toLowerCase(); // Convert the item's category to lowercase
+            const similarity = stringSimilarity(lowerCategory, itemCategory); // Calculate similarity
+
+            // Show item if similarity is above the threshold or category is 'all'
+            if (lowerCategory === "all" || similarity >= threshold) {
+                item.style.display = "block"; // Show item
+            } else {
+                item.style.display = "none"; // Hide item
+            }
+        });
+
+        // Highlight the active category button
+        const navLinks = document.querySelectorAll(".nav-link");
+        navLinks.forEach(link => link.classList.remove("active"));
+        event.target.classList.add("active");
+    }
+</script>
+        
+
+        <!-- JavaScript Functions -->
+        <script>
+            // Filter food items based on search query
+            function filterFoodItems() {
+                const query = document.getElementById("search-bar").value.toLowerCase();
+                const foodCards = document.querySelectorAll(".food-card");
+                foodCards.forEach(card => {
+                    const foodName = card.querySelector(".card-title").textContent.toLowerCase();
+                    if (foodName.includes(query)) {
+                        card.parentElement.style.display = "block";
+                    } else {
+                        card.parentElement.style.display = "none";
+                    }
+                });
+            }
+
+            // Function to filter food items based on the selected category
+    function filterCategory(category) {
+        const foodItems = document.querySelectorAll(".food-item-col"); // Select all food item columns
+        foodItems.forEach(item => {
+            // Show or hide items based on the selected category
+            if (category === "all" || item.getAttribute("data-category").toLowerCase() === category.toLowerCase()) {
+                item.style.display = "block"; // Show item
+            } else {
+                item.style.display = "none"; // Hide item
+            }
+        });
+
+        // Highlight the active category button
+        const navLinks = document.querySelectorAll(".custom-nav-link");
+        navLinks.forEach(link => link.classList.remove("active")); // Remove "active" class from all links
+        event.target.classList.add("active"); // Add "active" class to the clicked link
+    }
+
+            // Start voice search functionality
+function startVoiceSearch() {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert('Your browser does not support voice recognition. Please use a compatible browser.');
+        return;
+    }
+
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = function () {
+        console.log("Voice recognition started. Please speak...");
+    };
+
+    recognition.onresult = function (event) {
+        let query = event.results[0][0].transcript;
+        console.log("Voice recognized: ", query);
+
+        // Remove any trailing punctuation like full stops
+        query = query.replace(/[.,!?;]$/, '').trim();
+
+        document.getElementById("search-bar").value = query;
+        filterFoodItems();
+    };
+
+    recognition.onerror = function (event) {
+        console.error("Voice recognition error: ", event.error);
+        alert("Sorry, there was an error with voice recognition. Please try again.");
+    };
+
+    recognition.onend = function () {
+        console.log("Voice recognition ended.");
+    };
+
+    recognition.start();
+}
+
+            // Toggle add/remove item in the cart
+            function toggleCart(foodId) {
+                var button = document.getElementById('btn-' + foodId);
+                var action = button.innerHTML.trim() === "Add to Cart" ? "add" : "remove";
+                
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "{% url 'menu' %}", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        if (action === "add") {
+                            button.innerHTML = "Remove from Cart";
+                            button.style.backgroundColor = "#4CAF50";
+                        } else {
+                            button.innerHTML = "Add to Cart";
+                            button.style.backgroundColor = "#d30a0a";
+                        }
+                    }
+                };
+                xhr.send("id=" + foodId + "&action=" + action);
+            }
+        </script>
+
+    {% include "home/footer.html" %}
+</body>
+
+</html>

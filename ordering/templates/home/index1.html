@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InFOODsys</title>
+
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- AOS Library for Scroll Animations -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+    <style>
+        /* General Styling */
+        /* Ensure content stretches full width and height */
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(103deg, #3b5a3b, #9ced07);
+            /* background: url("{% static 'images/photobackground.jpg' %}") no-repeat center center fixed; */
+            background-size: cover;
+            color: #333;
+            overflow-x: hidden; /* Remove horizontal scroll bars */
+        }
+        .container{
+            max-width:95% !important;
+        }
+        
+        
+
+        /* Frozen Container */
+        .frozen-container {
+            
+            background: rgba(0, 0, 0, 0.2); /* Translucent white background */
+            backdrop-filter: blur(6px);
+            border-radius: 12px;
+            
+            padding:20px;
+          
+            animation: fadeIn 1s ease-in-out;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.025);
+            max-width:100% !important;
+            
+        }
+        .frozen-container-hero {
+            
+            background: rgba(0, 0, 0, 0.2); /* Translucent white background */
+            backdrop-filter: blur(6px); 
+            height:23vh;
+            border-radius: 12px;
+            padding-left:30px;
+            padding-right: 30px;
+            
+            animation: fadeIn 1s ease-in-out;
+            {% comment %} box-shadow: 0 8px 24px rgba(0, 0, 0, 0.025); {% endcomment %}
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 1.9rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center; /* Ensures vertical alignment of text and lines */
+            justify-content: center; /* Centers the title within the container */
+            margin: 20px 0 25px 0;
+            color: #ffffff;
+            font-weight: bold;
+            font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+            position: relative; /* Needed for pseudo-elements positioning */
+        }
+
+        .section-title:before,
+        .section-title:after {
+            content: "";
+            flex: 1; /* Allows the lines to grow equally on both sides */
+            height: 2.3px; /* Adjust line thickness */
+            background-color: #eaebe8; /* Line color to match your theme */
+            margin: 0 10px; /* Spacing between the lines and the title */
+        
+        }
+
+
+
+        /* Hero Section */
+.hero-section {
+    text-align: center;
+}
+.hero-section a {
+    letter-spacing: 0.05cap;
+    padding: 10px 20px;
+    background: linear-gradient(103deg, #3b5a3b, #9ced07);
+    font-size: 1.1rem;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: Montserrat, sans-serif;
+    outline: none !important;
+    box-shadow: none !important;
+    z-index: 2;
+    font-weight: 700;
+}
+.hero-section a:hover {
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+/* Horizontal Scrollable Section */
+.scroll-container {
+    {% comment %} display: flex; {% endcomment %}
+    align-items: center;
+    {% comment %} position: relative; {% endcomment %}
+    overflow: hidden;
+    
+    padding: 9px; /* Unified padding */
+}
+
+.scroll-wrapper {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: flex-start; /* Align items to the start */
+    gap: 0px !important; /* Reduced gap for mobile view */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 0px;
+}
+
+.scroll-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.scroll-item {
+    flex: 0 0 120px;                /* Ensures equal distribution of items */
+    width: 100px;           /* Sets the width of each item */
+    height: 102px;          /* Ensures items remain square-shaped */
+    border-radius: 50%;     /* Makes the items circular */
+    text-align: center;     /* Centers the text within each item */
+           /* Adds space between items */
+}
+
+
+.scroll-item img {
+    width: 65%; /* Slightly larger for better focus */
+    height:65%;
+    border-radius: 50%; /* Reduced curve for better space utilization */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Deeper shadow for floating effect */
+    object-fit: cover;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid #ffa500;
+}
+
+.scroll-item img:hover {
+     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); /* More dramatic shadow on hover */
+    border: 3px solid #efe013; /* Orange border to highlight hover state */
+    background-color: #fff8e1; /* Warmer background for hover state */
+    transform:scale(0.9);
+}
+
+
+
+.scroll-item p {
+    
+    padding-top: 10px ;/* Adjusted padding for compact spacing */
+    font-size: 1rem; /* Improved font style */
+    color: #f6fbe7;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); 
+    font-family: 'Roboto', sans-serif;
+/* Changed font for better readability */
+font-weight: bold;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/* Arrow Buttons */
+.arrow-btn {
+    display: none; /* Removed for mobile screens */
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+    
+   
+   
+    .scroll-item {
+    flex: 0 0 75px;                /* Ensures equal distribution of items */
+    width: 70px;           /* Sets the width of each item */
+    height: 720px;          /* Ensures items remain square-shaped */
+    border-radius: 50%;     /* Makes the items circular */
+    text-align: center;
+       /* Centers the text within each item */
+           /* Adds space between items */
+}
+    .scroll-wrapper {
+        gap: 5px; /* Further reduce gap for mobile view */
+    }
+
+    .scroll-item img {
+        width: 50px;
+        height: 52px;
+        gap:20px !important; 
+    }
+
+    .scroll-item p {
+        padding:0px;
+        font-size: 0.8rem; /* Adjusted font size for mobile */
+        font-family: 'Roboto', sans-serif;
+    }
+    {% comment %} .frozen-container-hero {
+            height:19vh;
+            background: rgba(0, 0, 0, 0.2); /* Translucent white background */
+            backdrop-filter: blur(6px);
+            border-radius: 12px;
+            padding-left:30px;
+            padding-right: 50px;
+            margin-bottom: 10px;
+            animation: fadeIn 1s ease-in-out;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.025);
+        } {% endcomment %}
+        .custom-search input{
+        width:230px !important;
+
+    }
+   
+
+}
+
+@media (max-width: 576px) {
+    .custom-search input{
+        width:180px !important;
+
+    }
+    .scroll-item p {
+    
+    padding: 0px ;/* Adjusted padding for compact spacing */
+    font-size: 0.75rem; /* Improved font style */
+    flex-wrap :nowrap;
+}
+
+.frozen-container-hero {
+            {% comment %} height:19vh; {% endcomment %}
+           
+        }
+}
+
+/* Adjust vertical space inside the container */
+.scroll-container {
+    {% comment %} padding: 0px; /* Reduced padding for compact placement */ {% endcomment %}
+    
+}
+
+/* Search Bar */
+.custom-search input {
+    border-radius: 30px;
+    padding: 5px;
+    width:350px;
+    margin-top:12px;
+    margin-bottom:12px;
+}
+
+.custom-search button {
+    margin-top:12px;
+    margin-bottom:12px;
+    border-radius: 0 30px 30px 0;
+    background: linear-gradient(103deg, #3b5a3b, #9ced07);
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Food Card - Landscape Image */
+
+
+.features-container {
+
+display: flex;
+justify-content: center;
+flex-wrap: nowrap;
+gap: 60px;
+padding-top:30px;
+
+
+
+border-radius: 20px;
+{% comment %} box-shadow: 6px 8px 16px 8px rgba(0, 0, 0, 0.1); {% endcomment %}
+overflow: hidden;
+position: relative;
+}
+
+.feature-card {
+position: relative;
+
+
+text-align: center;
+
+overflow: hidden;
+transform-origin: center;
+
+cursor: pointer;
+
+}
+
+
+
+
+.feature-icon {
+position: relative;
+background: linear-gradient(74deg, #ff5722, #e51e08);
+height: 40px;
+width: 40px;
+border-radius: 30%;
+margin: 0 auto 10px;
+display: flex;
+align-content: center;
+justify-content: center;
+font-size: 1.4rem;
+color: #ffffff;
+font-weight: bold;
+z-index: 2;
+
+transition: transform 0.3s ease;
+}
+
+.feature-icon::after {
+content: '';
+position: absolute;
+top: 100%;
+left: 50%;
+transform: translateX(-50%);
+width: 80px;
+height: 20px;
+background: rgba(0, 0, 0, 0.1);
+border-radius: 50%;
+
+}
+.feature-icon:hover{
+    transform:scale(1.04);
+}
+
+.feature-card h6 {
+padding-top:8px;
+font-size: 1rem;
+color: #fff6f6;
+font-family: 'Roboto', sans-serif;
+font-weight: bold;
+transition: color 0.3s ease;
+z-index:-4;
+}
+
+
+.feature-card h6:hover {
+color: #ffcdd2;
+}
+
+
+@keyframes monkey-jump {
+0%, 100% {
+    transform: translateY(0);
+}
+25% {
+    transform: translateY(-15px) rotate(-5deg);
+}
+50% {
+    transform: translateY(0) rotate(0deg);
+}
+75% {
+    transform: translateY(-10px) rotate(5deg);
+}
+}
+
+@keyframes ride-bike {
+0%, 100% {
+    transform: rotate(0deg);
+}
+50% {
+    transform: rotate(10deg);
+}
+}
+
+@keyframes shadow-squash {
+0%, 100% {
+    transform: scale(1);
+}
+50% {
+    transform: scale(0.8);
+}
+}
+
+@media (max-width: 768px) {
+.features-container {
+    gap: 5px;
+     
+}
+.custom-search input {
+   
+    padding: 3px;
+    
+}
+
+
+
+.feature-icon {
+    height: 35px;
+    width: 35px;
+    font-size: 1.3rem;
+}
+    
+.feature-icon:hover{
+    transform:scale(1.11);
+}
+
+.feature-card h6 {
+    font-size: 0.9rem;
+    padding:10px;
+    z-index:-2;
+   
+}
+}
+
+/* Specific styles for the "View More" card */
+.view-more-card .restaurant-overlay {
+    background: rgba(0, 0, 0, 0.1); /* Slightly darker overlay for differentiation */
+    
+}
+
+.view-more-card h5 {
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    
+    margin-bottom: 5px;
+}
+
+.view-more-card .btn {
+    background: linear-gradient(93deg, #1a73e8, #4285f4); /* Blue gradient for "View More" button */
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    animation:monkey-jump 5s infinite;
+}
+
+.view-more-card .btn:hover {
+    background: linear-gradient(103deg, #1a73e8, #4285f4);
+    transform: scale(1.05)!important;
+
+}
+
+
+
+        /* Parent container */
+.restaurant-card {
+    position: relative;
+    width: 100%;
+    height: 250px; /* Set a fixed height or adjust as needed */
+    margin-bottom: 20px; /* Spacing between rows */
+    overflow: hidden; /* Prevents any overflow */
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #000; /* Optional for better contrast */
+}
+
+
+/* Video filling the container */
+.restaurant-card video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Forces the video to cover the container */
+    object-fit:fill; /* Ensures no white space, video covers entire area */
+}
+
+/* Overlay for text content */
+.restaurant-overlay {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    background: rgba(0,0,0, 0.25);
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding:10px;
+    border-radius:12px;
+}
+
+
+.restaurant-overlay h5 {
+    
+
+    color:#f5f3f3;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-family: Montserrat, sans-serif; /* Change font family for better readability */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: 15px;
+    z-index: 2;
+    font-size: 2.1 rem;
+    font-weight: 700;
+}
+
+.restaurant-overlay .btn {
+    letter-spacing: 0.05cap;
+    padding: 10px 30px;
+    background: linear-gradient(93deg, #3b5a3b, #9ced07);
+    font-size: 0.9rem;
+    color:#fff;
+    font-weight:bold;
+    font-family: Montserrat, sans-serif; /* Change font family for better readability */
+    outline: none !important;
+    box-shadow: none !important;
+    z-index: 2;
+    font-weight: 700;
+    cursor:pointer;
+}
+
+.restaurant-overlay .btn:hover {
+    background: linear-gradient(103deg, #3b5a3b, #9ced07);
+    transform: scale(1.05);
+    color:#f0f0f0;
+}
+
+/* Row container for spacing */
+.restaurant-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Equal spacing between cards in rows */
+}
+
+@media (max-width: 768px) {
+    .col-md-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+ 
+    }
+}
+
+@media (max-width: 576px) {
+    .col-sm-10 {
+        flex: 0 0 100%;
+        max-width: 100%;
+   
+    }
+}
+
+/* Food Items Section */
+/* Food Items Section */
+
+
+
+.view-more-card .view-more-btn {
+
+    animation:monkey-jump 6s infinite;
+    align-self:center
+}
+
+.view-more-card .view-more-btn:hover {
+    background-color: #0056b3;
+}
+.view-more-card h4{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align:center;
+    margin-bottom:40px
+   
+}
+
+
+.food-items-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between; /* Distributes cards evenly across the row */
+    align-items: stretch; /* Ensures all items have the same height */
+}
+
+.food-item-col {
+    flex: 1 1 calc(20% - 20px); /* Six cards per row in PC view */
+    max-width: calc(20% - 20px); /* Ensures max width is controlled */
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column; /* To ensure child elements stack vertically */
+}
+
+.food-card {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Ensures even spacing within cards */
+    justify-content: space-between;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    height: 100%; /* Makes all cards equal height */
+}
+
+
+.food-card:hover {
+  
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.food-image {
+    width: 100%;
+    height: 150px; /* Adjusted height for better scaling */
+    object-fit: cover; /* Ensures the image scales properly without distortion */
+}
+
+.offer-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #ff5722;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    z-index: 2;
+}
+
+.food-details {
+    padding: 10px;
+    flex: 1; /* Ensures even spacing for content inside */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.food-name {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.food-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+
+}
+
+.food-rating {
+    color: #00c853;
+    font-weight: bold;
+}
+
+.food-price-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.food-price {
+    font-weight: bold;
+    color: #ff7043;
+    flex-direction:column;
+}
+
+.food-price span {
+    color: #333;
+    font-size: 1rem;
+}
+
+.add-to-cart-btn {
+    padding: 10px;
+    
+    width: 60%;
+    background-color: #00c853;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #008e41;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .food-item-col {
+        flex: 1 1 calc(25% - 20px); /* Three cards per row in medium screens */
+        max-width: calc(25% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .food-item-col {
+        flex: 1 1 calc(50% - 15px); /* Two cards per row in small screens */
+        max-width: calc(50% - 15px);
+    }
+}
+
+@media (max-width: 576px) {
+    .food-item-col {
+        flex: 1 1 calc(100% - 60%); /* Full width on very small screens */
+        max-width: calc(100% - 50%);
+    }
+}
+
+
+
+
+
+
+.deals-section {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.deal-card {
+    min-width: 300px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; /* Ensure vertical stacking inside the card */
+    overflow: hidden; /* Prevent content from going outside the card */
+}
+
+.deal-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.deal-card .details {
+    padding: 15px;
+    text-align: center;
+    display: flex; /* Use flexbox for alignment */
+    flex-direction: column; /* Arrange children vertically */
+    justify-content: space-between; /* Distribute content evenly (top and bottom) */
+    flex-grow: 1; /* Allow details to stretch and fill remaining space */
+    
+}
+
+.deal-card .details .btn {
+    background: #ff7043;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    margin-top: auto; /* Push the button to the bottom of the container */
+
+    width:100px;
+    align-self:center;
+}
+
+.deal-card .details .btn:hover {
+    background: #ff5722;
+}
+    
+    .pagination-container {
+        font-size: 62.5%;
+        font-family: "Poppins", sans-serif;
+        letter-spacing: 0.6px;
+        line-height: 1.4;
+        backface-visibility: hidden;
+        -webkit-font-smoothing: subpixel-antialiased;
+      }
+      
+      .pagination-container .page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 4rem; /* Reduced height */
+        margin: 2rem; /* Reduced margin */
+        border-radius: 0.6rem;
+        background: #ffffff;
+        box-shadow: 0 0.8rem 2rem rgba(90, 97, 129, 0.05);
+      }
+      
+      .pagination-container .page__numbers,
+      .pagination-container .page__btn,
+      .pagination-container .page__dots {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0.5rem; /* Reduced margin */
+        font-size: 1.2rem; /* Reduced font size */
+        cursor: pointer;
+      }
+      
+      .pagination-container .page__dots {
+        width: 2rem; /* Reduced width */
+        height: 2rem; /* Reduced height */
+        color: var(--greyLight);
+        cursor: initial;
+      }
+      
+      .pagination-container .page__numbers {
+        width: 2rem; /* Adjusted width */
+        height: 2rem; /* Adjusted height */
+        border-radius: 0.4rem;
+        font-size: 1.2rem; /* Adjusted font size */
+      }
+      
+      .pagination-container .page__numbers:hover {
+        color: var(--primary);
+        transform: scale(1.2); /* Increase size on hover */
+        transition: transform 0.3s ease; /* Smooth transition */
+      }
+      
+      .pagination-container .page__numbers.active {
+        color: #30f6b4;
+        background: var(--primary);
+        font-weight: 600;
+        border: 1px solid var(--primary);
+      }
+      
+      .pagination-container .page__btn {
+        color: var(--greyLight);
+        pointer-events: none;
+      }
+      
+      .pagination-container .page__btn.active {
+        color: var(--greyDark);
+        pointer-events: initial;
+      }
+      
+      .pagination-container .page__btn.active:hover {
+        color: var(--primary);
+      }
+      
+      .pagination-container .page__btn img {
+        width: 15px; /* Reduced icon size */
+        height: 15px; /* Reduced icon size */
+      }
+
+    </style>
+    
+</head>
+<header>{% include "home/header.html" %}</header>
+
+<body>
+    <!-- Main Container -->
+    <div class="container frozen-container-hero">
+        <div class="hero-section" data-aos="fade-up">
+            <!-- Search Bar -->
+            <div class="search-container">
+                <form method="POST" action="" class="custom-search" id="combined-search-form">
+                    {% csrf_token %}
+                    <div class="combined-search">
+                        <!-- Left input: Filter by city -->
+                        <input 
+                            type="text" 
+                            name="filter" 
+                            placeholder="Select City Or Area Of Your Choice" 
+                            class="search-input" 
+                            value="{{ request.POST.filter }}" 
+                            id="filter-input"
+                        >
+            
+                        <!-- Right input: Search for food/restaurants -->
+                        <input 
+                            type="text" 
+                            name="search" 
+                            placeholder="Search For Foods Or Restaurants" 
+                            class="search-input" 
+                            value="{{ request.POST.search }}" 
+                            id="search-input"
+                        >
+                    </div>
+                </form>
+            </div>
+            
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    const form = document.getElementById("combined-search-form");
+                    const filterInput = document.getElementById("filter-input");
+                    const searchInput = document.getElementById("search-input");
+            
+                    form.addEventListener("keydown", (event) => {
+                        // Submit the form when Enter is pressed
+                        if (event.key === "Enter") {
+                            event.preventDefault(); // Prevent default form submission
+            
+                            // Determine which input field is active
+                            if (document.activeElement === filterInput) {
+                                form.action = "{% url 'filter' %}";
+                            } else if (document.activeElement === searchInput) {
+                                form.action = "{% url 'search' %}";
+                            }
+            
+                            form.submit(); // Submit the form
+                        }
+                    });
+                });
+            </script>
+            
+        <!-- Include jQuery and jQuery UI for autocomplete -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        
+        <script>
+        $(document).ready(function() {
+            $("#filter-input").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: "{% url 'city_autocomplete' %}",
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 2,
+            });
+        });
+        </script>
+            
+            <!-- Heading -->
+            <!-- Horizontal Scrollable Section -->
+            <div class="scroll-container">
+                <button class="arrow-btn left-btn">&#8592;</button>
+                <div class="scroll-wrapper">
+                    
+                        <div class="scroll-item" onclick="redirectToSearch('Biryani')">
+                            <img class="img-fluid" src="{% static 'images/biryani.jpg' %}" alt="pizza image">
+                            <p>Biryani</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('Burger')">
+                            <img class="img-fluid" src="{% static 'images/Burger.jpg' %}" alt="biryani image">
+                            <p>Burger</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('Fish Fry')">
+                            <img class="img-fluid" src="{% static 'images/Fish_fry.jpg' %}" alt="thali image">
+                            <p>Fish Fry</p>
+                        </div>
+                        {% comment %} <div class="scroll-item" onclick="redirectToSearch('Chicken Fry')">
+                            <img class="img-fluid" src="{% static 'images/Chicken_Fry.jpg' %}" alt="paneer image">
+                            <p>Chicken Fry</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('Barbique')">
+                            <img class="img-fluid" src="{% static 'images/panner_barbique.jpg' %}" alt="thali image">
+                            <p>Barbique</p>
+                        </div> {% endcomment %}
+                        <div class="scroll-item" onclick="redirectToSearch('Noodles')">
+                            <img class="img-fluid" src="{% static 'images/noodles.jpg' %}" alt="noodle image">
+                            <p>Noodles</p>
+                        </div>
+
+                        <div class="scroll-item" onclick="redirectToSearch('Pizza')">
+                            <img class="img-fluid" src="{% static 'images/pizza.jpg' %}" alt="pizza image">
+                            <p>Pizza</p>
+                        </div>
+                        {% comment %} <div class="scroll-item" onclick="redirectToSearch('Kessari')">
+                            <img class="img-fluid" src="{% static 'images/kesari.jpg' %}" alt="biryani image">
+                            <p>Kessari</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('Dessert')">
+                            <img class="img-fluid" src="{% static 'images/dessert.jpg' %}" alt="paneer image">
+                            <p>Dessert</p>
+                        </div>{% endcomment %}
+                        <div class="scroll-item" onclick="redirectToSearch('Naan')">
+                            <img class="img-fluid" src="{% static 'images/Mushroom_nan.jpg' %}" alt="pizza image">
+                            <p>Naan</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('dosa')">
+                            <img class="img-fluid" src="{% static 'images/dosa.jpg' %}" alt="biryani image">
+                            <p>Dosa</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('Prawn Fry')">
+                            <img class="img-fluid" src="{% static 'images/idli.jpeg' %}" alt="paneer image">
+                            <p>Idli</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('chicken')">
+                            <img class="img-fluid" src="{% static 'images/Chicken_Fry.jpg' %}" alt="noodle image">
+                            <p>Chicken</p>
+                        </div> 
+                        <div class="scroll-item" onclick="redirectToSearch('Pulav')">
+                            <img class="img-fluid" src="{% static 'images/Pulav.jpg' %}" alt="thali image">
+                            <p>Pulav</p>
+                        </div>
+                        <div class="scroll-item" onclick="redirectToSearch('Salad')">
+                            <img class="img-fluid" src="{% static 'images/salad.jpg' %}" alt="noodle image">
+                            <p>Salad</p>
+                        </div>
+                        
+                 
+
+                </div>
+                <button class="arrow-btn right-btn">&#8594;</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <!-- <section class="hero-section text-center" data-aos="fade-up">
+        <a href="#Food-items" class="btn btn-custom mt-3">Explore Paradise!</a>
+    </section> -->
+    
+    <!-- Main Content -->
+    <div class="container" id="main-content">
+        <section id="features" class="section">
+        
+            <div class="features-container">
+                <div class="feature-card" onclick="redirectToTrackDelivery();">
+                    <i class="feature-icon fas fa-location-dot"></i>
+                    <h6>Track Order</h6>
+                </div>
+                <div class="feature-card" onclick="scrollToMenu();">
+                    <i class="feature-icon fas fa-pizza-slice"></i>
+                    <h6>View Paradise</h6>
+                </div>
+                {% comment %} <div class="feature-card">
+                    <i class="feature-icon fas fa-percent"></i>
+                    <h6>Avail Offers</h6>
+                </div> {% endcomment %}
+                <div class="feature-card" onclick="toggleShowAll()">
+                    <i class="feature-icon fas fa-bolt"></i>
+                    <h6 id="toggle-text">{% if show_all %}Show Less{% else %}Show All{% endif %}</h6>
+                </div>
+                {% comment %} <div class="feature-card">
+                    <i class="feature-icon fas fa-heart"></i>
+                    <h6>Order Favourites</h6>
+                </div> {% endcomment %}
+            </div>
+        </section>
+        
+        <section id="restaurants" class="section">
+            <h2 class="section-title">Restaurants Near You{% if selected_city and not show_all %} in {{ selected_city }}{% else %} All{% endif %}</h2>
+            <div class="row">
+                {% for restaurant in restaurant_list %} <!-- Display all restaurants -->
+                <div class="col-md-3 col-sm-6">
+                    <div class="restaurant-card">
+                        <video autoplay loop muted>
+                            <source src="{% static 'video/video' %}{{ forloop.counter }}.mp4" type="video/mp4">
+                        </video>
+                        <div class="restaurant-overlay">
+                            <h5>{{ restaurant.restaurantName }}</h5>
+                            <a href="{% url 'restaurant_menu' restaurant.id %}" class="btn">View Menu</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+        <br>
+        <div class="pagination-container">
+            <div class="d-flex justify-content-center mt-4">
+               <nav aria-label="Restaurant pagination">
+                  <ul class="page">
+                     {% if restaurant_list.has_previous %}
+                     <li class="page__btn active">
+                        <a class="page-link pagination-link" href="?restaurant_page={{ restaurant_list.previous_page_number }}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}&show_all={{ show_all|lower }}" aria-label="Previous">
+                        <span class="material-icons"><img src="{% static 'svg/arrow-left.svg' %}" alt="Previous"></span>
+                        </a>
+                     </li>
+                     {% endif %}
+                     {% for num in restaurant_list.paginator.page_range %}
+                     <li class="page__numbers {% if restaurant_list.number == num %}active{% endif %}">
+                        <a class="page-link pagination-link" href="?restaurant_page={{ num }}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}&show_all={{ show_all|lower }}">{{ num }}</a>
+                     </li>
+                     {% endfor %}
+                     {% if restaurant_list.has_next %}
+                     <li class="page__btn active">
+                        <a class="page-link pagination-link" href="?restaurant_page={{ restaurant_list.next_page_number }}{% if request.GET.city %}&city={{ request.GET.city }}{% endif %}&show_all={{ show_all|lower }}" aria-label="Next">
+                        <span class="material-icons"><img src="{% static 'svg/arrow-right.svg' %}" alt="Next"></span>
+                        </a>
+                     </li>
+                     {% endif %}
+                  </ul>
+               </nav>
+            </div>
+         </div>
+
+        <section id="food-items-section" class="section">
+            <h2 class="section-title">Explore Our Menu</h2>
+            <div class="food-items-row">
+                {% for food in foodItems %}
+                <div class="food-item-col">
+                    <div class="food-card">
+                        {% if selected_city and not show_all %}
+                        <div class="offer-tag">Quick Delivery</div>
+                        {% endif %}
+                        <img src="/media/{{ food.image }}" alt="{{ food.name }}" class="food-image">
+                        <div class="food-details">
+                            <h4 class="food-name">{{ food.name }}</h4>
+                            <div class="food-info">
+                                <span class="food-category">{{ food.category }}</span>
+                                {% comment %} <span class="food-rating">★ 4.5 &middot; 20-25 mins</span> {% endcomment %}
+                            </div>
+                            <div class="food-price-details">
+                                <p class="food-price"><span>₹ {{ food.price }}</span></p>
+                                <button class="add-to-cart-btn" id="btn-{{ food.id }}" onclick="toggleCart({{ food.id }})" {% if food.is_out_of_stock %}disabled{% endif %}>
+                                    {% if food.is_out_of_stock %}Out of Stock{% else %}Add to Cart{% endif %}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+               
+                {% comment %} <!-- View More Card -->
+                <div class="food-item-col">
+                    <div class="food-card view-more-card">
+                        <img src="{% static 'images/del_reg.jpg' %}" alt="View More" class="food-image">
+                        <div class="food-details">
+                            <h4 class="food-name">Explore Paradise !</h4>
+                            <button class="add-to-cart-btn view-more-btn">View More</button>
+                        </div>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+        </section>
+        
+        <div class="pagination-container d-flex justify-content-center mt-4">
+            <nav aria-label="Food pagination">
+               <ul class="page">
+                  {% if foodItems.has_previous %}
+                  <li class="page__btn active">
+                     <a class="page-link pagination-link" href="?food_page={{ foodItems.previous_page_number }}{% if selected_city %}&city={{ selected_city }}{% endif %}&show_all={{ show_all|lower }}" aria-label="Previous">
+                     <span class="material-icons"><img src="{% static 'svg/arrow-left.svg' %}" alt="Previous"></span>
+                     </a>
+                  </li>
+                  {% endif %}
+                  {% for num in foodItems.paginator.page_range %}
+                  <li class="page__numbers {% if foodItems.number == num %}active{% endif %}">
+                     <a class="page-link pagination-link" href="?food_page={{ num }}{% if selected_city %}&city={{ selected_city }}{% endif %}&show_all={{ show_all|lower }}">{{ num }}</a>
+                  </li>
+                  {% endfor %}
+                  {% if foodItems.has_next %}
+                  <li class="page__btn active">
+                     <a class="page-link pagination-link" href="?food_page={{ foodItems.next_page_number }}{% if selected_city %}&city={{ selected_city }}{% endif %}&show_all={{ show_all|lower }}" aria-label="Next">
+                     <span class="material-icons"><img src="{% static 'svg/arrow-right.svg' %}" alt="Next"></span>
+                     </a>
+                  </li>
+                  {% endif %}
+               </ul>
+            </nav>
+         </div>
+        
+        <br>
+        
+        <!--<section id="deals" class="section">
+            <h2 class="section-title">Hot Deals You’ll Love</h2>
+            <div class="deals-section">
+                <div class="deal-card">
+                    <img src="{% static 'images/photo1.jpg' %}" alt="Deal">
+                    <div class="details">
+                        <h4>Combo Offer: Pizza + Drink</h4>
+                        <a href="#" class="btn">Order Now</a>
+                    </div>
+                </div>
+                <div class="deal-card">
+                    <img src="{% static 'images/Del_reg.jpg' %}" alt="Deal">
+                    <div class="details">
+                        <h4>Buy 1 Get 1 Free Burger</h4>
+                        <a href="#" class="btn">Order Now</a>
+                    </div>
+                </div>
+                <div class="deal-card">
+                    <img src="{% static 'images/Del_reg.jpg' %}" alt="Deal">
+                    <div class="details">
+                        <h4>Hurry 100% Cashback !</h4>
+                        <a href="#" class="btn">Order Now</a>
+                    </div>
+                </div>
+                <div class="deal-card">
+                    <img src="{% static 'images/Del_reg.jpg' %}" alt="Deal">
+                    <div class="details">
+                        <h4>20% Off On Orders Above 999</h4>
+                        <a href="#" class="btn">Order Now</a>
+                    </div>
+                </div>
+                <div class="deal-card">
+                    <img src="{% static 'images/Del_reg.jpg' %}" alt="Deal">
+                    <div class="details">
+                        <h4>Buy 3 Get 1 Free</h4>
+                        <a href="#" class="btn">Order Now</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>-->
+        <br>
+        <br>
+        </div>
+    
+    <!-- Footer -->
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            offset: 120,
+            once: false
+        });
+    </script>
+    <!-- JavaScript -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const scrollWrapper = document.querySelector('.scroll-wrapper');
+    const leftBtn = document.querySelector('.left-btn');
+    const rightBtn = document.querySelector('.right-btn');
+    const scrollItems = document.querySelectorAll('.scroll-item');
+    const scrollItemWidth = document.querySelector('.scroll-item').offsetWidth + 20; // Include gap
+    let autoScrollInterval;
+
+    // Manual Scroll with Buttons
+    leftBtn.addEventListener('click', () => {
+        scrollWrapper.scrollBy({ left: -scrollItemWidth, behavior: 'smooth' });
+    });
+
+    rightBtn.addEventListener('click', () => {
+        scrollWrapper.scrollBy({ left: scrollItemWidth, behavior: 'smooth' });
+    });
+
+    // Auto Scroll with Item Alignment
+    function autoScroll() {
+        const maxScrollLeft = scrollWrapper.scrollWidth - scrollWrapper.clientWidth;
+        if (scrollWrapper.scrollLeft >= maxScrollLeft) {
+            scrollWrapper.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+            scrollWrapper.scrollBy({ left: scrollItemWidth, behavior: 'smooth' });
+        }
+    }
+
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(autoScroll, 2500);
+    }
+
+    function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+    }
+
+    // Pause auto-scroll on hover
+    scrollItems.forEach((item) => {
+        item.addEventListener('mouseenter', stopAutoScroll); // Stop auto-scroll when mouse enters
+        item.addEventListener('mouseleave', startAutoScroll); // Resume auto-scroll when mouse leaves
+            });
+
+            // Start auto-scroll initially
+            startAutoScroll();
+        });
+        // Add smooth scrolling to icons (Optional)
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', () => {
+                alert(You clicked on ${card.querySelector('h5').textContent});
+            });
+        });
+
+    // Handle pagination link clicks
+    document.querySelectorAll('.pagination-link').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const url = new URL(this.href);
+            const showAll = url.searchParams.get('show_all').toLowerCase() === 'true';
+
+            fetch(url, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newContent = doc.querySelector('#main-content').innerHTML;
+                document.querySelector('#main-content').innerHTML = newContent;
+                window.history.pushState({}, '', url);
+                const toggleText = document.getElementById('toggle-text');
+                toggleText.textContent = showAll ? 'Show Less' : 'Show All';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+    </script>
+
+<script>
+    function toggleCart(foodId) {
+        var button = document.getElementById('btn-' + foodId);
+        var foodCard = document.getElementById('food-' + foodId);
+        var action = button.innerHTML.trim() === "Add to Cart" ? "add" : "remove";
+        
+        console.log("Button clicked for foodId:", foodId, "Action:", action);
+
+        // Send the foodId to the server via a POST request
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "{% url 'menu' %}", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");  // Add CSRF token for security
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // On success, toggle the button text and style
+                if (action === "add") {
+                    button.innerHTML = "Remove from Cart";
+                    button.style.backgroundColor = "#4CAF50";  // Green color for added items
+                    button.style.cursor = "pointer";
+                    foodCard.classList.add('added-to-cart');
+                } else {
+                    button.innerHTML = "Add to Cart";
+                    button.style.backgroundColor = "#FFA500";  // Original color for add to cart
+                    button.style.cursor = "pointer";
+                    foodCard.classList.remove('added-to-cart');
+                }
+                console.log("Button state updated for foodId:", foodId, "New state:", button.innerHTML.trim());
+            }
+        };
+        xhr.send("id=" + foodId + "&action=" + action);
+    }
+
+    function redirectToSearch(query) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{% url 'search' %}";
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';
+        form.appendChild(csrfToken);
+        const searchInput = document.createElement('input');
+        searchInput.type = 'hidden';
+        searchInput.name = 'search';
+        searchInput.value = query;
+        form.appendChild(searchInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function redirectToTrackDelivery() {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = "{% url 'track_delivery' %}";
+        const csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = '{{ csrf_token }}';
+        form.appendChild(csrfToken);
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function scrollToMenu() {
+        document.getElementById('food-items-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleShowAll() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const showAll = urlParams.get('show_all') === 'true';
+        urlParams.set('show_all', !showAll);
+        window.location.search = urlParams.toString();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const showAll = urlParams.get('show_all') === 'true';
+        const toggleText = document.getElementById('toggle-text');
+        toggleText.textContent = showAll ? 'Show Less' : 'Show All';
+    });
+</script>
+{% include "home/footer.html" %}
+</body>
+</html>

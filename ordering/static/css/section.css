@@ -1,0 +1,201 @@
+ /* Section Styling */
+ #hehe {
+    margin: 20px auto;
+    padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, #26941e, #f7f7f7);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual Item Styling */
+.main_items {
+    text-align: center;
+    margin: 10px;
+    width: 120px; /* Keeps the items small */
+}
+
+.main_items img {
+    width: 80px; /* Adjust image size */
+    height: 80px; /* Maintain uniform height */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.main_items img:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.main_items p {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #hehe {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .main_items {
+        margin: 15px 0;
+    }
+}
+
+        /* Gradient Background */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #524b4b;
+            background: rgba(34, 23, 187, 0.9); /* Kelly Green */
+            background-size: cover;
+        }
+
+/* Section Header */
+h1 {
+    font-size: 2.5rem;
+    color: #444;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved Restaurant Card Styling */
+.restaurant-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    background: linear-gradient(145deg, #f5f5f5, #d9d9d9);
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.15), -6px -6px 20px rgba(255, 255, 255, 0.7);
+    position: relative;
+    cursor: pointer;
+}
+
+.restaurant-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+
+.restaurant-card:hover {
+    transform: scale(1.08);
+    box-shadow: 6px 6px 30px rgba(0, 0, 0, 0.2), -6px -6px 30px rgba(255, 255, 255, 0.5);
+}
+
+.restaurant-card-body {
+    text-align: center;
+    padding: 20px;
+}
+
+.restaurant-card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.restaurant-card-footer .btn {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background 0.4s ease, transform 0.3s ease;
+}
+
+.restaurant-card-footer .btn:hover {
+    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+    transform: scale(1.1);
+}
+
+/* Search Bar Styling */
+.custom-search .form-control {
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 30px;
+}
+
+.custom-search .btn {
+    font-size: 1.2rem;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    border-radius: 30px;
+}
+
+.custom-search .btn:hover {
+    background: linear-gradient(90deg, #0072ff, #00c6ff);
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .restaurant-card-title {
+        font-size: 1.2rem;
+    }
+
+    .restaurant-card-body {
+        padding: 10px;
+    }
+}
+/* Search Bar Styling */
+#search-bar {
+    width: 60%;
+    height: 65px;
+    font-size: 1.5rem;
+    padding: 15px 20px;
+    border-radius: 35px 0 0 35px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+    background: #f5f5f5;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Focus Effect */
+#search-bar:focus {
+    border: 2px solid #db562e;
+    outline: none;
+    background: #ffffff;
+    box-shadow: 0px 5px 20px rgba(219, 86, 46, 0.5);
+}
+
+/* Button Styling */
+.search-btn {
+    height: 65px;
+    padding: 0 30px;
+    font-size: 1.5rem;
+    border-radius: 0 35px 35px 0;
+    background: linear-gradient(135deg, #db562e, #ff6b45);
+    color: white;
+    border: none;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Button Hover Effect */
+.search-btn:hover {
+    background: linear-gradient(135deg, #ff6b45, #db562e);
+    box-shadow: 0px 5px 20px rgba(219, 86, 46, 0.5);
+    transform: scale(1.05);
+}
+
+/* Button Active State */
+.search-btn:active {
+    transform: scale(1);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+}
+.micButton.listening {
+    background-color: black !important;
+    color: white !important;
+}

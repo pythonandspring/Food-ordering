@@ -1,3 +1,7 @@
 from django.contrib import admin
+from delivery.models import deliveryUser
 
-# Register your models here.
+class DeliveryUserAdmin(admin.ModelAdmin):
+    list_display = ['name', 'address']
+
+admin.site.register(deliveryUser, DeliveryUserAdmin)
