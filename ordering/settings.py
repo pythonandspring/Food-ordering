@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import django
+from django.core.management import call_command
+from django.core.management.utils import get_random_secret_key
+from django.db import OperationalError
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -34,17 +37,25 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'ordering',
-    'restaurant',
-    'delivery',
-    'customer.apps.CustomerConfig',
+    #'customer.apps.CustomerConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+    'rest_framework',
+    'rest_framework.authtoken', 
+    #'myapp',
+    'ordering',
+    'customer',
+    'phonenumber_field',
+    'restaurant',
+    # 'order',
+    # 'menu',
+    'delivery',
+    'drf_yasg',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,13 +70,10 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'ordering.urls'
 LOGOUT_REDIRECT_URL = '/'
 
-# AUTH_USER_MODEL = 'teacher.CustomUser'
-
-SETTINGS_PATH = os.path.normpath(os.path.dirname(__file__))
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(SETTINGS_PATH, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,16 +92,16 @@ WSGI_APPLICATION = 'ordering.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',  # Use mysqlclient
-#        'NAME': 'food_ordering_db',
-#        'USER': 'root',
-#        'PASSWORD': 'root',
-#        'HOST': 'localhost',
-#        'PORT': '3306',
-#    }
-#}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
 
 DATABASES = {
     'default': {
@@ -101,6 +109,21 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# SWAGGER_SETTINGS dictionary contains configuration settings for Swagger documentation
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Enter your token in the format `Token <your-token>`'
+        }
+    },
+    'DEFAULT_INFO': 'ordering.api.urls.schema_view',
+}
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -124,9 +147,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-IN'  # or 'hi-IN' for Hindi language
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'  # Set to India Standard Time (IST)
 
 USE_I18N = True
 
@@ -136,14 +159,57 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
+
+STATIC_URL = 'static/'
+
+# Point to the exact location of your static files directory
 STATICFILES_DIRS = [
+    #r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering\static",  # Ensure this points to the correct static directory
+    # "static/"
     os.path.join(BASE_DIR, 'static'),
 ]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'my_files')
 
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
+# Static root for collectstatic command
+#STATIC_ROOT = r"D:\PROJECTS\FOOD-ORDERING\Food-ordering\ordering"  # This is where collectstatic will gather all static files for production
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'customer.CustomUser'
+
+LOGIN_URL = 'login'
+
+LOGIN_REDIRECT_URL = 'login'
+
+MEDIA_ROOT = BASE_DIR /'media'
+
+MEDIA_URL = '/media/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'hkanjanv@gmail.com')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'zulc evxs sier ztmj')
+
+EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'baymaxe1969@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'seru dwux awbp wvbc')
+
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
+
+# Ensure the database is created and create a superuser if it doesn't exist
+try:
+    django.setup()
+    call_command('migrate')
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    if not User.objects.filter(username='root').exists():
+        User.objects.create_superuser('root', '', 'root')
+except OperationalError:
+    print("Database is not ready yet. Please run the server again.")
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+# Debugging statements
+# print(f"EMAIL_HOST_USER: {EMAIL_HOST_USER}")
+# print(f"EMAIL_HOST_PASSWORD: {EMAIL_HOST_PASSWORD}")

@@ -1,0 +1,54 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body & Basic Styling */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+/* Interactive Video Section */
+.interactive-video {
+    position: relative;
+    width: 75%; /* Set to 3/4 screen width */
+    margin: 20px auto; /* Center horizontally */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease, filter 0.5s ease; /* Smooth hover effects */
+}
+
+/* Hover Message Styling */
+#hover-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    display: none; /* Initially hidden */
+    text-align: center;
+    z-index: 2;
+}
+
+/* Hover Zoom Effect */
+#video:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    filter: brightness(1.1); /* Brighten slightly */
+}
