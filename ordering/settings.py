@@ -189,11 +189,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-# EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'hkanjanv@gmail.com')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'zulc evxs sier ztmj')
 
-EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'baymaxe1969@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'seru dwux awbp wvbc')
+EMAIL_HOST_USER = os.getenv('EMAIL_USER', 'gmail_id_name')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'google_api_key')
 
 SESSION_COOKIE_AGE = 60 * 60 * 24 * 30
 
